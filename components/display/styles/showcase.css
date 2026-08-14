@@ -47,11 +47,23 @@
   content: '';
 }
 
-.shelf-slot.is-lit { animation: shelf-light .4s var(--ease-out) both; }
+.shelf-slot.is-lit { animation: shelf-light .4s var(--ease-out) .24s forwards; }
 
 @keyframes shelf-light {
   0% { background: var(--gold); }
   100% { background: var(--paper); }
+}
+
+.showcase.is-complete .shelf-frame {
+  animation: showcase-complete .56s var(--ease-out) forwards;
+}
+
+.showcase.is-full .zone-count { background: var(--gold); }
+
+@keyframes showcase-complete {
+  0% { background: var(--ava); }
+  44% { background: var(--gold); }
+  100% { background: var(--ava); }
 }
 
 .shelf-number {

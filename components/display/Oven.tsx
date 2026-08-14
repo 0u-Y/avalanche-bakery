@@ -32,7 +32,7 @@ export function Oven({
           <motion.div
             className="oven-light"
             initial={false}
-            animate={{ opacity: active && !reduceMotion ? [0.05, 0.2, 0.05] : 0.05 }}
+            animate={{ opacity: active && !reduceMotion ? [0.08, 0.36, 0.16] : 0.05 }}
             transition={{ duration: 0.64, repeat: active ? Infinity : 0, ease: DISPLAY_EASE }}
           />
           <div className="oven-copy">

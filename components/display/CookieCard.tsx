@@ -35,7 +35,7 @@ export function CookieCard({
   const activeMotion = celebrating
     ? { scale: [0.96, 1.04, 1], rotate: [-1, 1, 0], x: 0 }
     : entry.status === 'MINTING' && !reduceMotion
-      ? { scale: 1, rotate: 0, x: [0, 1, -1, 0] }
+      ? { scale: [0.96, 0.9, 0.92], rotate: 0, x: [0, 1, -1, 0] }
       : { scale: 1, rotate: 0, x: 0 };
 
   return (

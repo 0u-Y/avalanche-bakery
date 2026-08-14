@@ -30,7 +30,7 @@ export function MockQr() {
     <div className="qr-block" aria-label="참가 페이지 QR 코드">
       <svg className="qr-code" viewBox="0 0 29 29" role="img" aria-hidden="true">
         <rect width="29" height="29" fill="var(--paper)" />
-        <g fill="var(--cocoa)">{cells}</g>
+        <g fill="var(--ink)">{cells}</g>
       </svg>
       <div className="qr-copy">
         <span className="micro-label">사진 올리기</span>

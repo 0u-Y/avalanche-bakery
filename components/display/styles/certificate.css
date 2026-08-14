@@ -4,7 +4,7 @@
 .certificate-placeholder {
   overflow: hidden;
   border: 8px solid var(--paper);
-  background: var(--dough);
+  background: var(--paper);
 }
 
 .certificate-placeholder::before {
@@ -13,7 +13,7 @@
   right: 0;
   left: 0;
   height: 24%;
-  background: var(--icing);
+  background: var(--ava);
   content: '';
 }
 
@@ -37,9 +37,9 @@
   z-index: 1;
   width: min(52%, 82px);
   aspect-ratio: 1;
-  border: 4px solid var(--cocoa);
+  border: 4px solid var(--ink);
   border-radius: 48% 52% 45% 55%;
-  background: var(--crust);
+  background: var(--gold);
   transform: rotate(8deg);
 }
 
@@ -49,7 +49,7 @@
   width: 10px;
   height: 10px;
   border-radius: 50%;
-  background: var(--cocoa);
+  background: var(--ink);
   content: '';
 }
 
@@ -62,7 +62,7 @@
   bottom: 8%;
   left: 20%;
   height: 3px;
-  background: var(--cocoa);
+  background: var(--ink);
 }
 
 .certificate-lines::before {
@@ -71,7 +71,7 @@
   bottom: 8px;
   left: 18%;
   height: 3px;
-  background: var(--cocoa);
+  background: var(--ink);
   content: '';
 }
 

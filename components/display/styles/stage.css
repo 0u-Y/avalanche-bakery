@@ -2,7 +2,7 @@
   position: fixed;
   inset: 0;
   overflow: hidden;
-  background: var(--cocoa);
+  background: var(--ink);
 }
 
 .display-canvas {
@@ -27,7 +27,7 @@
   justify-content: space-between;
   height: 86px;
   padding: 0 34px 0 28px;
-  border-bottom: 6px solid var(--cocoa);
+  border-bottom: 6px solid var(--ink);
   background: var(--paper);
 }
 
@@ -37,7 +37,7 @@
   left: 0;
   width: 310px;
   height: 6px;
-  background: var(--berry);
+  background: var(--ember);
   content: '';
 }
 
@@ -48,9 +48,9 @@
   width: 54px;
   height: 54px;
   place-items: center;
-  border: 3px solid var(--cocoa);
+  border: 3px solid var(--ink);
   border-radius: 50%;
-  background: var(--crust);
+  background: var(--ava);
   color: var(--paper);
   font: 900 19px/1 var(--display);
   letter-spacing: -0.05em;
@@ -63,8 +63,8 @@
 
 .event-name {
   padding-left: 20px;
-  border-left: 2px solid var(--dough);
-  color: color-mix(in srgb, var(--cocoa) 68%, var(--paper));
+  border-left: 2px solid color-mix(in srgb, var(--ink) 18%, transparent);
+  color: color-mix(in srgb, var(--ink) 68%, var(--paper));
   font: 700 18px/1.2 var(--display);
   letter-spacing: -0.035em;
 }
@@ -72,7 +72,7 @@
 .counts { display: flex; align-items: center; gap: 20px; font: 900 36px/1 var(--display); }
 .counts span { display: flex; align-items: baseline; gap: 10px; }
 .counts small { font: 700 13px/1 var(--mono); letter-spacing: 0.14em; }
-.counts i { width: 2px; height: 34px; background: var(--dough); }
+.counts i { width: 2px; height: 34px; background: color-mix(in srgb, var(--ink) 18%, transparent); }
 .counts .minted-count { color: var(--ava); }
 
 .micro-label {
@@ -86,7 +86,7 @@
   width: 100%;
   height: calc(100% - 86px);
   overflow: hidden;
-  background: var(--dough);
+  background: var(--paper);
 }
 
 .zone { position: relative; min-width: 0; height: 100%; overflow: hidden; }
@@ -107,7 +107,7 @@
 .zone-count {
   min-width: 50px;
   padding: 7px 9px 6px;
-  border: 3px solid var(--cocoa);
+  border: 3px solid var(--ink);
   background: var(--paper);
   text-align: center;
   font: 900 24px/1 var(--display);
@@ -115,15 +115,15 @@
 
 .zone-count small { margin-left: 3px; font: 700 11px/1 var(--mono); }
 
-.slides-shell { background: var(--dough); }
-.slides-top-bar { border-bottom-color: var(--berry); }
+.slides-shell { background: var(--paper); }
+.slides-top-bar { border-bottom-color: var(--ember); }
 
 .slide-canvas {
   position: relative;
   width: calc(100% - 160px);
   height: calc(100% - 166px);
   margin: 40px 80px;
-  border: 8px solid var(--cocoa);
+  border: 8px solid var(--ink);
   background: var(--paper);
 }
 
@@ -131,5 +131,5 @@
   position: absolute;
   top: 24px;
   right: 26px;
-  color: var(--berry);
+  color: var(--ember);
 }

@@ -7,15 +7,14 @@
 @import '../components/display/styles/certificate.css';
 @import '../components/display/styles/gallery.css';
 @import '../components/display/styles/dev-panel.css';
+@import '../components/styleguide/styleguide.css';
 
 :root {
-  --dough: #e8d9b8;
-  --crust: #c4763b;
-  --icing: #6fb6a4;
-  --berry: #d4456b;
-  --cocoa: #2a1d15;
-  --paper: #faf4e8;
   --ava: #e84142;
+  --ember: #b32b2c;
+  --paper: #f7f1e8;
+  --ink: #17110f;
+  --gold: #d9a441;
   --display: 'Arial Black', 'Noto Sans KR', 'Apple SD Gothic Neo', sans-serif;
   --mono: 'SFMono-Regular', Consolas, 'Liberation Mono', monospace;
 }
@@ -28,8 +27,8 @@ body {
   height: 100%;
   margin: 0;
   overflow: hidden;
-  background: var(--cocoa);
-  color: var(--cocoa);
+  background: var(--ink);
+  color: var(--ink);
 }
 
 button,

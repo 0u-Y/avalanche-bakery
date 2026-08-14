@@ -1,4 +1,4 @@
-.bakery-floor[data-layout='gallery'] { background: var(--icing); }
+.bakery-floor[data-layout='gallery'] { background: var(--paper); }
 
 .bakery-floor[data-layout='gallery'] .workbench,
 .bakery-floor[data-layout='gallery'] .oven {
@@ -15,7 +15,7 @@
   width: calc(100% - 180px);
   margin: 26px 90px;
   padding: 20px 24px 24px;
-  border: 5px solid var(--cocoa);
+  border: 5px solid var(--ink);
   flex: 0 0 calc(100% - 180px);
 }
 

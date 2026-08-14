@@ -1,0 +1,46 @@
+@import 'tailwindcss';
+@import '../components/display/styles/stage.css';
+@import '../components/display/styles/workbench.css';
+@import '../components/display/styles/oven.css';
+@import '../components/display/styles/showcase.css';
+@import '../components/display/styles/card.css';
+@import '../components/display/styles/certificate.css';
+@import '../components/display/styles/gallery.css';
+@import '../components/display/styles/dev-panel.css';
+
+:root {
+  --dough: #e8d9b8;
+  --crust: #c4763b;
+  --icing: #6fb6a4;
+  --berry: #d4456b;
+  --cocoa: #2a1d15;
+  --paper: #faf4e8;
+  --ava: #e84142;
+  --display: 'Arial Black', 'Noto Sans KR', 'Apple SD Gothic Neo', sans-serif;
+  --mono: 'SFMono-Regular', Consolas, 'Liberation Mono', monospace;
+}
+
+* { box-sizing: border-box; }
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+  background: var(--cocoa);
+  color: var(--cocoa);
+}
+
+button,
+select { font: inherit; }
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}

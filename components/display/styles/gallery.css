@@ -1,0 +1,49 @@
+.bakery-floor[data-layout='gallery'] { background: var(--icing); }
+
+.bakery-floor[data-layout='gallery'] .workbench,
+.bakery-floor[data-layout='gallery'] .oven {
+  width: 0;
+  padding-right: 0;
+  padding-left: 0;
+  border-width: 0;
+  flex-basis: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.bakery-floor[data-layout='gallery'] .showcase {
+  width: calc(100% - 180px);
+  margin: 26px 90px;
+  padding: 20px 24px 24px;
+  border: 5px solid var(--cocoa);
+  flex: 0 0 calc(100% - 180px);
+}
+
+.bakery-floor[data-layout='gallery'] .zone-heading { height: 76px; }
+.bakery-floor[data-layout='gallery'] .showcase-heading h2 { font-size: 42px; }
+
+.bakery-floor[data-layout='gallery'] .shelf-frame {
+  height: calc(100% - 76px);
+  padding: 17px;
+}
+
+.bakery-floor[data-layout='gallery'] .shelf-slot { padding: 20px 20px 10px; }
+
+.bakery-floor[data-layout='gallery'] .certificate-card .card-caption {
+  padding: 9px 12px 10px;
+}
+
+.bakery-floor[data-layout='gallery'] .certificate-card .card-caption .micro-label {
+  font-size: 8px;
+}
+
+.bakery-floor[data-layout='gallery'] .certificate-card .card-caption > strong {
+  font-size: 23px;
+}
+
+.bakery-floor[data-layout='gallery'] .card-nickname { font-size: 12px; }
+
+.bakery-floor[data-layout='gallery'] .certificate-card .status-ticket {
+  padding: 6px 8px;
+  font-size: 9px;
+}

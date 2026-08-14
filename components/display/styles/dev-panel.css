@@ -1,0 +1,70 @@
+.dev-panel {
+  position: absolute;
+  z-index: 100;
+  right: 18px;
+  bottom: 18px;
+  width: 360px;
+  border: 3px solid var(--cocoa);
+  background: var(--paper);
+  font-family: var(--mono);
+}
+
+.dev-panel.is-collapsed { width: 220px; }
+
+.dev-panel-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 38px;
+  padding-left: 11px;
+  border-bottom: 2px solid var(--cocoa);
+  background: var(--cocoa);
+  color: var(--paper);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+}
+
+.dev-panel-head button {
+  align-self: stretch;
+  padding: 0 12px;
+  border: 0;
+  border-left: 2px solid var(--paper);
+  background: var(--crust);
+  color: var(--paper);
+  cursor: pointer;
+}
+
+.dev-panel.is-collapsed .dev-panel-head { border-bottom: 0; }
+
+.dev-panel-body { display: grid; padding: 9px; gap: 7px; }
+
+.dev-row,
+.dev-specific {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 7px;
+}
+
+.dev-view-row { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+.dev-panel button,
+.dev-panel select {
+  min-height: 34px;
+  border: 2px solid var(--cocoa);
+  border-radius: 0;
+  background: var(--paper);
+  color: var(--cocoa);
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.dev-panel button:hover,
+.dev-panel button.is-active { background: var(--icing); }
+
+.dev-panel button:disabled { cursor: not-allowed; opacity: 0.45; }
+.dev-specific { grid-template-columns: 1fr 84px; }
+.dev-specific select { min-width: 0; padding: 0 7px; }
+.dev-wide { width: 100%; }
+.dev-panel .dev-failure { background: var(--berry); color: var(--paper); }
+.dev-panel .dev-reset { background: var(--dough); }

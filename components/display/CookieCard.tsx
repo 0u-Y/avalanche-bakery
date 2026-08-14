@@ -1,0 +1,112 @@
+'use client';
+
+import { motion, useReducedMotion } from 'framer-motion';
+import Image from 'next/image';
+
+import type { Entry } from '@/lib/types';
+
+const STATUS_LABEL = {
+  SUBMITTED: '사진 도착',
+  RENDERED: '증서 준비',
+  PINNED: '굽기 대기',
+  MINTING: '굽는 중',
+  MINTED: '발행 완료',
+  FAILED: '다시 확인',
+} as const;
+
+function imageNumber(entry: Entry) {
+  const value = Number(entry.id.replace(/\D/g, ''));
+  return Number.isFinite(value) ? value : 1;
+}
+
+export function CookieCard({
+  entry,
+  celebrating = false,
+}: {
+  entry: Entry;
+  celebrating?: boolean;
+}) {
+  const reduceMotion = useReducedMotion();
+  const minted = entry.status === 'MINTED';
+  const imageUrl = minted ? entry.certificateUrl : entry.photoUrl;
+  const flavor = ((imageNumber(entry) - 1) % 6) + 1;
+  const activeMotion = celebrating
+    ? { scale: [0.96, 1.04, 1], rotate: [-1, 1, 0], x: 0 }
+    : entry.status === 'MINTING' && !reduceMotion
+      ? { scale: 1, rotate: 0, x: [0, 1, -1, 0] }
+      : { scale: 1, rotate: 0, x: 0 };
+
+  return (
+    <motion.article
+      layout
+      layoutId={entry.id}
+      initial={false}
+      className={`cookie-card ${minted ? 'certificate-card' : 'photo-card'} ${
+        celebrating ? 'is-celebrating' : ''
+      }`}
+      data-status={entry.status}
+      animate={reduceMotion ? { scale: 1, rotate: 0, x: 0 } : activeMotion}
+      transition={{
+        layout: {
+          duration: reduceMotion ? 0 : 0.65,
+          ease: [0.22, 1, 0.36, 1],
+        },
+        x: {
+          duration: 0.38,
+          repeat: entry.status === 'MINTING' && !reduceMotion ? Infinity : 0,
+          ease: 'easeInOut',
+        },
+        scale: { duration: 0.4, ease: 'easeOut' },
+      }}
+    >
+      <div className={`card-media flavor-${flavor}`}>
+        {minted ? <CertificatePlaceholder /> : <CookiePlaceholder />}
+        {imageUrl ? (
+          <Image
+            src={imageUrl}
+            alt={minted ? `${entry.nickname}의 참가증서` : `${entry.nickname}의 쿠키`}
+            fill
+            unoptimized
+            sizes="320px"
+            onError={(event) => { event.currentTarget.style.display = 'none'; }}
+          />
+        ) : null}
+        <span className="status-ticket">{STATUS_LABEL[entry.status]}</span>
+      </div>
+      <div className="card-caption">
+        {minted ? (
+          <>
+            <span className="micro-label">AVALANCHE C-CHAIN</span>
+            <strong>#{entry.tokenId}</strong>
+            <span className="card-nickname">{entry.nickname}</span>
+          </>
+        ) : (
+          <>
+            <strong>{entry.nickname}</strong>
+            <span className="card-step">
+              {entry.status === 'MINTING' ? '온체인에 기록하고 있어요' : STATUS_LABEL[entry.status]}
+            </span>
+          </>
+        )}
+      </div>
+    </motion.article>
+  );
+}
+
+function CookiePlaceholder() {
+  return (
+    <div className="cookie-placeholder" aria-hidden="true">
+      <span className="cookie-shape"><i /><i /><i /><i /></span>
+    </div>
+  );
+}
+
+function CertificatePlaceholder() {
+  return (
+    <div className="certificate-placeholder" aria-hidden="true">
+      <span className="certificate-ava">A</span>
+      <span className="certificate-cookie" />
+      <span className="certificate-lines" />
+    </div>
+  );
+}

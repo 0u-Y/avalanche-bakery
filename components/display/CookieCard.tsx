@@ -5,6 +5,8 @@ import Image from 'next/image';
 
 import type { Entry } from '@/lib/types';
 
+import { DISPLAY_EASE } from './motion';
+
 const STATUS_LABEL = {
   SUBMITTED: '사진 도착',
   RENDERED: '증서 준비',
@@ -49,14 +51,14 @@ export function CookieCard({
       transition={{
         layout: {
           duration: reduceMotion ? 0 : 0.65,
-          ease: [0.22, 1, 0.36, 1],
+          ease: DISPLAY_EASE,
         },
         x: {
-          duration: 0.38,
+          duration: 0.4,
           repeat: entry.status === 'MINTING' && !reduceMotion ? Infinity : 0,
-          ease: 'easeInOut',
+          ease: DISPLAY_EASE,
         },
-        scale: { duration: 0.4, ease: 'easeOut' },
+        scale: { duration: 0.4, ease: DISPLAY_EASE },
       }}
     >
       <div className={`card-media flavor-${flavor}`}>
@@ -76,7 +78,6 @@ export function CookieCard({
       <div className="card-caption">
         {minted ? (
           <>
-            <span className="micro-label">AVALANCHE C-CHAIN</span>
             <strong>#{entry.tokenId}</strong>
             <span className="card-nickname">{entry.nickname}</span>
           </>

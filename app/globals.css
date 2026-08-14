@@ -15,6 +15,16 @@
   --paper: #f7f1e8;
   --ink: #17110f;
   --gold: #d9a441;
+  --text-1: 24px;
+  --text-2: 32px;
+  --text-3: 40px;
+  --text-4: 56px;
+  --text-5: 72px;
+  --line-thin: 2px;
+  --line-thick: 4px;
+  --radius-small: 8px;
+  --radius-arch: 160px;
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
   --display: 'Arial Black', 'Noto Sans KR', 'Apple SD Gothic Neo', sans-serif;
   --mono: 'SFMono-Regular', Consolas, 'Liberation Mono', monospace;
 }

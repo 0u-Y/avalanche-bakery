@@ -1,9 +1,9 @@
-.certificate-card { border-width: 2px; }
-.certificate-card .card-media { border-bottom-width: 2px; }
+.certificate-card { border-width: var(--line-thin); }
+.certificate-card .card-media { border-bottom-width: var(--line-thin); }
 
 .certificate-placeholder {
   overflow: hidden;
-  border: 8px solid var(--paper);
+  border: var(--line-thick) solid var(--paper);
   background: var(--paper);
 }
 
@@ -20,25 +20,25 @@
 .certificate-ava {
   position: absolute;
   z-index: 1;
-  top: 7px;
-  left: 7px;
+  top: 8px;
+  left: 8px;
   display: grid;
-  width: 24px;
-  height: 24px;
+  width: 32px;
+  height: 32px;
   place-items: center;
   border-radius: 50%;
   background: var(--ava);
   color: var(--paper);
-  font: 900 12px/1 var(--display);
+  font: 900 var(--text-1)/1 var(--display);
 }
 
 .certificate-cookie {
   position: relative;
   z-index: 1;
-  width: min(52%, 82px);
+  width: min(56%, 80px);
   aspect-ratio: 1;
-  border: 4px solid var(--ink);
-  border-radius: 48% 52% 45% 55%;
+  border: var(--line-thick) solid var(--ink);
+  border-radius: 50%;
   background: var(--gold);
   transform: rotate(8deg);
 }
@@ -46,59 +46,44 @@
 .certificate-cookie::before,
 .certificate-cookie::after {
   position: absolute;
-  width: 10px;
-  height: 10px;
+  width: 8px;
+  height: 8px;
   border-radius: 50%;
   background: var(--ink);
   content: '';
 }
 
-.certificate-cookie::before { top: 26%; left: 26%; }
+.certificate-cookie::before { top: 24%; left: 24%; }
 .certificate-cookie::after { right: 24%; bottom: 24%; }
 
 .certificate-lines {
   position: absolute;
-  right: 20%;
+  right: 16%;
   bottom: 8%;
-  left: 20%;
-  height: 3px;
+  left: 16%;
+  height: var(--line-thin);
   background: var(--ink);
 }
 
 .certificate-lines::before {
   position: absolute;
-  right: 18%;
+  right: 16%;
   bottom: 8px;
-  left: 18%;
-  height: 3px;
+  left: 16%;
+  height: var(--line-thin);
   background: var(--ink);
   content: '';
 }
 
-.certificate-card .status-ticket {
-  top: auto;
-  right: 5px;
-  bottom: 5px;
-  border-color: var(--ava);
-  background: var(--ava);
-  color: var(--paper);
-  font-size: 7px;
-}
-
-.certificate-card .card-caption { padding: 7px 7px 8px; }
-
-.certificate-card .card-caption .micro-label {
-  color: var(--ava);
-  font-size: 6px;
-}
-
-.certificate-card .card-caption > strong { margin-top: 3px; font-size: 17px; }
+.certificate-card .status-ticket { display: none; }
+.certificate-card .card-caption { padding: 8px; }
+.certificate-card .card-caption > strong { font-size: var(--text-2); }
 
 .card-nickname {
-  margin-top: 2px;
+  margin-top: 8px;
   overflow: hidden;
-  font: 700 9px/1 var(--display);
-  letter-spacing: -0.035em;
+  font: 700 var(--text-1)/1 var(--display);
+  letter-spacing: -0.04em;
   text-overflow: ellipsis;
   white-space: nowrap;
 }

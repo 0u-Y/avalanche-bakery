@@ -9,6 +9,7 @@ import { Oven } from './Oven';
 import { Showcase } from './Showcase';
 import { TopBar } from './TopBar';
 import { Workbench } from './Workbench';
+import { DISPLAY_EASE } from './motion';
 
 const WORKBENCH_STATUSES = new Set<EntryStatus>([
   'SUBMITTED',
@@ -37,7 +38,7 @@ export function BakeryScene({
   const layoutTransition = {
     layout: {
       duration: reduceMotion ? 0 : 0.65,
-      ease: [0.22, 1, 0.36, 1] as [number, number, number, number],
+      ease: DISPLAY_EASE,
     },
   };
 
@@ -49,6 +50,7 @@ export function BakeryScene({
           className="bakery-floor"
           data-layout={state.show.layout.toLowerCase()}
           layout
+          transition={layoutTransition}
         >
           <Workbench
             entries={workbenchEntries}

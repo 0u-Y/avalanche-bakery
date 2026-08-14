@@ -30,19 +30,23 @@ export function Showcase({
         total={15}
         className="showcase-heading"
       />
-      <motion.div className="shelf-frame" layout>
+      <motion.div className="shelf-frame" layout transition={transition}>
         <div className="shelf-grid">
           {slots.map((entry, index) => (
             <motion.div
               className={`shelf-slot ${entry && celebratingIds.has(entry.id) ? 'is-lit' : ''}`}
               key={index}
               layout
+              transition={transition}
             >
               <span className="shelf-number">{String(index + 1).padStart(2, '0')}</span>
               {entry ? (
                 <CookieCard entry={entry} celebrating={celebratingIds.has(entry.id)} />
               ) : (
-                <span className="empty-slot">다음 쿠키를<br />기다리는 중</span>
+                <span className="empty-slot">
+                  <i className="empty-dome" aria-hidden="true" />
+                  <strong>대기</strong>
+                </span>
               )}
             </motion.div>
           ))}

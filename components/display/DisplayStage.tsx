@@ -8,6 +8,7 @@ import { mockControls, useShowState } from '@/hooks/useShowState';
 import { BakeryScene } from './BakeryScene';
 import { DevPanel } from './DevPanel';
 import { SlidesShell } from './SlidesShell';
+import { DISPLAY_DURATION, DISPLAY_EASE } from './motion';
 
 function useStageScale() {
   const [scale, setScale] = useState(1);
@@ -63,7 +64,7 @@ export function DisplayStage({ devMode = false }: { devMode?: boolean }) {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                transition={{ duration: reduceMotion ? 0 : 0.5, ease: 'easeOut' }}
+                transition={{ duration: reduceMotion ? 0 : DISPLAY_DURATION, ease: DISPLAY_EASE }}
               >
                 <SlidesShell slideIndex={state.show.slideIndex} />
               </motion.div>
@@ -73,7 +74,7 @@ export function DisplayStage({ devMode = false }: { devMode?: boolean }) {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                transition={{ duration: reduceMotion ? 0 : 0.5, ease: 'easeOut' }}
+                transition={{ duration: reduceMotion ? 0 : DISPLAY_DURATION, ease: DISPLAY_EASE }}
               >
                 <BakeryScene state={state} celebratingIds={celebratingIds} />
               </motion.div>

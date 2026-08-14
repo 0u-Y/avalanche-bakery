@@ -4,6 +4,7 @@ import { AnimatePresence, motion, MotionConfig, useReducedMotion } from 'framer-
 import { useEffect, useRef, useState } from 'react';
 
 import { mockControls, useShowState } from '@/hooks/useShowState';
+import { useDemoLoop } from '@/hooks/useDemoLoop';
 
 import { BakeryScene } from './BakeryScene';
 import { DevPanel } from './DevPanel';
@@ -46,6 +47,7 @@ function useCelebratingIds(entries: ReturnType<typeof useShowState>['entries']) 
 
 export function DisplayStage({ devMode = false }: { devMode?: boolean }) {
   const state = useShowState();
+  useDemoLoop(!devMode);
   const scale = useStageScale();
   const celebratingIds = useCelebratingIds(state.entries);
   const reduceMotion = useReducedMotion();

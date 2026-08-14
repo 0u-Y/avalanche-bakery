@@ -1,4 +1,4 @@
-import { DEFAULT_SHOW, makeEntry, SEEDED_ENTRIES, STATUS_FLOW } from './mockData';
+import { DEFAULT_SHOW, makeEntry, STATUS_FLOW } from './mockData';
 import type { Entry, EntryStatus, ShowState, StateResponse } from './types';
 
 const MIN_OVEN_TIME = 2_000;
@@ -17,10 +17,7 @@ function response(entries: Entry[], show: ShowState): StateResponse {
   };
 }
 
-let state = response(SEEDED_ENTRIES, DEFAULT_SHOW);
-SEEDED_ENTRIES.filter((entry) => entry.status === 'MINTING').forEach((entry) => {
-  mintingStartedAt.set(entry.id, Date.now());
-});
+let state = response([], DEFAULT_SHOW);
 
 function emit(next: StateResponse) {
   state = next;

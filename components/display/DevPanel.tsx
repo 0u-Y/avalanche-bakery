@@ -34,6 +34,29 @@ export function DevPanel({
     return () => clearTimeout(timeoutId);
   }, [auto, controls]);
 
+  useEffect(() => {
+    const onKeyDown = (event: KeyboardEvent) => {
+      const target = event.target as HTMLElement;
+      if (target.tagName === 'SELECT' || target.tagName === 'BUTTON') return;
+      const key = event.key.toLowerCase();
+      if (event.code === 'Space') {
+        event.preventDefault();
+        setAuto((value) => !value);
+      } else if (key === '1') controls.addParticipants(1);
+      else if (key === '5') controls.addParticipants(5);
+      else if (key === 'a') controls.advanceAll();
+      else if (key === 'n' && effectiveId) controls.advanceOne(effectiveId);
+      else if (key === 'f') controls.injectFailure();
+      else if (key === 'l') controls.setView('LIVE');
+      else if (key === 'g') controls.setView('GALLERY');
+      else if (key === 's') controls.setView('SLIDES');
+      else if (key === 'q') controls.toggleQr();
+      else if (key === 'r') { setAuto(false); controls.reset(); }
+    };
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, [controls, effectiveId]);
+
   return (
     <aside className={`dev-panel ${collapsed ? 'is-collapsed' : ''}`}>
       <div className="dev-panel-head">

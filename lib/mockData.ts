@@ -48,13 +48,3 @@ export function makeEntry(index: number, status: EntryStatus): Entry {
     hidden: false,
   };
 }
-
-export const SEEDED_ENTRIES: Entry[] = [
-  makeEntry(0, 'MINTED'),
-  makeEntry(1, 'MINTED'),
-  makeEntry(2, 'MINTED'),
-  makeEntry(3, 'MINTING'),
-  makeEntry(4, 'PINNED'),
-  makeEntry(5, 'RENDERED'),
-  makeEntry(6, 'SUBMITTED'),
-];

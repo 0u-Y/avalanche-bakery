@@ -1,11 +1,11 @@
 .post-submit { background: var(--paper); }
 .post-kicker { color: var(--ember); font: 700 12px/1 var(--mono); letter-spacing: .12em; }
-.post-submit h1 { margin: 12px 0 0; font-size: clamp(36px, 10vw, 48px); font-weight: 900; line-height: 1.03; letter-spacing: -.05em; }
+.post-submit h1 { margin: 12px 0 0; font-size: clamp(36px, 10cqw, 48px); font-weight: 900; line-height: 1.03; letter-spacing: -.05em; word-break: keep-all; }
 .post-a { text-align: center; }
 .post-a > h1 { margin-top: 16px; }
 .look-up-message { display: flex; margin: auto 0; flex-direction: column; gap: 12px; }
 .look-up-message small { font: 700 12px/1 var(--mono); letter-spacing: .08em; }
-.look-up-message strong { font-size: clamp(42px, 11vw, 56px); line-height: .98; letter-spacing: -.055em; }
+.look-up-message strong { font-size: clamp(42px, 11cqw, 56px); line-height: .98; letter-spacing: -.055em; word-break: keep-all; }
 .post-a > p { margin: 0; padding: 18px 12px; border: 2px solid var(--ink); border-radius: 8px; font-size: 18px; }
 .post-a > p b { color: var(--ava); }
 .post-b > header h1 { font-size: 36px; }
@@ -28,7 +28,7 @@
 .oven-action { min-height: 88px; margin-top: 16px; border: 4px solid var(--ink); border-bottom: 10px solid var(--ember); border-radius: 8px; background: var(--ava); color: var(--paper); font: 900 28px/1 var(--display); cursor: pointer; }
 .c-started-message { display: flex; height: 100%; align-items: center; justify-content: center; text-align: center; flex-direction: column; }
 .c-started-message > span { color: var(--ember); font: 700 12px/1 var(--mono); letter-spacing: .12em; }
-.c-started-message > strong { margin-top: 20px; font-size: clamp(44px, 12vw, 60px); line-height: .96; letter-spacing: -.055em; }
+.c-started-message > strong { margin-top: 20px; font-size: clamp(44px, 12cqw, 60px); line-height: .96; letter-spacing: -.055em; word-break: keep-all; }
 .c-started-message > p { max-width: 320px; margin: 24px auto 0; font-size: 16px; line-height: 1.45; }
 @media (max-height: 700px) {
   .guided-steps { margin-top: 14px; }

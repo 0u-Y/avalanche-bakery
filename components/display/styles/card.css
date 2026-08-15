@@ -145,23 +145,12 @@
   white-space: nowrap;
 }
 
-.card-step {
-  margin-top: 8px;
-  overflow: hidden;
-  font: 700 var(--text-1)/1 var(--mono);
-  letter-spacing: -0.04em;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
 .workbench-grid:has(> :nth-child(7)) .card-caption,
 .oven-grid:has(> :nth-child(7)) .card-caption { padding: 8px; }
 
 .workbench-grid:has(> :nth-child(7)) .card-caption > strong,
 .oven-grid:has(> :nth-child(7)) .card-caption > strong { font-size: var(--text-1); }
 
-.workbench-grid:has(> :nth-child(7)) .card-step,
-.oven-grid:has(> :nth-child(7)) .card-step,
 .workbench-grid:has(> :nth-child(7)) .status-ticket,
 .oven-grid:has(> :nth-child(7)) .status-ticket { display: none; }
 

@@ -28,7 +28,7 @@
 .join-certificate {
   position: relative;
   display: grid;
-  width: min(86vw, 360px);
+  width: min(86cqw, 360px);
   aspect-ratio: 4 / 5;
   margin: 18px auto 0;
   overflow: hidden;
@@ -135,7 +135,7 @@
 
 .join-certificate-id strong {
   margin-top: 4px;
-  font-size: clamp(52px, 16vw, 70px);
+  font-size: clamp(52px, 16cqw, 70px);
   font-weight: 900;
   line-height: .9;
   letter-spacing: -.055em;
@@ -154,7 +154,7 @@
   .join-phone-canvas:has(.join-complete) .join-content { height: calc(100dvh - 76px); }
   .join-complete { padding-top: 12px; }
   .complete-heading h1 { font-size: 28px; }
-  .join-certificate { width: min(68vw, 278px); margin-top: 10px; grid-template-rows: 48px minmax(0, 1fr) 88px; }
+  .join-certificate { width: min(68cqw, 278px); margin-top: 10px; grid-template-rows: 48px minmax(0, 1fr) 88px; }
   .join-certificate-photo { margin: 10px 16px 8px; }
   .join-certificate-id { padding: 10px 14px; }
   .join-certificate-id strong { font-size: 48px; }

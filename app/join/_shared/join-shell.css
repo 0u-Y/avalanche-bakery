@@ -1,5 +1,5 @@
 .join-page { position: fixed; inset: 0; overflow: hidden; background: var(--ava); color: var(--ink); font-family: var(--display); }
-.join-phone-canvas { width: min(100%, 480px); height: 100dvh; min-height: 640px; margin: 0 auto; overflow: hidden; background: var(--paper); }
+.join-phone-canvas { width: min(100%, 480px); height: 100dvh; min-height: 640px; margin: 0 auto; overflow: hidden; background: var(--paper); container-type: inline-size; }
 .join-page.is-embedded { position: absolute; width: 390px; height: 844px; }
 .join-page.is-embedded .join-phone-canvas { width: 390px; height: 844px; min-height: 0; }
 .join-page.is-embedded .join-content { height: 696px; min-height: 0; }
@@ -18,7 +18,7 @@
 .join-content { height: calc(100dvh - 148px); min-height: 492px; }
 .join-step { display: flex; height: 100%; padding: 28px 24px 20px; flex-direction: column; }
 .join-step-heading > span { color: var(--ember); font: 700 12px/1 var(--mono); letter-spacing: .12em; }
-.join-step-heading h1 { max-width: 390px; margin: 10px 0 8px; font-size: clamp(30px, 8vw, 40px); font-weight: 900; line-height: 1.04; letter-spacing: -.045em; }
+.join-step-heading h1 { max-width: 390px; margin: 10px 0 8px; font-size: clamp(30px, 8cqw, 40px); font-weight: 900; line-height: 1.04; letter-spacing: -.045em; word-break: keep-all; }
 .join-step-heading p { max-width: 390px; margin: 0; color: color-mix(in srgb, var(--ink) 72%, transparent); font-size: 16px; line-height: 1.45; }
 .join-form, .join-actions { display: flex; margin-top: auto; flex-direction: column; gap: 10px; }
 .join-field { position: relative; display: block; }

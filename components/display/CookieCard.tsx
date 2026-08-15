@@ -90,7 +90,7 @@ export function CookieCard({
           {minted ? (
             <><strong>#{entry.tokenId}</strong><span className="card-nickname">{entry.nickname}</span></>
           ) : (
-            <><strong>{entry.nickname}</strong><span className="card-step">{entry.status === 'MINTING' ? '오늘의 증서를 굽고 있어요' : STATUS_LABEL[entry.status]}</span></>
+            <strong>{entry.nickname}</strong>
           )}
         </div>
       </motion.article>

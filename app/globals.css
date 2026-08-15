@@ -8,6 +8,8 @@
 @import '../components/display/styles/gallery.css';
 @import '../components/display/styles/dev-panel.css';
 @import '../components/styleguide/styleguide.css';
+@import './join/_shared/join-shell.css';
+@import './join/_shared/join-steps.css';
 
 :root {
   --ava: #e84142;

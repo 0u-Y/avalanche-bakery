@@ -10,6 +10,8 @@
 @import '../components/styleguide/styleguide.css';
 @import './join/_shared/join-shell.css';
 @import './join/_shared/join-steps.css';
+@import './join/_shared/completion.css';
+@import './join/_variants/join-variants.css';
 
 :root {
   --ava: #e84142;

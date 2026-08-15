@@ -1,0 +1,18 @@
+.route-index { position: fixed; inset: 0; overflow-y: auto; padding: 64px max(24px, 8vw); background: var(--paper); color: var(--ink); font-family: var(--display); }
+.route-index header { max-width: 920px; }
+.route-index header > span { color: var(--ember); font: 700 13px/1 var(--mono); letter-spacing: .14em; }
+.route-index h1 { margin: 16px 0 8px; font-size: clamp(48px, 7vw, 88px); line-height: .95; letter-spacing: -.06em; }
+.route-index header p { margin: 0; font-size: 18px; line-height: 1.5; }
+.route-index nav { display: grid; max-width: 1120px; margin-top: 48px; border-top: 4px solid var(--ink); }
+.route-index a { display: grid; min-height: 88px; padding: 16px 20px; border-right: 4px solid var(--ink); border-bottom: 4px solid var(--ink); border-left: 4px solid var(--ink); align-items: center; grid-template-columns: 56px 220px 1fr 48px; color: var(--ink); text-decoration: none; }
+.route-index a.is-primary { min-height: 112px; background: var(--ava); color: var(--paper); }
+.route-index a > span { font: 700 13px/1 var(--mono); }
+.route-index a > b { font-size: 24px; }
+.route-index a > small { font-size: 16px; }
+.route-index a > i { font-size: 30px; font-style: normal; text-align: right; }
+.route-index a:focus-visible { outline: 6px solid var(--gold); outline-offset: -10px; }
+@media (max-width: 720px) {
+  .route-index { padding: 32px 20px; }
+  .route-index a { grid-template-columns: 40px 1fr 36px; }
+  .route-index a > small { display: none; }
+}

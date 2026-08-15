@@ -40,7 +40,7 @@ export function makeEntry(index: number, status: EntryStatus): Entry {
     id: `entry-${index + 1}`,
     nickname: NICKNAMES[index],
     status,
-    photoUrl: `/mock/cookie-${(index % 6) + 1}.jpg`,
+    photoUrl: `/mock/cookie-${index + 1}.svg`,
     certificateUrl: minted ? `/mock/certificate-${(index % 6) + 1}.jpg` : null,
     tokenId: minted ? 1042 + index : null,
     txHash: minted ? `0x${(1042 + index).toString(16).padStart(64, '0')}` : null,

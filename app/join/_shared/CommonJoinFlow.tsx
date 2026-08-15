@@ -50,7 +50,7 @@ export function CommonJoinFlow({ onSubmit }: {
         >
           {stage === 'email' ? <EmailStep email={email} onEmail={setEmail} onCode={() => setStage('code')} onGoogle={() => setStage('photo')} /> : null}
           {stage === 'code' ? <CodeStep code={code} email={email} onCode={setCode} onNext={() => setStage('photo')} onBack={() => setStage('email')} /> : null}
-          {stage === 'photo' ? <PhotoStep preview={preview} onPhoto={choosePhoto} onSample={() => setPreview('/mock/cookie-1.jpg')} onNext={() => setStage('nickname')} /> : null}
+          {stage === 'photo' ? <PhotoStep preview={preview} onPhoto={choosePhoto} onSample={() => setPreview('/mock/cookie-1.svg')} onNext={() => setStage('nickname')} /> : null}
           {stage === 'nickname' ? <NicknameStep nickname={nickname} onNickname={setNickname} onNext={() => setStage('consent')} onBack={() => setStage('photo')} /> : null}
           {stage === 'consent' ? <ConsentStep tv={tv} nft={nft} onTv={() => setTv((value) => !value)} onNft={() => setNft((value) => !value)} onNext={() => setStage('submit')} onBack={() => setStage('nickname')} /> : null}
           {stage === 'submit' ? <SubmitStep nickname={nickname} preview={preview} onSubmit={submit} onBack={() => setStage('consent')} /> : null}

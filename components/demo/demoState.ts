@@ -6,7 +6,7 @@ export type DemoVariant = 'a' | 'b' | 'c';
 export const DEMO_DURATION = 40_000;
 export const DEMO_SUBMISSION = {
   nickname: '오븐별',
-  photoPreview: '/mock/cookie-1.jpg',
+  photoPreview: '/mock/cookie-1.svg',
   shelfNumber: 7,
   tokenId: 1048,
 };

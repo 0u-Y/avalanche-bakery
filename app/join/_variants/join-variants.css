@@ -1,6 +1,6 @@
 .post-submit { background: var(--paper); }
 .post-kicker { color: var(--ember); font: 700 12px/1 var(--mono); letter-spacing: .12em; }
-.post-submit h1 { margin: 12px 0 0; font-size: clamp(36px, 10vw, 48px); line-height: 1.03; letter-spacing: -.05em; }
+.post-submit h1 { margin: 12px 0 0; font-size: clamp(36px, 10vw, 48px); font-weight: 900; line-height: 1.03; letter-spacing: -.05em; }
 .post-a { text-align: center; }
 .post-a > h1 { margin-top: 16px; }
 .look-up-message { display: flex; margin: auto 0; flex-direction: column; gap: 12px; }

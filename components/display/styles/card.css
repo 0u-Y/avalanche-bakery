@@ -9,6 +9,7 @@
   overflow: hidden;
   border: var(--line-thin) solid var(--ink);
   background: var(--paper);
+  color: var(--ink);
   flex-direction: column;
   transform-origin: center;
 }
@@ -25,8 +26,6 @@
 }
 
 .card-media > img { z-index: 2; object-fit: cover; object-position: center; }
-.flavor-2, .flavor-5 { background: var(--ember); }
-.flavor-3, .flavor-6 { background: var(--ava); }
 
 .cookie-placeholder,
 .certificate-placeholder {
@@ -46,6 +45,15 @@
   background: var(--paper);
   transform: rotate(-8deg);
 }
+
+.cookie-shape:is(.cookie-variant-2, .cookie-variant-5, .cookie-variant-8, .cookie-variant-11, .cookie-variant-14),
+.certificate-cookie:is(.cookie-variant-2, .cookie-variant-5, .cookie-variant-8, .cookie-variant-11, .cookie-variant-14) { border-radius: 46% 54% 42% 58% / 52% 44% 56% 48%; }
+
+.cookie-shape:is(.cookie-variant-3, .cookie-variant-6, .cookie-variant-9, .cookie-variant-12, .cookie-variant-15),
+.certificate-cookie:is(.cookie-variant-3, .cookie-variant-6, .cookie-variant-9, .cookie-variant-12, .cookie-variant-15) { border-radius: 42% 58% 50% 50% / 56% 46% 54% 44%; transform: rotate(6deg); }
+
+.cookie-shape:is(.cookie-variant-4, .cookie-variant-7, .cookie-variant-10, .cookie-variant-13),
+.certificate-cookie:is(.cookie-variant-4, .cookie-variant-7, .cookie-variant-10, .cookie-variant-13) { transform: rotate(-5deg); }
 
 .cookie-shape i {
   position: absolute;
@@ -75,7 +83,7 @@
 
 .cookie-card[data-status='MINTING'] .status-ticket {
   border-color: var(--paper);
-  background: var(--ava);
+  background: var(--ink);
   color: var(--paper);
 }
 

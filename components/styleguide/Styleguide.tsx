@@ -1,131 +1,260 @@
-import {
-  Archivo_Black,
-  Bodoni_Moda,
-  Gothic_A1,
-  Nanum_Myeongjo,
-  Noto_Sans_KR,
-  Oswald,
-} from 'next/font/google';
+import { Archivo_Black, Gothic_A1 } from 'next/font/google';
 
 const archivoBlack = Archivo_Black({
-  weight: '400', subsets: ['latin'], variable: '--font-a-latin', display: 'swap',
-});
-const gothicA1 = Gothic_A1({
-  weight: ['700', '900'], subsets: ['latin'], variable: '--font-a-korean', display: 'swap',
-});
-const oswald = Oswald({
-  weight: 'variable', subsets: ['latin'], variable: '--font-b-latin', display: 'swap',
-});
-const notoSansKr = Noto_Sans_KR({
-  weight: 'variable', subsets: ['latin'], variable: '--font-b-korean', display: 'swap',
-});
-const bodoniModa = Bodoni_Moda({
-  weight: 'variable', style: ['normal', 'italic'], subsets: ['latin'],
-  variable: '--font-c-latin', display: 'swap',
-});
-const nanumMyeongjo = Nanum_Myeongjo({
-  weight: ['400', '700', '800'], subsets: ['latin'],
-  variable: '--font-c-korean', display: 'swap',
+  weight: '400',
+  subsets: ['latin'],
+  variable: '--font-sign-latin',
+  display: 'swap',
 });
 
-const CONCEPTS = [
+const gothicA1 = Gothic_A1({
+  weight: ['700', '900'],
+  subsets: ['latin'],
+  variable: '--font-sign-korean',
+  display: 'swap',
+});
+
+type PreviewState = 'empty' | 'baking' | 'arrived';
+
+type StateSpec = {
+  id: PreviewState;
+  index: string;
+  label: string;
+  title: string;
+  description: string;
+  filledCount: number;
+  targetIndex: number;
+  submitted: number;
+  minted: number;
+};
+
+const STATES: StateSpec[] = [
   {
-    id: 'a', label: 'A · 두꺼운 산세리프 간판', font: 'Archivo Black + Gothic A1',
-    lines: ['두꺼운 글자와 넓은 레드 면이 행사 간판처럼 먼저 보입니다.', '각진 증서와 쿠키 도장형 빈 칸으로 힘 있고 친근합니다.'],
+    id: 'empty',
+    index: '01',
+    label: 'EMPTY SHELF',
+    title: '비어 있어도 기다림이 보인다',
+    description: '열다섯 칸을 모두 설명하지 않고, 첫 쿠키가 놓일 자리 하나만 먼저 약속합니다.',
+    filledCount: 0,
+    targetIndex: 0,
+    submitted: 0,
+    minted: 0,
   },
   {
-    id: 'b', label: 'B · 콘덴스드 고딕', font: 'Oswald + Noto Sans KR',
-    lines: ['좁고 높은 글자와 촘촘한 정보로 공항 안내판의 긴장을 만듭니다.', '레드는 이름 블록에 집중하고 빈 칸은 split-flap 대기 표시로 남깁니다.'],
+    id: 'baking',
+    index: '02',
+    label: 'IN THE OVEN',
+    title: '과정보다 목적지를 먼저 보여준다',
+    description: '오븐은 지금 일어나고 있는 일을 알리고, 진열장의 다음 자리가 결과를 예고합니다.',
+    filledCount: 3,
+    targetIndex: 3,
+    submitted: 4,
+    minted: 3,
   },
   {
-    id: 'c', label: 'C · 올드 제과점 세리프', font: 'Bodoni Moda + Nanum Myeongjo',
-    lines: ['세리프 대비와 여백으로 오래된 양과자점 포장지처럼 보입니다.', '얇은 테두리와 아치형 빈 칸이 증서를 기념품처럼 다룹니다.'],
+    id: 'arrived',
+    index: '03',
+    label: 'ON THE SHELF',
+    title: '도착한 자리만 완료를 말한다',
+    description: '움직임이 끝난 뒤에는 발행 번호와 이름만 남겨, 내 것이 생겼다는 증거에 집중합니다.',
+    filledCount: 4,
+    targetIndex: 3,
+    submitted: 4,
+    minted: 4,
   },
+];
+
+const CARD_DATA = [
+  { nickname: '초코산', tokenId: 1042, pattern: 'dots' },
+  { nickname: '눈꽃', tokenId: 1043, pattern: 'stripe' },
+  { nickname: '마들렌', tokenId: 1044, pattern: 'cross' },
+  { nickname: '민트별', tokenId: 1045, pattern: 'star' },
 ] as const;
 
-const fontVariables = [
-  archivoBlack.variable, gothicA1.variable, oswald.variable,
-  notoSansKr.variable, bodoniModa.variable, nanumMyeongjo.variable,
-].join(' ');
+const fontVariables = `${archivoBlack.variable} ${gothicA1.variable}`;
 
 export function Styleguide() {
   return (
-    <main className={`styleguide-page ${fontVariables}`}>
-      <header className="styleguide-intro">
-        <span>AVALANCHE BAKERY · VISUAL DIRECTIONS</span>
-        <h1>화면 분위기 3안</h1>
-        <p>같은 내용, 다른 목소리. 타이포·색면·진열 방식까지 비교합니다.</p>
-      </header>
-      <TopBarComparison />
-      {CONCEPTS.map((concept) => (
-        <section className={`concept concept-${concept.id}`} key={concept.id}>
-          <div className="concept-note">
-            <span className="concept-index">DIRECTION {concept.id.toUpperCase()}</span>
-            <h2>{concept.label}</h2>
-            <p>{concept.lines[0]}<br />{concept.lines[1]}</p>
-            <strong>FONT · {concept.font}</strong>
+    <main className={`sg-page ${fontVariables}`}>
+      <header className="sg-intro">
+        <div className="sg-intro__meta">
+          <span>DISPLAY SYSTEM · DIRECTION 01</span>
+          <span>1920 × 1080 · 55 INCH · 3–5 M</span>
+        </div>
+        <div className="sg-intro__title">
+          <h1>기다림의 자리를<br />먼저 만든다.</h1>
+          <p>
+            오븐은 과정을 말하고,<br />
+            진열장은 결과를 약속합니다.
+          </p>
+        </div>
+        <dl className="sg-principles">
+          <div>
+            <dt>ONE FOCUS</dt>
+            <dd>진열장의 다음 빈자리</dd>
           </div>
-          <ConceptStage id={concept.id} />
-        </section>
-      ))}
+          <div>
+            <dt>FLAIR BUDGET</dt>
+            <dd>Avalanche 레드 색면 하나</dd>
+          </div>
+          <div>
+            <dt>MOTION</dt>
+            <dd>오븐에서 자리까지의 이동만</dd>
+          </div>
+        </dl>
+      </header>
+
+      <section className="sg-states" aria-label="TV 화면 상태 비교">
+        {STATES.map((state) => (
+          <article className="sg-state" key={state.id}>
+            <header className="sg-state__copy">
+              <div className="sg-state__index">
+                <span>{state.index}</span>
+                <b>{state.label}</b>
+              </div>
+              <div>
+                <h2>{state.title}</h2>
+                <p>{state.description}</p>
+              </div>
+            </header>
+            <DisplayPreview state={state} />
+          </article>
+        ))}
+      </section>
+
+      <footer className="sg-footer">
+        <span>AVALANCHE BAKERY · DISPLAY STUDY</span>
+        <p>강조는 다음 자리에서 시작하고, 도착한 카드에서 끝납니다.</p>
+      </footer>
     </main>
   );
 }
 
-function TopBarComparison() {
+function DisplayPreview({ state }: { state: StateSpec }) {
   return (
-    <section className="bar-comparison">
-      <div className="comparison-heading">
-        <span>TYPE &amp; INFORMATION RHYTHM</span>
-        <h2>상단 바만 한눈에 비교</h2>
-      </div>
-      <div className="comparison-grid">
-        {CONCEPTS.map((concept) => (
-          <div className={`comparison-sample concept-${concept.id}`} key={concept.id}>
-            <p><b>{concept.id.toUpperCase()}</b><span>{concept.font}</span></p>
-            <ConceptBar compact />
-          </div>
-        ))}
-      </div>
-    </section>
-  );
-}
-
-function ConceptStage({ id }: { id: 'a' | 'b' | 'c' }) {
-  return (
-    <div className="concept-stage">
-      <ConceptBar />
-      <div className="concept-body">
-        <div className="concept-oven">
-          <span>ON-CHAIN OVEN</span><strong>굽는 중</strong>
-          <div className="sample-cookie-card"><i className="sample-cookie" /><b>민트별</b></div>
+    <div className="sg-screen-wrap">
+      <section className={`sg-screen sg-screen--${state.id}`} aria-label={`${state.title} TV 시안`}>
+        <DisplayTopBar submitted={state.submitted} minted={state.minted} />
+        <div className="sg-display-body">
+          <Oven state={state.id} />
+          <Showcase state={state} />
         </div>
-        <div className="concept-showcase">
-          <div className="concept-showcase-title"><span>BAKED TODAY</span><strong>오늘의 진열장</strong></div>
-          <div className="concept-slots">
-            {Array.from({ length: 5 }, (_, index) => (
-              <div className={`concept-slot ${index < 3 ? 'is-filled' : 'is-empty'}`} key={index}>
-                <span>{String(index + 1).padStart(2, '0')}</span>
-                {index < 3 ? (
-                  <div className="sample-certificate"><i className="sample-cookie" /><b>#{1042 + index}</b></div>
-                ) : <EmptySlot id={id} />}
-              </div>
-            ))}
-          </div>
-        </div>
+      </section>
+      <div className="sg-screen-spec" aria-hidden="true">
+        <span>16:9</span>
+        <span>MIN TYPE 24 PX @ 1920</span>
       </div>
     </div>
   );
 }
 
-function ConceptBar({ compact = false }: { compact?: boolean }) {
+function DisplayTopBar({ submitted, minted }: { submitted: number; minted: number }) {
   return (
-    <header className={`concept-bar ${compact ? 'is-compact' : ''}`}>
-      <strong>AVALANCHE BAKERY</strong><span>COOKIE CLASS · SEOUL</span><b>제출 04 · 발행 03</b>
+    <header className="sg-display-topbar">
+      <div className="sg-brand">
+        <span className="sg-brand__mark">A</span>
+        <strong>AVALANCHE<br />BAKERY</strong>
+      </div>
+      <span className="sg-event-label">COOKIE CLASS · SEOUL · AUG 15</span>
+      <div className="sg-counts" aria-label={`접수 ${submitted}개, 진열 ${minted}개`}>
+        <span>접수 <b>{String(submitted).padStart(2, '0')}</b></span>
+        <span>진열 <b>{String(minted).padStart(2, '0')}</b></span>
+      </div>
     </header>
   );
 }
 
-function EmptySlot({ id }: { id: 'a' | 'b' | 'c' }) {
-  return <div className={`concept-empty empty-${id}`}><i /><em>{id === 'b' ? 'WAIT' : '다음 쿠키'}</em></div>;
+function Oven({ state }: { state: PreviewState }) {
+  const isBaking = state === 'baking';
+
+  return (
+    <aside className="sg-oven">
+      <div className="sg-oven__heading">
+        <span>BAKE COUNTER</span>
+        <strong>증서 오븐</strong>
+      </div>
+      <div className={`sg-oven__window ${isBaking ? 'is-baking' : ''}`}>
+        {isBaking ? (
+          <div className="sg-oven-card">
+            <CookieArt pattern="star" />
+            <strong>민트별</strong>
+          </div>
+        ) : (
+          <i className="sg-oven__tray" aria-hidden="true" />
+        )}
+      </div>
+      <div className="sg-oven__status">
+        <span>{isBaking ? 'NOW BAKING' : 'READY'}</span>
+        <strong>{isBaking ? '증서를 굽는 중' : '다음 쿠키를 기다려요'}</strong>
+      </div>
+    </aside>
+  );
+}
+
+function Showcase({ state }: { state: StateSpec }) {
+  return (
+    <section className="sg-showcase">
+      <header className="sg-showcase__heading">
+        <div>
+          <span>TODAY&apos;S SHELF</span>
+          <h3>오늘의 진열장</h3>
+        </div>
+        <strong>{String(state.minted).padStart(2, '0')} <span>/ 15</span></strong>
+      </header>
+      <ol className="sg-shelf" aria-label="쿠키 증서 진열장 15칸">
+        {Array.from({ length: 15 }, (_, index) => {
+          const isFilled = index < state.filledCount;
+          const isTarget = index === state.targetIndex;
+          const isArrived = state.id === 'arrived' && isTarget;
+          const card = isFilled ? CARD_DATA[index] : null;
+
+          return (
+            <li
+              className={`sg-slot ${isFilled ? 'is-filled' : ''} ${isTarget ? 'is-target' : ''} ${isArrived ? 'is-arrived' : ''}`}
+              key={index}
+            >
+              <span className="sg-slot__number">{String(index + 1).padStart(2, '0')}</span>
+              {card ? (
+                <CertificateCard card={card} />
+              ) : isTarget ? (
+                <div className="sg-target">
+                  <span>{state.id === 'empty' ? 'FIRST PLACE' : 'NEXT PLACE'}</span>
+                  <strong>{state.id === 'empty' ? '첫 쿠키 자리' : '다음 쿠키 자리'}</strong>
+                  <i aria-hidden="true" />
+                </div>
+              ) : (
+                <i className="sg-slot__rest" aria-hidden="true" />
+              )}
+            </li>
+          );
+        })}
+      </ol>
+    </section>
+  );
+}
+
+function CertificateCard({
+  card,
+}: {
+  card: (typeof CARD_DATA)[number];
+}) {
+  return (
+    <div className="sg-certificate">
+      <CookieArt pattern={card.pattern} />
+      <div className="sg-certificate__name">
+        <strong>{card.nickname}</strong>
+        <span>#{card.tokenId}</span>
+      </div>
+    </div>
+  );
+}
+
+function CookieArt({ pattern }: { pattern: (typeof CARD_DATA)[number]['pattern'] }) {
+  return (
+    <span className={`sg-cookie sg-cookie--${pattern}`} aria-hidden="true">
+      <i />
+      <i />
+      <i />
+    </span>
+  );
 }

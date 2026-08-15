@@ -16,6 +16,8 @@
   background: var(--paper);
 }
 
+.display-canvas > div { width: 100%; height: 100%; }
+
 .bakery-scene,
 .slides-shell { width: 100%; height: 100%; }
 
@@ -25,30 +27,29 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 96px;
-  padding: 0 32px 0 24px;
+  height: 112px;
+  padding: 0 40px 0 32px;
   border-bottom: var(--line-thick) solid var(--ink);
-  background: var(--ava);
-  color: var(--paper);
+  background: var(--paper);
+  color: var(--ink);
 }
 
-.brand-lockup { display: flex; align-items: center; min-width: 0; gap: 16px; }
+.brand-lockup { display: flex; align-items: center; min-width: 0; gap: 20px; }
 
 .brand-mark {
   display: grid;
   width: 56px;
   height: 56px;
   place-items: center;
-  border: var(--line-thick) solid var(--ink);
   border-radius: 50%;
-  background: var(--paper);
-  color: var(--ink);
+  background: var(--ink);
+  color: var(--paper);
   font: 900 var(--text-1)/1 var(--display);
   letter-spacing: -0.05em;
 }
 
 .brand-lockup > strong {
-  font: 900 var(--text-3)/1 var(--display);
+  font: 900 var(--text-2)/.82 var(--display);
   letter-spacing: -0.045em;
 }
 
@@ -56,7 +57,7 @@
   max-width: 480px;
   padding-left: 16px;
   overflow: hidden;
-  border-left: var(--line-thin) solid color-mix(in srgb, var(--paper) 55%, transparent);
+  border-left: var(--line-thin) solid rgb(23 17 15 / .28);
   font: 700 var(--text-1)/1.2 var(--display);
   letter-spacing: -0.035em;
   text-overflow: ellipsis;
@@ -67,13 +68,12 @@
   display: flex;
   align-items: center;
   gap: 16px;
-  font: 900 var(--text-3)/1 var(--display);
 }
 
 .counts span { display: flex; align-items: baseline; gap: 8px; }
-.counts small { font: 700 var(--text-1)/1 var(--mono); letter-spacing: 0.08em; }
-.counts i { width: var(--line-thin); height: 40px; background: var(--paper); opacity: .55; }
-.counts .minted-count { color: var(--gold); }
+.counts small { font: 700 var(--text-1)/1 var(--display); }
+.counts b { font: 900 var(--text-3)/1 var(--display); }
+.counts i { width: var(--line-thin); height: 40px; background: var(--ink); opacity: .28; }
 
 .micro-label {
   font: 700 var(--text-1)/1.2 var(--mono);
@@ -84,7 +84,7 @@
 .bakery-floor {
   display: flex;
   width: 100%;
-  height: calc(100% - 96px);
+  height: calc(100% - 112px);
   overflow: hidden;
   background: var(--paper);
 }
@@ -95,23 +95,27 @@
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  height: 80px;
+  height: 96px;
+}
+
+.zone-note {
+  display: block;
+  color: rgb(23 17 15 / .58);
+  font: 700 var(--text-1)/1 var(--display);
 }
 
 .zone-heading h2 {
-  margin: 8px 0 0;
+  margin: 10px 0 0;
   font: 900 var(--text-3)/1 var(--display);
   letter-spacing: -0.055em;
 }
 
 .zone-count {
-  min-width: 56px;
-  padding: 8px;
-  border: var(--line-thick) solid var(--ink);
-  background: var(--paper);
+  min-width: 72px;
+  padding-top: 20px;
   color: var(--ink);
-  text-align: center;
-  font: 900 var(--text-2)/1 var(--display);
+  text-align: right;
+  font: 900 var(--text-3)/1 var(--display);
 }
 
 .zone-count small { margin-left: 8px; font: 700 var(--text-1)/1 var(--mono); }

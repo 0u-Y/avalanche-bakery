@@ -11,7 +11,7 @@ export function PhotoStep({ preview, onPhoto, onSample, onNext }: {
 }) {
   return (
     <>
-      <StepHeading eyebrow="STEP 02 · 사진" title="방금 구운 쿠키를 찍어 주세요" copy="쿠키가 가운데 오도록 가까이 찍으면 진열장에서 더 잘 보여요." />
+      <StepHeading eyebrow="사진" title="방금 구운 쿠키를 찍어 주세요" copy="쿠키가 가운데 오도록 가까이 찍으면 진열장에서 더 잘 보여요." />
       <div className="join-photo-frame">
         <div className="join-photo-placeholder" aria-hidden="true"><span><i /><i /><i /></span></div>
         {preview ? <Image src={preview} alt="선택한 쿠키 사진 미리보기" fill unoptimized sizes="320px" /> : null}

@@ -1,11 +1,11 @@
 export function ZoneHeading({
-  step,
+  note,
   label,
   count,
   total,
   className = '',
 }: {
-  step: string;
+  note: string;
   label: string;
   count: number;
   total?: number;
@@ -13,7 +13,7 @@ export function ZoneHeading({
 }) {
   return (
     <div className={`zone-heading ${className}`}>
-      <div><span className="micro-label">{step}</span><h2>{label}</h2></div>
+      <div><span className="zone-note">{note}</span><h2>{label}</h2></div>
       <span className="zone-count">{count}{total ? <small>/ {total}</small> : null}</span>
     </div>
   );

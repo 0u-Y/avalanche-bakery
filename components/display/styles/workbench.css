@@ -1,9 +1,9 @@
 .workbench {
-  width: 30%;
-  padding: 24px;
+  width: 28%;
+  padding: 32px;
   border-right: var(--line-thick) solid var(--ink);
   background: var(--paper);
-  flex: 0 0 30%;
+  flex: 0 0 28%;
 }
 
 .workbench-grid {
@@ -21,7 +21,7 @@
 
 .workbench-empty {
   display: flex;
-  height: 360px;
+  height: 336px;
   grid-column: 1 / -1;
   align-items: center;
   justify-content: center;
@@ -30,7 +30,6 @@
 }
 
 .workbench-empty strong { margin-top: 24px; font: 900 var(--text-2)/1 var(--display); }
-.workbench-empty > span:last-child { margin-top: 16px; font: 700 var(--text-1)/1.25 var(--display); }
 
 .empty-mixing-bowl {
   position: relative;
@@ -39,7 +38,7 @@
   border: var(--line-thick) solid var(--ink);
   border-top: 0;
   border-radius: 0 0 var(--radius-arch) var(--radius-arch);
-  background: var(--ava);
+  background: var(--paper);
 }
 
 .empty-mixing-bowl::before {
@@ -54,7 +53,7 @@
   transform-origin: right;
 }
 
-.qr-position { position: absolute; right: 24px; bottom: 24px; left: 24px; height: 192px; }
+.qr-position { position: absolute; right: 32px; bottom: 32px; left: 32px; height: 192px; }
 
 .qr-block {
   display: flex;

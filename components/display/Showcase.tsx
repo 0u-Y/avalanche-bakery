@@ -26,6 +26,7 @@ export function Showcase({
   const slots = Array.from({ length: 15 }, (_, shelfIndex) => (
     entries.find((entry) => entry.shelfIndex === shelfIndex)
   ));
+  const nextShelfIndex = slots.findIndex((entry) => !entry);
 
   useEffect(() => {
     const reachedFull = previousCount.current < 15 && entries.length === 15;
@@ -50,7 +51,7 @@ export function Showcase({
       }}
     >
       <ZoneHeading
-        step="STEP 03 · KEEPSAKE"
+        note="열다섯 개의 자리"
         label="오늘의 쿠키 진열장"
         count={entries.length}
         total={15}
@@ -60,7 +61,9 @@ export function Showcase({
         <div className="shelf-grid">
           {slots.map((entry, index) => (
             <motion.div
-              className={`shelf-slot ${entry && celebratingIds.has(entry.id) ? 'is-lit' : ''}`}
+              className={`shelf-slot ${entry && celebratingIds.has(entry.id) ? 'is-lit' : ''} ${
+                !entry && index === nextShelfIndex ? 'is-next' : ''
+              }`}
               key={index}
               layout
               transition={transition}
@@ -68,11 +71,10 @@ export function Showcase({
               <span className="shelf-number">{String(index + 1).padStart(2, '0')}</span>
               {entry ? (
                 <CookieCard entry={entry} celebrating={celebratingIds.has(entry.id)} />
+              ) : index === nextShelfIndex ? (
+                <span className="next-slot"><strong>다음 자리</strong></span>
               ) : (
-                <span className="empty-slot">
-                  <i className="empty-dome" aria-hidden="true" />
-                  <strong>대기</strong>
-                </span>
+                <span className="empty-slot" aria-hidden="true" />
               )}
             </motion.div>
           ))}

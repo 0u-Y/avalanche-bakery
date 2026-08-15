@@ -1,12 +1,11 @@
 'use client';
 
-import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 
 import type { Entry } from '@/lib/types';
 
 import { CookieCard } from './CookieCard';
 import { ZoneHeading } from './ZoneHeading';
-import { DISPLAY_EASE } from './motion';
 
 type LayoutTransition = { layout: { duration: number; ease: [number, number, number, number] } };
 
@@ -17,28 +16,28 @@ export function Oven({
   entries: Entry[];
   transition: LayoutTransition;
 }) {
-  const reduceMotion = useReducedMotion();
   const active = entries.length > 0;
   return (
     <motion.section className="oven zone" layout transition={transition}>
       <ZoneHeading
-        step="STEP 02 · ON-CHAIN"
-        label="오븐"
+        note={active ? '한 장을 굽고 있어요' : '다음 쿠키를 받을 준비'}
+        label="증서 오븐"
         count={entries.length}
         className="oven-heading"
       />
       <div className="oven-body">
         <div className="oven-window">
-          <motion.div
-            className="oven-light"
-            initial={false}
-            animate={{ opacity: active && !reduceMotion ? [0.08, 0.36, 0.16] : 0.05 }}
-            transition={{ duration: 0.64, repeat: active ? Infinity : 0, ease: DISPLAY_EASE }}
-          />
-          <div className="oven-copy">
-            <span className="micro-label">AVALANCHE C-CHAIN</span>
-            <strong>{active ? '지금 굽는 중' : '오븐 준비 완료'}</strong>
+          <div className={`oven-light ${active ? 'is-active' : ''}`} />
+          <div className="oven-readout">
+            <strong>{active ? '굽는 중' : '예열 완료'}</strong>
+            <span>180°</span>
           </div>
+          {!active ? (
+            <div className="oven-ready">
+              <i aria-hidden="true"><span /><span /><span /></i>
+              <strong>다음 쿠키를<br />기다려요</strong>
+            </div>
+          ) : null}
           <div className="oven-grid">
             <AnimatePresence initial={false}>
               {entries.map((entry) => <CookieCard key={entry.id} entry={entry} />)}
@@ -47,7 +46,7 @@ export function Oven({
           <div className="oven-rack" aria-hidden="true"><i /><i /><i /><i /></div>
         </div>
         <div className="oven-controls" aria-hidden="true">
-          <span /><span /><span /><b>180</b>
+          <span /><span /><span />
         </div>
       </div>
     </motion.section>

@@ -22,7 +22,7 @@ export function Workbench({
 }) {
   return (
     <motion.section className="workbench zone" layout transition={transition}>
-      <ZoneHeading step="STEP 01 · PREP" label="반죽 작업대" count={entries.length} />
+      <ZoneHeading note="사진이 도착하는 곳" label="쿠키 접수" count={entries.length} />
       <div className="workbench-grid">
         <AnimatePresence initial={false}>
           {entries.map((entry) => <CookieCard key={entry.id} entry={entry} />)}
@@ -30,8 +30,7 @@ export function Workbench({
         {entries.length === 0 ? (
           <div className="workbench-empty">
             <span className="empty-mixing-bowl" aria-hidden="true" />
-            <strong>첫 쿠키를 기다려요</strong>
-            <span>사진이 도착하면 이곳에서 준비합니다</span>
+            <strong>첫 쿠키 사진을 기다려요</strong>
           </div>
         ) : null}
       </div>

@@ -15,7 +15,11 @@ export function JoinShell({
     <main className={`join-page ${embedded ? 'is-embedded' : ''}`}>
       <div className="join-phone-canvas">
         <header className="join-header">
-          <div className="join-brand"><b>AVALANCHE</b><span>BAKERY</span></div>
+          <div className="join-brand">
+            <span className="join-brand-mark" aria-hidden="true">A</span>
+            <strong><b>AVALANCHE</b><b>BAKERY</b></strong>
+            <small>COOKIE CLASS · SEOUL</small>
+          </div>
           <ol className="join-progress" aria-label={`5단계 중 ${currentStep}단계`}>
             {STEP_LABELS.map((label, index) => {
               const number = index + 1;

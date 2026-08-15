@@ -12,7 +12,7 @@ const STATUS_LABEL = {
   RENDERED: '증서 준비',
   PINNED: '굽기 대기',
   MINTING: '굽는 중',
-  MINTED: '발행 완료',
+  MINTED: '진열 완료',
   FAILED: '다시 확인',
 } as const;
 
@@ -31,7 +31,7 @@ export function CookieCard({
   const reduceMotion = useReducedMotion();
   const minted = entry.status === 'MINTED';
   const imageUrl = minted ? entry.certificateUrl : entry.photoUrl;
-  const flavor = ((imageNumber(entry) - 1) % 6) + 1;
+  const variation = ((imageNumber(entry) - 1) % 15) + 1;
   const activeMotion = celebrating
     ? { scale: [0.96, 1.04, 1], rotate: [-1, 1, 0], x: 0 }
     : entry.status === 'MINTING' && !reduceMotion
@@ -61,8 +61,8 @@ export function CookieCard({
         scale: { duration: 0.4, ease: DISPLAY_EASE },
       }}
     >
-      <div className={`card-media flavor-${flavor}`}>
-        {minted ? <CertificatePlaceholder /> : <CookiePlaceholder />}
+      <div className="card-media">
+        {minted ? <CertificatePlaceholder variation={variation} /> : <CookiePlaceholder variation={variation} />}
         {imageUrl ? (
           <Image
             src={imageUrl}
@@ -85,7 +85,7 @@ export function CookieCard({
           <>
             <strong>{entry.nickname}</strong>
             <span className="card-step">
-              {entry.status === 'MINTING' ? '온체인에 기록하고 있어요' : STATUS_LABEL[entry.status]}
+              {entry.status === 'MINTING' ? '오늘의 증서를 굽고 있어요' : STATUS_LABEL[entry.status]}
             </span>
           </>
         )}
@@ -94,19 +94,19 @@ export function CookieCard({
   );
 }
 
-function CookiePlaceholder() {
+function CookiePlaceholder({ variation }: { variation: number }) {
   return (
     <div className="cookie-placeholder" aria-hidden="true">
-      <span className="cookie-shape"><i /><i /><i /><i /></span>
+      <span className={`cookie-shape cookie-variant-${variation}`}><i /><i /><i /><i /></span>
     </div>
   );
 }
 
-function CertificatePlaceholder() {
+function CertificatePlaceholder({ variation }: { variation: number }) {
   return (
     <div className="certificate-placeholder" aria-hidden="true">
       <span className="certificate-ava">A</span>
-      <span className="certificate-cookie" />
+      <span className={`certificate-cookie cookie-variant-${variation}`}><i /><i /><i /></span>
       <span className="certificate-lines" />
     </div>
   );

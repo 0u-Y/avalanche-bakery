@@ -5,12 +5,14 @@ import { STEP_LABELS } from './joinTypes';
 export function JoinShell({
   currentStep,
   children,
+  embedded = false,
 }: {
   currentStep: number;
   children: ReactNode;
+  embedded?: boolean;
 }) {
   return (
-    <main className="join-page">
+    <main className={`join-page ${embedded ? 'is-embedded' : ''}`}>
       <div className="join-phone-canvas">
         <header className="join-header">
           <div className="join-brand"><b>AVALANCHE</b><span>BAKERY</span></div>

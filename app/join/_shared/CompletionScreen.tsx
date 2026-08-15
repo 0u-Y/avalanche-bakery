@@ -3,9 +3,12 @@ import Image from 'next/image';
 import type { JoinSubmission } from './joinTypes';
 import { JoinShell } from './JoinShell';
 
-export function CompletionScreen({ submission }: { submission: JoinSubmission }) {
+export function CompletionScreen({ submission, embedded = false }: {
+  submission: JoinSubmission;
+  embedded?: boolean;
+}) {
   return (
-    <JoinShell currentStep={5}>
+    <JoinShell currentStep={5} embedded={embedded}>
       <section className="join-step join-complete">
         <header className="complete-heading">
           <span>BAKED &amp; DISPLAYED</span>

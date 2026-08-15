@@ -1,5 +1,8 @@
 .join-page { position: fixed; inset: 0; overflow: hidden; background: var(--ava); color: var(--ink); font-family: var(--display); }
 .join-phone-canvas { width: min(100%, 480px); height: 100dvh; min-height: 640px; margin: 0 auto; overflow: hidden; background: var(--paper); }
+.join-page.is-embedded { position: absolute; width: 390px; height: 844px; }
+.join-page.is-embedded .join-phone-canvas { width: 390px; height: 844px; min-height: 0; }
+.join-page.is-embedded .join-content { height: 700px; min-height: 0; }
 .join-header { height: 144px; padding: 20px 24px 16px; background: var(--ava); color: var(--paper); }
 .join-brand { display: flex; align-items: baseline; justify-content: space-between; }
 .join-brand b { font-size: 22px; line-height: 1; letter-spacing: -.02em; }

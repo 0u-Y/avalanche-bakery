@@ -15,7 +15,7 @@ function statusAt(variant: DemoVariant, seconds: number): EntryStatus | null {
   if (seconds < 16.6) return null;
   if (variant === 'a') {
     if (seconds < 20) return 'SUBMITTED';
-    if (seconds < 24) return 'MINTING';
+    if (seconds < 25) return 'MINTING';
     return 'MINTED';
   }
   if (variant === 'b') {
@@ -39,7 +39,7 @@ export function makeDemoState(variant: DemoVariant, seconds: number): StateRespo
   };
 }
 
-export function isShelfArrival(variant: DemoVariant, seconds: number) {
-  const arrival = variant === 'a' ? 24 : 25;
+export function isShelfArrival(seconds: number) {
+  const arrival = 25;
   return seconds >= arrival && seconds < arrival + 0.7;
 }

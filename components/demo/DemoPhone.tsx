@@ -51,7 +51,7 @@ export function DemoPhone({ variant, seconds }: { variant: DemoVariant; seconds:
 }
 
 function PostSubmitPhone({ variant, seconds }: { variant: DemoVariant; seconds: number }) {
-  const completeAt = variant === 'a' ? 27 : variant === 'b' ? 28 : 28;
+  const completeAt = 28;
   if (seconds >= completeAt) return <CompletionScreen submission={DEMO_SUBMISSION} embedded />;
   const guidedPhase = seconds < 19 ? 0 : seconds < 22 ? 1 : seconds < 25 ? 2 : 3;
   const cStarted = seconds >= 20.5;

@@ -3,8 +3,9 @@
 .demo-toolbar { display: grid; height: 72px; align-items: center; grid-template-columns: 1fr auto 1fr; gap: 24px; border-bottom: 4px solid var(--ink); }
 .demo-toolbar > div:first-child span, .demo-feedback > div span { color: var(--ember); font: 700 11px/1 var(--mono); letter-spacing: .12em; }
 .demo-toolbar h1 { margin: 5px 0 0; font-size: 28px; line-height: 1; letter-spacing: -.04em; }
-.demo-toolbar nav { display: flex; gap: 8px; }
+.demo-toolbar nav { display: grid; grid-template-columns: repeat(3, 72px); gap: 8px; }
 .demo-toolbar button { min-width: 56px; height: 48px; padding: 0 16px; border: 2px solid var(--ink); border-radius: 8px; background: var(--paper); color: var(--ink); font: 900 16px/1 var(--display); cursor: pointer; }
+.demo-toolbar nav button { width: 72px; min-width: 72px; padding: 0; }
 .demo-toolbar nav button.is-active { border-color: var(--ava); background: var(--ava); color: var(--paper); }
 .demo-controls { display: flex; align-items: center; justify-content: flex-end; gap: 8px; }
 .demo-controls > span { margin-right: 8px; font: 700 13px/1 var(--mono); }

@@ -14,6 +14,7 @@ const QUESTIONS = [
   '3. 민팅이 뭔지 모른다고 치고 — 방금 뭐가 일어난 것 같으세요?',
   '4. A / B / C 중 어느 쪽이고, 그 이유는?',
 ] as const;
+const VARIANTS: DemoVariant[] = ['a', 'b', 'c'];
 
 function useDemoScale() {
   const [scale, setScale] = useState(1);
@@ -50,7 +51,7 @@ export function DemoExperience() {
   };
   const seconds = elapsed / 1_000;
   const state = makeDemoState(variant, seconds);
-  const celebrating = isShelfArrival(variant, seconds) ? new Set(['entry-7']) : new Set<string>();
+  const celebrating = isShelfArrival(seconds) ? new Set(['entry-7']) : new Set<string>();
 
   return (
     <main className="demo-viewport">
@@ -58,8 +59,16 @@ export function DemoExperience() {
         <header className="demo-toolbar">
           <div><span>TEAM REVIEW PROTOTYPE</span><h1>참가자 경험 비교</h1></div>
           <nav aria-label="비교할 안 선택">
-            {(['a', 'b', 'c'] as DemoVariant[]).map((item) => (
-              <button className={variant === item ? 'is-active' : ''} onClick={() => reset(item)} key={item}>{item.toUpperCase()}</button>
+            {VARIANTS.map((item) => (
+              <button
+                aria-label={`${item.toUpperCase()}안 보기`}
+                aria-pressed={variant === item}
+                className={variant === item ? 'is-active' : ''}
+                onClick={() => reset(item)}
+                key={item}
+              >
+                {item.toUpperCase()}
+              </button>
             ))}
           </nav>
           <div className="demo-controls">

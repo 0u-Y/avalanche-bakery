@@ -34,7 +34,7 @@ export function ConsentStep({ tv, nft, onTv, onNft, onNext, onBack }: {
 }) {
   return (
     <>
-      <StepHeading eyebrow="STEP 04 · 동의" title="어디에 보여도 괜찮은지 확인해요" copy="두 항목은 따로 선택할 수 있어요." />
+      <StepHeading eyebrow="STEP 04 · 동의" title="어디에 보여도 괜찮은지 확인해요" copy="두 내용을 각각 읽고 확인해 주세요." />
       <div className="join-consents">
         <label><input type="checkbox" checked={tv} onChange={onTv} /><i /><span><b>TV 화면에 표시</b><small>쿠키 사진과 닉네임이 행사장 앞 화면에 보여요.</small></span></label>
         <label><input type="checkbox" checked={nft} onChange={onNft} /><i /><span><b>NFT로 공개</b><small>공개된 증서는 나중에 완전히 지우기 어려워요.</small></span></label>

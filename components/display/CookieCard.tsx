@@ -5,7 +5,14 @@ import Image from 'next/image';
 
 import type { Entry } from '@/lib/types';
 
-import { DISPLAY_EASE } from './motion';
+import type { CardMotionPhase } from './displaySequence';
+import {
+  CARD_DROP_DURATION,
+  CARD_MOVE_DURATION,
+  EASE_IMPACT,
+  EASE_MOVE,
+  EASE_SETTLE,
+} from './motion';
 
 const STATUS_LABEL = {
   SUBMITTED: '사진 도착',
@@ -23,74 +30,71 @@ function imageNumber(entry: Entry) {
 
 export function CookieCard({
   entry,
-  celebrating = false,
+  motionPhase,
 }: {
   entry: Entry;
-  celebrating?: boolean;
+  motionPhase?: CardMotionPhase;
 }) {
   const reduceMotion = useReducedMotion();
   const minted = entry.status === 'MINTED';
   const imageUrl = minted ? entry.certificateUrl : entry.photoUrl;
   const variation = ((imageNumber(entry) - 1) % 15) + 1;
-  const activeMotion = celebrating
-    ? { scale: [0.96, 1.04, 1], rotate: [-1, 1, 0], x: 0 }
-    : entry.status === 'MINTING' && !reduceMotion
-      ? { scale: [0.96, 0.9, 0.92], rotate: 0, x: [0, 1, -1, 0] }
-      : { scale: 1, rotate: 0, x: 0 };
+  const innerInitial = reduceMotion ? false
+    : motionPhase === 'enter' ? { y: -28, scale: 1, rotate: 0 }
+      : false;
+  const innerAnimate = reduceMotion
+    ? { y: 0 }
+    : motionPhase === 'enter'
+      ? { y: [-28, 0, -8, 0], scale: 1, rotate: 0 }
+      : { y: 0 };
+  const innerTransition = motionPhase === 'enter'
+    ? {
+        y: {
+          duration: reduceMotion ? 0 : CARD_DROP_DURATION,
+          times: [0, 0.52, 0.74, 1],
+          ease: [EASE_IMPACT, EASE_SETTLE, EASE_SETTLE],
+        },
+      }
+    : { duration: 0 };
 
   return (
-    <motion.article
+    <motion.div
       layout
       layoutId={entry.id}
       initial={false}
-      className={`cookie-card ${minted ? 'certificate-card' : 'photo-card'} ${
-        celebrating ? 'is-celebrating' : ''
-      }`}
-      data-status={entry.status}
-      animate={reduceMotion ? { scale: 1, rotate: 0, x: 0 } : activeMotion}
-      transition={{
-        layout: {
-          duration: reduceMotion ? 0 : 0.65,
-          ease: DISPLAY_EASE,
-        },
-        x: {
-          duration: 0.4,
-          repeat: entry.status === 'MINTING' && !reduceMotion ? Infinity : 0,
-          ease: DISPLAY_EASE,
-        },
-        scale: { duration: 0.4, ease: DISPLAY_EASE },
-      }}
+      className={`cookie-card-layout ${motionPhase ? `motion-${motionPhase}` : ''}`}
+      transition={{ layout: { duration: reduceMotion ? 0 : CARD_MOVE_DURATION, ease: EASE_MOVE } }}
     >
-      <div className="card-media">
-        {minted ? <CertificatePlaceholder variation={variation} /> : <CookiePlaceholder variation={variation} />}
-        {imageUrl ? (
-          <Image
-            src={imageUrl}
-            alt={minted ? `${entry.nickname}의 참가증서` : `${entry.nickname}의 쿠키`}
-            fill
-            unoptimized
-            sizes="320px"
-            onError={(event) => { event.currentTarget.style.display = 'none'; }}
-          />
-        ) : null}
-        <span className="status-ticket">{STATUS_LABEL[entry.status]}</span>
-      </div>
-      <div className="card-caption">
-        {minted ? (
-          <>
-            <strong>#{entry.tokenId}</strong>
-            <span className="card-nickname">{entry.nickname}</span>
-          </>
-        ) : (
-          <>
-            <strong>{entry.nickname}</strong>
-            <span className="card-step">
-              {entry.status === 'MINTING' ? '오늘의 증서를 굽고 있어요' : STATUS_LABEL[entry.status]}
-            </span>
-          </>
-        )}
-      </div>
-    </motion.article>
+      <motion.article
+        initial={innerInitial}
+        animate={innerAnimate}
+        transition={innerTransition}
+        className={`cookie-card ${minted ? 'certificate-card' : 'photo-card'}`}
+        data-status={entry.status}
+      >
+        <div className="card-media">
+          {minted ? <CertificatePlaceholder variation={variation} /> : <CookiePlaceholder variation={variation} />}
+          {imageUrl ? (
+            <Image
+              src={imageUrl}
+              alt={minted ? `${entry.nickname}의 참가증서` : `${entry.nickname}의 쿠키`}
+              fill
+              unoptimized
+              sizes="320px"
+              onError={(event) => { event.currentTarget.style.display = 'none'; }}
+            />
+          ) : null}
+          <span className="status-ticket">{STATUS_LABEL[entry.status]}</span>
+        </div>
+        <div className="card-caption">
+          {minted ? (
+            <><strong>#{entry.tokenId}</strong><span className="card-nickname">{entry.nickname}</span></>
+          ) : (
+            <><strong>{entry.nickname}</strong><span className="card-step">{entry.status === 'MINTING' ? '오늘의 증서를 굽고 있어요' : STATUS_LABEL[entry.status]}</span></>
+          )}
+        </div>
+      </motion.article>
+    </motion.div>
   );
 }
 

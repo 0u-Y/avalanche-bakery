@@ -70,9 +70,10 @@
   gap: 16px;
 }
 
-.counts span { display: flex; align-items: baseline; gap: 8px; }
+.counts > span { display: flex; align-items: baseline; gap: 8px; }
 .counts small { font: 700 var(--text-1)/1 var(--display); }
-.counts b { font: 900 var(--text-3)/1 var(--display); }
+.count-value { position: relative; display: inline-block; width: 2ch; height: var(--text-3); overflow: hidden; font-variant-numeric: tabular-nums; }
+.count-value b { position: absolute; inset: 0; font: 900 var(--text-3)/1 var(--display); font-variant-numeric: tabular-nums; }
 .counts i { width: var(--line-thin); height: 40px; background: var(--ink); opacity: .28; }
 
 .micro-label {

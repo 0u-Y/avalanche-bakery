@@ -7,16 +7,19 @@ import type { Entry } from '@/lib/types';
 import { CookieCard } from './CookieCard';
 import { MockQr } from './MockQr';
 import { ZoneHeading } from './ZoneHeading';
+import type { CardMotionPhase } from './displaySequence';
 import { DISPLAY_EASE } from './motion';
 
 type LayoutTransition = { layout: { duration: number; ease: [number, number, number, number] } };
 
 export function Workbench({
   entries,
+  phases,
   qrVisible,
   transition,
 }: {
   entries: Entry[];
+  phases: Map<string, CardMotionPhase>;
   qrVisible: boolean;
   transition: LayoutTransition;
 }) {
@@ -25,7 +28,7 @@ export function Workbench({
       <ZoneHeading note="사진이 도착하는 곳" label="쿠키 접수" count={entries.length} />
       <div className="workbench-grid">
         <AnimatePresence initial={false}>
-          {entries.map((entry) => <CookieCard key={entry.id} entry={entry} />)}
+          {entries.map((entry) => <CookieCard key={entry.id} entry={entry} motionPhase={phases.get(entry.id)} />)}
         </AnimatePresence>
         {entries.length === 0 ? (
           <div className="workbench-empty">

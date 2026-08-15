@@ -1,7 +1,7 @@
 'use client';
 
 import { AnimatePresence, motion, MotionConfig, useReducedMotion } from 'framer-motion';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { mockControls, useShowState } from '@/hooks/useShowState';
 import { useDemoLoop } from '@/hooks/useDemoLoop';
@@ -25,31 +25,10 @@ function useStageScale() {
   return scale;
 }
 
-function useCelebratingIds(entries: ReturnType<typeof useShowState>['entries']) {
-  const [ids, setIds] = useState<Set<string>>(new Set());
-  const previous = useRef(new Map(entries.map((entry) => [entry.id, entry.status])));
-  useEffect(() => {
-    const minted = entries.filter((entry) => (
-      entry.status === 'MINTED' && previous.current.get(entry.id) === 'MINTING'
-    )).map((entry) => entry.id);
-    previous.current = new Map(entries.map((entry) => [entry.id, entry.status]));
-    if (minted.length === 0) return;
-    setIds((current) => new Set([...current, ...minted]));
-    const timeout = window.setTimeout(() => setIds((current) => {
-      const next = new Set(current);
-      minted.forEach((id) => next.delete(id));
-      return next;
-    }), 700);
-    return () => window.clearTimeout(timeout);
-  }, [entries]);
-  return ids;
-}
-
 export function DisplayStage({ devMode = false }: { devMode?: boolean }) {
   const state = useShowState();
   useDemoLoop(!devMode);
   const scale = useStageScale();
-  const celebratingIds = useCelebratingIds(state.entries);
   const reduceMotion = useReducedMotion();
 
   return (
@@ -78,7 +57,7 @@ export function DisplayStage({ devMode = false }: { devMode?: boolean }) {
                 exit={{ opacity: 0 }}
                 transition={{ duration: reduceMotion ? 0 : DISPLAY_DURATION, ease: DISPLAY_EASE }}
               >
-                <BakeryScene state={state} celebratingIds={celebratingIds} />
+                <BakeryScene state={state} />
               </motion.div>
             )}
           </AnimatePresence>

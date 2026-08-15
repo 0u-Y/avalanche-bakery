@@ -1,20 +1,18 @@
 'use client';
 
 import { MotionConfig } from 'framer-motion';
-import { useEffect, useRef, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useCallback, useEffect, useRef, useState, type FocusEvent } from 'react';
 
 import { BakeryScene } from '@/components/display/BakeryScene';
 
 import { DemoPhone } from './DemoPhone';
-import { DEMO_DURATION, isShelfArrival, makeDemoState, type DemoVariant } from './demoState';
+import { DEMO_DURATION, makeDemoState, type DemoVariant } from './demoState';
 
-const QUESTIONS = [
-  '1. 참가자 입장에서 뭘 해야 할지 모르겠는 순간이 있었나요?',
-  '2. 폰을 보게 되나요, 앞 화면을 보게 되나요? 어느 쪽이 맞다고 생각하세요?',
-  '3. 민팅이 뭔지 모른다고 치고 — 방금 뭐가 일어난 것 같으세요?',
-  '4. A / B / C 중 어느 쪽이고, 그 이유는?',
-] as const;
-const VARIANTS: DemoVariant[] = ['a', 'b', 'c'];
+const CONTROL_REVEAL_KEY = 'avalanche-bakery-demo-controls-until';
+const POINTER_HIDE_MS = 1_000;
+const KEYBOARD_REVEAL_MS = 2_000;
+const TOUCH_REVEAL_MS = 4_000;
 
 function useDemoScale() {
   const [scale, setScale] = useState(1);
@@ -27,13 +25,56 @@ function useDemoScale() {
   return scale;
 }
 
-export function DemoExperience() {
-  const [variant, setVariant] = useState<DemoVariant>('a');
+function isEditable(target: EventTarget | null) {
+  return target instanceof HTMLElement && (
+    target.isContentEditable || ['INPUT', 'TEXTAREA', 'SELECT'].includes(target.tagName)
+  );
+}
+
+export function DemoExperience({ variant }: { variant: DemoVariant }) {
+  const router = useRouter();
   const [playing, setPlaying] = useState(true);
   const [elapsed, setElapsed] = useState(0);
+  const [controlsVisible, setControlsVisible] = useState(false);
   const elapsedRef = useRef(0);
+  const hideTimer = useRef<number | null>(null);
   const scale = useDemoScale();
 
+  const clearHideTimer = useCallback(() => {
+    if (hideTimer.current !== null) window.clearTimeout(hideTimer.current);
+    hideTimer.current = null;
+  }, []);
+  const revealControls = useCallback((duration?: number) => {
+    clearHideTimer();
+    setControlsVisible(true);
+    if (duration) hideTimer.current = window.setTimeout(() => setControlsVisible(false), duration);
+  }, [clearHideTimer]);
+  const hideControlsAfter = useCallback((delay: number) => {
+    clearHideTimer();
+    hideTimer.current = window.setTimeout(() => setControlsVisible(false), delay);
+  }, [clearHideTimer]);
+  const reset = useCallback(() => {
+    elapsedRef.current = 0;
+    setElapsed(0);
+    setPlaying(true);
+  }, []);
+  const changeVariant = useCallback((next: DemoVariant, revealFor = 0) => {
+    reset();
+    if (revealFor > 0) {
+      window.sessionStorage.setItem(CONTROL_REVEAL_KEY, String(Date.now() + revealFor));
+    }
+    router.push(`/demo/${next}`);
+  }, [reset, router]);
+
+  useEffect(() => () => clearHideTimer(), [clearHideTimer]);
+  useEffect(() => {
+    const revealUntil = Number(window.sessionStorage.getItem(CONTROL_REVEAL_KEY));
+    window.sessionStorage.removeItem(CONTROL_REVEAL_KEY);
+    const remaining = revealUntil - Date.now();
+    if (remaining <= 0) return;
+    const timer = window.setTimeout(() => revealControls(remaining), 0);
+    return () => window.clearTimeout(timer);
+  }, [revealControls]);
   useEffect(() => {
     if (!playing) return;
     const interval = window.setInterval(() => {
@@ -42,57 +83,59 @@ export function DemoExperience() {
     }, 100);
     return () => window.clearInterval(interval);
   }, [playing]);
+  useEffect(() => {
+    const keydown = (event: KeyboardEvent) => {
+      if (isEditable(event.target)) return;
+      const key = event.key.toLowerCase();
+      let handled = true;
+      if (key === 'a' || key === 'b' || key === 'c') changeVariant(key, KEYBOARD_REVEAL_MS);
+      else if (key === ' ') { event.preventDefault(); setPlaying((value) => !value); }
+      else if (key === 'r') reset();
+      else handled = false;
+      if (handled) revealControls(KEYBOARD_REVEAL_MS);
+    };
+    window.addEventListener('keydown', keydown);
+    return () => window.removeEventListener('keydown', keydown);
+  }, [changeVariant, reset, revealControls]);
 
-  const reset = (nextVariant = variant) => {
-    elapsedRef.current = 0;
-    setElapsed(0);
-    setVariant(nextVariant);
-    setPlaying(true);
+  const handleBlur = (event: FocusEvent<HTMLDivElement>) => {
+    if (!event.currentTarget.contains(event.relatedTarget)) hideControlsAfter(POINTER_HIDE_MS);
   };
   const seconds = elapsed / 1_000;
   const state = makeDemoState(variant, seconds);
-  const celebrating = isShelfArrival(seconds) ? new Set(['entry-7']) : new Set<string>();
 
   return (
     <main className="demo-viewport">
       <div className="demo-canvas" style={{ transform: `translate(-50%, -50%) scale(${scale})` }}>
-        <header className="demo-toolbar">
-          <div><span>TEAM REVIEW PROTOTYPE</span><h1>참가자 경험 비교</h1></div>
-          <nav aria-label="비교할 안 선택">
-            {VARIANTS.map((item) => (
-              <button
-                aria-label={`${item.toUpperCase()}안 보기`}
-                aria-pressed={variant === item}
-                className={variant === item ? 'is-active' : ''}
-                onClick={() => reset(item)}
-                key={item}
-              >
-                {item.toUpperCase()}
-              </button>
-            ))}
-          </nav>
-          <div className="demo-controls">
-            <span>{String(Math.floor(seconds)).padStart(2, '0')} / 40초</span>
-            <button onClick={() => setPlaying((value) => !value)}>{playing ? '일시정지' : '재생'}</button>
-            <button onClick={() => reset()}>처음으로</button>
-          </div>
-        </header>
+        <div className="demo-paper-plane" aria-hidden="true" />
+        <div className="demo-bench-plane" aria-hidden="true" />
         <MotionConfig reducedMotion="user">
-          <section className="demo-workspace">
-            <article className="demo-phone-panel">
-              <h2><span>참가자 폰</span><b>{variant.toUpperCase()}안</b></h2>
-              <div className="demo-phone-frame"><i className="phone-speaker" /><div className="demo-phone-scale"><DemoPhone variant={variant} seconds={seconds} /></div></div>
+          <section className="demo-device-group">
+            <article className="demo-phone-device" aria-label="참가자 폰 화면">
+              <i className="phone-speaker" aria-hidden="true" />
+              <i className="phone-volume" aria-hidden="true" />
+              <i className="phone-power" aria-hidden="true" />
+              <div className="demo-phone-screen"><div className="demo-phone-scale"><DemoPhone variant={variant} seconds={seconds} /></div></div>
             </article>
-            <article className="demo-tv-panel">
-              <h2><span>행사장 앞 화면</span><b>같은 순간</b></h2>
-              <div className="demo-tv-frame"><div className="demo-tv-scale"><BakeryScene state={state} celebratingIds={celebrating} /></div></div>
+            <article className="demo-tv-device" aria-label="행사장 TV 화면">
+              <div className="demo-tv-screen"><div className="demo-tv-scale"><BakeryScene state={state} /></div></div>
             </article>
           </section>
         </MotionConfig>
-        <footer className="demo-feedback">
-          <div><span>FEEDBACK QUESTIONS</span><h2>보면서 떠오른 그대로 말해 주세요</h2></div>
-          <ol>{QUESTIONS.map((question) => <li key={question}>{question}</li>)}</ol>
-        </footer>
+        <div
+          className={`demo-control-zone ${controlsVisible ? 'is-visible' : ''}`}
+          onPointerEnter={(event) => { if (event.pointerType !== 'touch') revealControls(); }}
+          onPointerLeave={(event) => { if (event.pointerType !== 'touch') hideControlsAfter(POINTER_HIDE_MS); }}
+          onFocusCapture={() => revealControls()}
+          onBlurCapture={handleBlur}
+        >
+          <span className="demo-touch-target" onPointerDown={(event) => { if (event.pointerType === 'touch') revealControls(TOUCH_REVEAL_MS); }} />
+          <div className="demo-hidden-controls">
+            {(['a', 'b', 'c'] as DemoVariant[]).map((item) => <button type="button" aria-pressed={variant === item} onClick={() => changeVariant(item)} key={item}>{item.toUpperCase()}</button>)}
+            <button className="is-wide" type="button" onClick={() => setPlaying((value) => !value)}>{playing ? '정지' : '재생'}</button>
+            <button className="is-wide" type="button" onClick={reset}>처음</button>
+          </div>
+        </div>
       </div>
     </main>
   );

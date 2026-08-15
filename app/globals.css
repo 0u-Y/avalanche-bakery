@@ -2,6 +2,7 @@
 @import '../components/display/styles/stage.css';
 @import '../components/display/styles/workbench.css';
 @import '../components/display/styles/oven.css';
+@import '../components/display/styles/oven-effects.css';
 @import '../components/display/styles/showcase.css';
 @import '../components/display/styles/card.css';
 @import '../components/display/styles/certificate.css';
@@ -32,6 +33,24 @@
   --radius-small: 8px;
   --radius-arch: 160px;
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-move: cubic-bezier(0.45, 0, 0.20, 1);
+  --ease-settle: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-heat: cubic-bezier(0.37, 0, 0.63, 1);
+  --time-move: 720ms;
+  --time-settle-gap: 120ms;
+  --time-card-drop: 480ms;
+  --time-counter: 320ms;
+  --time-shelf-shadow: 240ms;
+  --time-slot-light: 840ms;
+  --time-showcase-complete: 1200ms;
+  --time-oven-empty: 3600ms;
+  --time-oven-enter: 220ms;
+  --time-oven-settle: 280ms;
+  --time-oven-bake: 1800ms;
+  --time-oven-complete: 1060ms;
+  --time-heat-line-empty: 2400ms;
+  --time-heat-line-active: 1600ms;
+  --time-heat-line-return: 920ms;
   --display: 'Arial Black', 'Noto Sans KR', 'Apple SD Gothic Neo', sans-serif;
   --mono: 'SFMono-Regular', Consolas, 'Liberation Mono', monospace;
 }

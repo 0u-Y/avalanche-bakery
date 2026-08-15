@@ -1,25 +1,21 @@
-.demo-viewport { position: fixed; inset: 0; overflow: hidden; background: var(--ink); color: var(--ink); font-family: var(--display); }
-.demo-canvas { position: absolute; top: 50%; left: 50%; width: 1600px; height: 900px; padding: 16px 24px; overflow: hidden; transform-origin: center; background: var(--paper); }
-.demo-toolbar { display: grid; height: 72px; align-items: center; grid-template-columns: 1fr auto 1fr; gap: 24px; border-bottom: 4px solid var(--ink); }
-.demo-toolbar > div:first-child span, .demo-feedback > div span { color: var(--ember); font: 700 11px/1 var(--mono); letter-spacing: .12em; }
-.demo-toolbar h1 { margin: 5px 0 0; font-size: 28px; line-height: 1; letter-spacing: -.04em; }
-.demo-toolbar nav { display: grid; grid-template-columns: repeat(3, 72px); gap: 8px; }
-.demo-toolbar button { min-width: 56px; height: 48px; padding: 0 16px; border: 2px solid var(--ink); border-radius: 8px; background: var(--paper); color: var(--ink); font: 900 16px/1 var(--display); cursor: pointer; }
-.demo-toolbar nav button { width: 72px; min-width: 72px; padding: 0; }
-.demo-toolbar nav button.is-active { border-color: var(--ava); background: var(--ava); color: var(--paper); }
-.demo-controls { display: flex; align-items: center; justify-content: flex-end; gap: 8px; }
-.demo-controls > span { margin-right: 8px; font: 700 13px/1 var(--mono); }
-.demo-workspace { display: grid; height: 548px; margin-top: 12px; grid-template-columns: 330px 1fr; gap: 16px; }
-.demo-phone-panel, .demo-tv-panel { min-width: 0; overflow: hidden; border: 2px solid var(--ink); background: var(--paper); }
-.demo-phone-panel h2, .demo-tv-panel h2 { display: flex; align-items: center; justify-content: space-between; height: 34px; margin: 0; padding: 0 12px; border-bottom: 2px solid var(--ink); background: var(--ava); color: var(--paper); font-size: 14px; }
-.demo-phone-panel h2 span, .demo-tv-panel h2 span { font: 700 11px/1 var(--mono); letter-spacing: .1em; }
-.demo-phone-panel h2 b, .demo-tv-panel h2 b { font-size: 15px; }
-.demo-phone-frame { position: relative; width: 250px; height: 500px; margin: 6px auto 0; overflow: hidden; border: 6px solid var(--ink); border-radius: 30px; background: var(--ink); }
-.phone-speaker { position: absolute; z-index: 10; width: 64px; height: 7px; top: 8px; left: 87px; border-radius: 8px; background: var(--ink); }
-.demo-phone-scale { position: absolute; top: 0; left: 14px; width: 390px; height: 844px; transform: scale(.55); transform-origin: top left; }
-.demo-tv-frame { position: relative; width: 890px; height: 500px; margin: 6px auto 0; overflow: hidden; border: 6px solid var(--ink); background: var(--ink); }
-.demo-tv-scale { width: 1920px; height: 1080px; transform: scale(.451); transform-origin: top left; }
-.demo-feedback { display: grid; height: 218px; margin-top: 12px; padding: 18px 20px; grid-template-columns: 280px 1fr; gap: 20px; border: 4px solid var(--ink); border-left: 20px solid var(--ava); background: var(--paper); }
-.demo-feedback h2 { margin: 10px 0 0; font-size: 28px; line-height: 1.05; }
-.demo-feedback ol { display: grid; margin: 0; padding: 0; grid-template-columns: repeat(2, 1fr); gap: 10px; list-style: none; counter-reset: none; }
-.demo-feedback li { display: flex; padding: 12px 14px; border: 2px solid var(--ink); align-items: center; font-size: 15px; line-height: 1.35; }
+.demo-viewport { position: fixed; inset: 0; overflow: hidden; background: var(--ink); font-family: var(--display); }
+.demo-canvas { position: absolute; top: 50%; left: 50%; width: 1600px; height: 900px; overflow: hidden; transform-origin: center; }
+.demo-paper-plane { position: absolute; inset: 0 0 120px; background: var(--paper); }
+.demo-bench-plane { position: absolute; right: 0; bottom: 0; left: 0; height: 120px; background: var(--ink); }
+.demo-device-group { position: absolute; inset: 0; }
+.demo-phone-device { position: absolute; z-index: 2; top: 120px; left: 44px; width: 318px; height: 660px; padding: 12px; border-radius: 46px; background: var(--ink); box-shadow: 0 18px 36px rgb(23 17 15 / .24); }
+.demo-phone-device::after, .demo-tv-device::after { position: absolute; inset: 0; border: 2px solid rgb(247 241 232 / .18); border-radius: inherit; content: ''; pointer-events: none; }
+.demo-phone-screen { position: relative; width: 294px; height: 636px; overflow: hidden; border-radius: 36px; }
+.demo-phone-scale { width: 390px; height: 844px; transform: scale(.7538); transform-origin: top left; }
+.phone-speaker { position: absolute; z-index: 4; top: 4px; left: 131px; width: 56px; height: 4px; border-radius: 2px; background: rgb(247 241 232 / .32); }
+.phone-volume { position: absolute; top: 126px; left: -3px; width: 3px; height: 96px; border-radius: 2px; background: var(--ink); }
+.phone-power { position: absolute; top: 142px; right: -3px; width: 3px; height: 72px; border-radius: 2px; background: var(--ink); }
+.demo-tv-device { position: absolute; z-index: 1; top: 126px; left: 412px; width: 1144px; height: 654px; padding: 12px; border-radius: 8px; background: var(--ink); box-shadow: 0 18px 36px rgb(23 17 15 / .18); }
+.demo-tv-screen { width: 1120px; height: 630px; overflow: hidden; }
+.demo-tv-scale { width: 1920px; height: 1080px; transform: scale(.5833); transform-origin: top left; }
+.demo-control-zone { position: absolute; z-index: 10; right: 0; bottom: 0; width: 420px; height: 96px; }
+.demo-touch-target { position: absolute; right: 0; bottom: 0; width: 56px; height: 56px; }
+.demo-hidden-controls { position: absolute; right: 24px; bottom: 24px; display: flex; height: 56px; padding: 8px; border: 2px solid rgb(247 241 232 / .24); border-radius: 8px; align-items: center; gap: 8px; background: rgb(23 17 15 / .94); opacity: 0; pointer-events: none; transform: translateY(8px); transition: opacity 160ms var(--ease-settle), transform 160ms var(--ease-settle); }
+.demo-control-zone.is-visible .demo-hidden-controls, .demo-hidden-controls:focus-within { opacity: 1; pointer-events: auto; transform: translateY(0); }
+.demo-hidden-controls button { width: 40px; height: 40px; padding: 0; border: 0; background: transparent; color: var(--paper); font: inherit; }
+.demo-hidden-controls button.is-wide { width: 72px; }

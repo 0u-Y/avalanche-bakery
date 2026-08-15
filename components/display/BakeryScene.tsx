@@ -9,6 +9,7 @@ import { Oven } from './Oven';
 import { Showcase } from './Showcase';
 import { TopBar } from './TopBar';
 import { Workbench } from './Workbench';
+import { useDisplaySequence } from './displaySequence';
 import { DISPLAY_EASE } from './motion';
 
 const WORKBENCH_STATUSES = new Set<EntryStatus>([
@@ -20,21 +21,25 @@ const WORKBENCH_STATUSES = new Set<EntryStatus>([
 
 export function BakeryScene({
   state,
-  celebratingIds,
 }: {
   state: StateResponse;
-  celebratingIds: Set<string>;
 }) {
   const reduceMotion = useReducedMotion();
+  const sequence = useDisplaySequence(state.entries, Boolean(reduceMotion));
   const visibleEntries = useMemo(
-    () => state.entries.filter((entry) => !entry.hidden),
-    [state.entries],
+    () => sequence.entries.filter((entry) => !entry.hidden),
+    [sequence.entries],
   );
   const workbenchEntries = visibleEntries.filter((entry) => (
-    WORKBENCH_STATUSES.has(entry.status)
+    WORKBENCH_STATUSES.has(entry.status) && sequence.phases.get(entry.id) !== 'to-oven'
   ));
-  const ovenEntries = visibleEntries.filter((entry) => entry.status === 'MINTING');
-  const shelfEntries = visibleEntries.filter((entry) => entry.status === 'MINTED');
+  const ovenEntries = visibleEntries.filter((entry) => (
+    sequence.phases.get(entry.id) === 'to-oven'
+    || (entry.status === 'MINTING' && sequence.phases.get(entry.id) !== 'to-shelf')
+  ));
+  const shelfEntries = visibleEntries.filter((entry) => (
+    entry.status === 'MINTED' || sequence.phases.get(entry.id) === 'to-shelf'
+  ));
   const layoutTransition = {
     layout: {
       duration: reduceMotion ? 0 : 0.65,
@@ -44,7 +49,7 @@ export function BakeryScene({
 
   return (
     <section className="bakery-scene">
-      <TopBar counts={state.counts} />
+      <TopBar counts={sequence.counts} />
       <LayoutGroup id="bakery-entry-flow">
         <motion.div
           className="bakery-floor"
@@ -54,13 +59,16 @@ export function BakeryScene({
         >
           <Workbench
             entries={workbenchEntries}
+            phases={sequence.phases}
             qrVisible={state.show.qrVisible && state.show.layout === 'LIVE'}
             transition={layoutTransition}
           />
-          <Oven entries={ovenEntries} transition={layoutTransition} />
+          <Oven entries={ovenEntries} phases={sequence.phases} transition={layoutTransition} />
           <Showcase
             entries={shelfEntries}
-            celebratingIds={celebratingIds}
+            phases={sequence.phases}
+            arrivalIds={sequence.arrivalIds}
+            landedCount={sequence.counts.minted}
             transition={layoutTransition}
           />
         </motion.div>

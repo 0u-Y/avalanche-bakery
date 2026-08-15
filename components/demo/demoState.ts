@@ -38,8 +38,3 @@ export function makeDemoState(variant: DemoVariant, seconds: number): StateRespo
     counts: { submitted: entries.length, minted: status === 'MINTED' ? 1 : 0 },
   };
 }
-
-export function isShelfArrival(seconds: number) {
-  const arrival = 25;
-  return seconds >= arrival && seconds < arrival + 0.7;
-}

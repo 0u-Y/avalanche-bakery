@@ -31,11 +31,12 @@ export function BakeryScene({
     [sequence.entries],
   );
   const workbenchEntries = visibleEntries.filter((entry) => (
-    WORKBENCH_STATUSES.has(entry.status) && sequence.phases.get(entry.id) !== 'to-oven'
+    WORKBENCH_STATUSES.has(entry.status) || sequence.phases.get(entry.id) === 'to-oven'
   ));
   const ovenEntries = visibleEntries.filter((entry) => (
     sequence.phases.get(entry.id) === 'to-oven'
-    || (entry.status === 'MINTING' && sequence.phases.get(entry.id) !== 'to-shelf')
+    || entry.status === 'MINTING'
+    || sequence.phases.get(entry.id) === 'to-shelf'
   ));
   const shelfEntries = visibleEntries.filter((entry) => (
     entry.status === 'MINTED' || sequence.phases.get(entry.id) === 'to-shelf'

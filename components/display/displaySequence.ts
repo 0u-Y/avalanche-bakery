@@ -5,8 +5,7 @@ import { CARD_DROP_MS, CARD_MOVE_MS, CARD_SETTLE_MS, SHOWCASE_COMPLETE_MS } from
 export type CardMotionPhase = 'enter' | 'to-oven' | 'to-shelf';
 type BoundaryMove = { entry: Entry; phase: Exclude<CardMotionPhase, 'enter'> };
 const MIN_OVEN_MS = 2_000;
-const MAX_ACTIVE_MOVES = 2;
-const MOVE_STAGGER_MS = 360;
+const MAX_ACTIVE_MOVES = 1;
 
 function zone(status: EntryStatus) {
   if (status === 'MINTING') return 'oven';
@@ -113,10 +112,6 @@ export function useDisplaySequence(source: Entry[], reducedMotion: boolean) {
       if (queue.current.length === 0 && activeMoves.current.size === 0) setBoundaryBusy(false);
       startNextRef.current();
     }, CARD_MOVE_MS + CARD_SETTLE_MS);
-    schedulerTimer.current = later(() => {
-      schedulerTimer.current = null;
-      startNextRef.current();
-    }, MOVE_STAGGER_MS);
   }, [later, markArrival, reducedMotion]);
   useEffect(() => { startNextRef.current = startNext; }, [startNext]);
   useEffect(() => {

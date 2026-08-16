@@ -22,12 +22,14 @@ export function Workbench({
   qrVisible: boolean;
   transition: LayoutTransition;
 }) {
+  const waitingCount = entries.filter((entry) => phases.get(entry.id) !== 'to-oven').length;
+
   return (
     <motion.section className={`workbench zone ${qrVisible ? 'has-qr' : ''}`} layout transition={transition}>
       <div className="workbench-surface">
         <header className="workbench-heading">
           <h2>오븐 대기</h2>
-          <strong>{entries.length}</strong>
+          <strong>{waitingCount}</strong>
         </header>
         <div className="workbench-content">
           <AnimatePresence initial={false}>
@@ -47,12 +49,16 @@ export function Workbench({
             <AnimatePresence initial={false}>
               {entries.map((entry, index) => (
                 <div className={`queue-card-position ${index < entries.length - 3 ? 'is-buried' : ''}`} key={entry.id}>
-                  <CookieCard
-                    entry={entry}
-                    motionPhase={phases.get(entry.id)}
-                    layoutDuration={COUNTER_DURATION}
-                    layoutEase={EASE_SETTLE}
-                  />
+                  {phases.get(entry.id) === 'to-oven' ? (
+                    <span className="queue-card-placeholder" aria-hidden="true" />
+                  ) : (
+                    <CookieCard
+                      entry={entry}
+                      motionPhase={phases.get(entry.id)}
+                      layoutDuration={COUNTER_DURATION}
+                      layoutEase={EASE_SETTLE}
+                    />
+                  )}
                 </div>
               ))}
             </AnimatePresence>

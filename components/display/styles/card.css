@@ -148,12 +148,6 @@
   white-space: nowrap;
 }
 
-.oven-grid:has(> :nth-child(7)) .card-caption { padding: 8px; }
-
-.oven-grid:has(> :nth-child(7)) .card-caption > strong { font-size: var(--text-1); }
-
-.oven-grid:has(> :nth-child(7)) .status-ticket { display: none; }
-
 .certificate-card {
   box-shadow: 0 8px 14px rgb(23 17 15 / .14);
   transition: box-shadow var(--time-shelf-shadow) var(--ease-settle);

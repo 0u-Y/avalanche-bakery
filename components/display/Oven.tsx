@@ -7,7 +7,7 @@ import type { Entry } from '@/lib/types';
 
 import { CookieCard } from './CookieCard';
 import type { CardMotionPhase } from './displaySequence';
-import { OVEN_COMPLETE_MS } from './motion';
+import { COUNTER_DURATION, EASE_SETTLE, OVEN_COMPLETE_MS } from './motion';
 
 type LayoutTransition = { layout: { duration: number; ease: [number, number, number, number] } };
 
@@ -23,6 +23,7 @@ export function Oven({
   transition: LayoutTransition;
 }) {
   const active = entries.length > 0 || flowActive;
+  const bakingCount = entries.filter((entry) => phases.get(entry.id) !== 'to-shelf').length;
   const previousActive = useRef(active);
   const completionTimer = useRef<number | null>(null);
   const phaseTimer = useRef<number | null>(null);
@@ -59,7 +60,7 @@ export function Oven({
         <div className="oven-window">
           <div className="oven-light" />
           <div className="oven-readout">
-            <strong>{active ? entries.length > 0 ? `${entries.length}개 굽는 중` : '굽는 중' : '예열 완료'}</strong>
+            <strong>{active ? bakingCount > 0 ? `${bakingCount}개 굽는 중` : '굽는 중' : '예열 완료'}</strong>
             <span>180°</span>
           </div>
           <svg className="oven-heat-lines" viewBox="0 0 120 112" aria-hidden="true">
@@ -69,7 +70,20 @@ export function Oven({
           </svg>
           <div className="oven-grid">
             <AnimatePresence initial={false}>
-              {entries.map((entry) => <CookieCard key={entry.id} entry={entry} motionPhase={phases.get(entry.id)} />)}
+              {entries.map((entry) => (
+                <div className="oven-card-position" key={entry.id}>
+                  {phases.get(entry.id) === 'to-shelf' ? (
+                    <span className="oven-card-placeholder" aria-hidden="true" />
+                  ) : (
+                    <CookieCard
+                      entry={entry}
+                      motionPhase={phases.get(entry.id)}
+                      layoutDuration={phases.has(entry.id) ? undefined : COUNTER_DURATION}
+                      layoutEase={EASE_SETTLE}
+                    />
+                  )}
+                </div>
+              ))}
             </AnimatePresence>
           </div>
           <div className="oven-rack" aria-hidden="true"><i /><i /><i /><i /></div>

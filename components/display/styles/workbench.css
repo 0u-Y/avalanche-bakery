@@ -1,5 +1,5 @@
 .workbench {
-  --queue-card-width: 220px;
+  --queue-card-width: 180px;
   width: 100%;
   padding: 0 32px 32px;
   background: transparent;
@@ -75,6 +75,13 @@
 
 .queue-card-position.is-buried + .queue-card-position { margin-left: 0; }
 .workbench-grid .queue-card-position:not(:last-child) .card-caption { visibility: hidden; }
+
+.queue-card-placeholder,
+.oven-card-placeholder {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
 
 .qr-position { position: relative; z-index: 3; width: 152px; height: 206px; }
 

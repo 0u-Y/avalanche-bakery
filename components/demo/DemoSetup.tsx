@@ -66,7 +66,7 @@ export function DemoSetup({
             <header><span>제출 흐름</span><p>행사장에서 사진이 들어오는 간격을 골라요.</p></header>
             <div role="group" aria-label="제출 흐름">
               <button type="button" aria-pressed={pattern === 'BURST'} onClick={() => onPattern('BURST')}>
-                <strong>몰아서</strong><small>3명씩 거의 동시에</small>
+                <strong>현장처럼</strong><small>각자 다른 0.5~1.5초 간격</small>
               </button>
               <button type="button" aria-pressed={pattern === 'SEQUENTIAL'} onClick={() => onPattern('SEQUENTIAL')}>
                 <strong>차례로</strong><small>한 명씩 완료 후 다음</small>

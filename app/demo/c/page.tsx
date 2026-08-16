@@ -1,5 +1,5 @@
-import { DemoExperience } from '@/components/demo/DemoExperience';
+import { redirect } from 'next/navigation';
 
 export default function DemoCPage() {
-  return <DemoExperience variant="c" key="c" />;
+  redirect('/demo');
 }

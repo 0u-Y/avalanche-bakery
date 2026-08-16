@@ -11,10 +11,11 @@ import { SimulationControls } from './SimulationControls';
 import {
   DEFAULT_PARTICIPANTS,
   makeSimulationState,
+  participantLocalTime,
   sessionDuration,
-  simulationFocus,
   type DemoVariant,
   type DemoView,
+  type SubmissionPattern,
 } from './demoState';
 
 function useViewportScale(width: number, height: number) {
@@ -38,19 +39,22 @@ export function DemoExperience({ initialVariant = 'a' }: { initialVariant?: Demo
   const reduceMotion = useReducedMotion();
   const [variant, setVariant] = useState<DemoVariant>(initialVariant);
   const [participantCount, setParticipantCount] = useState(DEFAULT_PARTICIPANTS);
+  const [pattern, setPattern] = useState<SubmissionPattern>('BURST');
   const [started, setStarted] = useState(false);
   const [view, setView] = useState<DemoView>('phone');
+  const [selectedParticipant, setSelectedParticipant] = useState(0);
   const [playing, setPlaying] = useState(false);
   const [elapsed, setElapsed] = useState(0);
-  const duration = sessionDuration(participantCount);
+  const duration = sessionDuration(participantCount, pattern);
   const scale = useViewportScale(started && view === 'tv' ? 1920 : 1600, started && view === 'tv' ? 1080 : 900);
-  const focus = simulationFocus(participantCount, elapsed);
-  const state = makeSimulationState(participantCount, elapsed);
+  const state = makeSimulationState(participantCount, elapsed, pattern);
+  const phoneLocalMs = participantLocalTime(selectedParticipant, elapsed, pattern);
   const complete = elapsed >= duration;
 
   const start = useCallback(() => {
     setElapsed(0);
     setView('phone');
+    setSelectedParticipant(0);
     setPlaying(true);
     setStarted(true);
   }, []);
@@ -98,9 +102,11 @@ export function DemoExperience({ initialVariant = 'a' }: { initialVariant?: Demo
       <DemoSetup
         variant={variant}
         participantCount={participantCount}
+        pattern={pattern}
         scale={scale}
         onVariant={setVariant}
         onParticipantCount={setParticipantCount}
+        onPattern={setPattern}
         onStart={start}
       />
     );
@@ -116,13 +122,18 @@ export function DemoExperience({ initialVariant = 'a' }: { initialVariant?: Demo
               <div className="simulation-phone-canvas" style={{ transform: `translate(-50%, -50%) scale(${scale})` }}>
                 <div className="simulation-paper-plane" aria-hidden="true" />
                 <div className="simulation-bench-plane" aria-hidden="true" />
-                <article className="simulation-phone-device" aria-label={`${focus.participantIndex + 1}번째 참가자 휴대폰`}>
+                <article className="simulation-phone-device" aria-label={`${selectedParticipant + 1}번째 참가자 휴대폰`}>
                   <i className="simulation-speaker" aria-hidden="true" />
                   <i className="simulation-volume" aria-hidden="true" />
                   <i className="simulation-power" aria-hidden="true" />
                   <div className="simulation-phone-screen">
                     <div className="simulation-phone-scale">
-                      <DemoPhone variant={variant} participantIndex={focus.participantIndex} localMs={focus.localMs} />
+                      <DemoPhone
+                        variant={variant}
+                        participantIndex={selectedParticipant}
+                        localMs={phoneLocalMs}
+                        pattern={pattern}
+                      />
                     </div>
                   </div>
                 </article>
@@ -140,11 +151,15 @@ export function DemoExperience({ initialVariant = 'a' }: { initialVariant?: Demo
       <SimulationControls
         variant={variant}
         participantCount={participantCount}
-        currentParticipant={focus.participantIndex + 1}
+        selectedParticipant={selectedParticipant}
+        submittedCount={state.counts.submitted}
         view={view}
         playing={playing && !complete}
         complete={complete}
         onView={setView}
+        onParticipant={(offset) => setSelectedParticipant((current) => (
+          Math.min(participantCount - 1, Math.max(0, current + offset))
+        ))}
         onTogglePlaying={() => setPlaying((current) => !current)}
         onReset={reset}
         onSetup={openSetup}

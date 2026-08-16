@@ -2,18 +2,22 @@ import { CompletionScreen } from '@/app/join/_shared/CompletionScreen';
 import { JoinShell } from '@/app/join/_shared/JoinShell';
 import { SubmitStep } from '@/app/join/_shared/DetailSteps';
 import { AutomaticPost, GuidedPost } from '@/app/join/_variants/PostSubmitViews';
+import { participantTiming } from '@/lib/mockScenario';
 
 import {
-  GUIDED_COMPLETE_AT_MS,
-  MINTED_AT_MS,
+  completionBuffer,
   makeSubmission,
   type DemoVariant,
+  type SubmissionPattern,
 } from './demoState';
 
-function guidedPhase(localMs: number) {
-  if (localMs < 1_400) return 0;
-  if (localMs < 3_000) return 1;
-  if (localMs < MINTED_AT_MS) return 2;
+function guidedPhase(localMs: number, timing: ReturnType<typeof participantTiming>) {
+  const renderedAt = timing.renderedAt - timing.startAt;
+  const mintingAt = timing.mintingAt - timing.startAt;
+  const mintedAt = timing.mintedAt - timing.startAt;
+  if (localMs < renderedAt) return 0;
+  if (localMs < mintingAt) return 1;
+  if (localMs < mintedAt) return 2;
   return 3;
 }
 
@@ -21,20 +25,24 @@ export function DemoPhone({
   variant,
   participantIndex,
   localMs,
+  pattern,
 }: {
   variant: DemoVariant;
   participantIndex: number;
   localMs: number;
+  pattern: SubmissionPattern;
 }) {
   const submission = makeSubmission(participantIndex);
-  const completeAt = variant === 'a' ? MINTED_AT_MS : GUIDED_COMPLETE_AT_MS;
+  const timing = participantTiming(participantIndex, pattern);
+  const mintedAt = timing.mintedAt - timing.startAt;
+  const completeAt = mintedAt + completionBuffer(pattern) + (variant === 'b' ? 600 : 0);
 
   if (localMs >= completeAt) {
     return <CompletionScreen submission={submission} embedded />;
   }
 
   return (
-    <JoinShell currentStep={5} embedded>
+    <JoinShell currentStep={4} embedded>
       {localMs < 600 ? (
         <section className="join-step">
           <SubmitStep
@@ -46,7 +54,7 @@ export function DemoPhone({
         </section>
       ) : null}
       {localMs >= 600 && variant === 'a' ? <AutomaticPost submission={submission} /> : null}
-      {localMs >= 600 && variant === 'b' ? <GuidedPost phase={guidedPhase(localMs)} /> : null}
+      {localMs >= 600 && variant === 'b' ? <GuidedPost phase={guidedPhase(localMs, timing)} /> : null}
     </JoinShell>
   );
 }

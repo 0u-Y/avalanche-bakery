@@ -21,7 +21,7 @@ export function JoinShell({
             </svg>
             <strong><b>AVALANCHE</b><b>BAKERY</b></strong>
           </div>
-          <ol className="join-progress" aria-label={`5단계 중 ${currentStep}단계`}>
+          <ol className="join-progress" aria-label={`${STEP_LABELS.length}단계 중 ${currentStep}단계`}>
             {STEP_LABELS.map((label, index) => {
               const number = index + 1;
               return (

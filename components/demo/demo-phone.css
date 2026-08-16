@@ -10,7 +10,7 @@
 .simulation-controls[data-view='phone'] { top: auto; bottom: 16px; }
 .simulation-status { display: flex; height: 56px; padding: 0 16px; border-right: 2px solid rgb(247 241 232 / .24); align-items: center; gap: 12px; }
 .simulation-status b { font: 400 24px/1 var(--display); }
-.simulation-status span { min-width: 72px; font: 700 14px/1 var(--mono); font-variant-numeric: tabular-nums; }
+.simulation-status span { min-width: 112px; font: 700 14px/1 var(--mono); font-variant-numeric: tabular-nums; }
 .simulation-view-switch { display: flex; gap: 4px; }
 .simulation-controls button { min-width: 64px; height: 56px; padding: 0 12px; border: 0; border-radius: 8px; background: transparent; color: var(--paper); font: 700 14px/1 var(--mono); cursor: pointer; }
 .simulation-controls button[aria-pressed='true'] { background: var(--paper); color: var(--ink); }
@@ -20,6 +20,7 @@
 .simulation-session-actions { position: absolute; top: 68px; right: 0; display: flex; height: 64px; padding: 4px; border: 2px solid rgb(247 241 232 / .24); border-radius: 8px; gap: 4px; background: rgb(23 17 15 / .96); opacity: 0; pointer-events: none; transform: translateY(-8px); transition: opacity 160ms ease-out, transform 160ms ease-out; }
 .simulation-controls[data-view='phone'] .simulation-session-actions { top: auto; bottom: 68px; transform: translateY(8px); }
 .simulation-session-actions[data-open='true'] { opacity: 1; pointer-events: auto; transform: translateY(0); }
+.simulation-session-actions button:first-child, .simulation-session-actions button:nth-child(2) { min-width: 88px; }
 
 @media (prefers-reduced-motion: reduce) {
   .simulation-session-actions { transition: none; }

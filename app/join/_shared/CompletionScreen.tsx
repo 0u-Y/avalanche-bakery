@@ -8,7 +8,7 @@ export function CompletionScreen({ submission, embedded = false }: {
   embedded?: boolean;
 }) {
   return (
-    <JoinShell currentStep={5} embedded={embedded}>
+    <JoinShell currentStep={4} embedded={embedded}>
       <section className="join-step join-complete">
         <header className="complete-heading">
           <h1>완성됐어요</h1>

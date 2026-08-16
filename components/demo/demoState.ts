@@ -1,27 +1,28 @@
 import { DEFAULT_SHOW, makeEntry } from '@/lib/mockData';
-import type { EntryStatus, StateResponse } from '@/lib/types';
+import {
+  lastMintedAt,
+  participantTiming,
+  statusAt,
+  type SubmissionPattern,
+} from '@/lib/mockScenario';
+import type { StateResponse } from '@/lib/types';
 
 export type DemoVariant = 'a' | 'b';
 export type DemoView = 'phone' | 'tv';
+export type { SubmissionPattern };
 
 export const DEFAULT_PARTICIPANTS = 10;
-export const PARTICIPANT_CYCLE_MS = 6_600;
-export const MINTED_AT_MS = 5_200;
-export const GUIDED_COMPLETE_AT_MS = 5_800;
 export const SESSION_END_HOLD_MS = 4_000;
+export const BURST_LANDING_BUFFER_MS = 1_200;
 
-function statusAt(localMs: number): EntryStatus | null {
-  if (localMs < 600) return null;
-  if (localMs < 1_400) return 'SUBMITTED';
-  if (localMs < 2_200) return 'RENDERED';
-  if (localMs < 3_000) return 'PINNED';
-  if (localMs < MINTED_AT_MS) return 'MINTING';
-  return 'MINTED';
+export function completionBuffer(pattern: SubmissionPattern) {
+  return pattern === 'BURST' ? BURST_LANDING_BUFFER_MS : 0;
 }
 
-export function sessionDuration(participantCount: number) {
-  return ((participantCount - 1) * PARTICIPANT_CYCLE_MS)
-    + GUIDED_COMPLETE_AT_MS
+export function sessionDuration(participantCount: number, pattern: SubmissionPattern) {
+  return lastMintedAt(participantCount, pattern)
+    + completionBuffer(pattern)
+    + 600
     + SESSION_END_HOLD_MS;
 }
 
@@ -38,9 +39,10 @@ export function makeSubmission(index: number) {
 export function makeSimulationState(
   participantCount: number,
   elapsedMs: number,
+  pattern: SubmissionPattern,
 ): StateResponse {
   const entries = Array.from({ length: participantCount }, (_, index) => {
-    const status = statusAt(elapsedMs - index * PARTICIPANT_CYCLE_MS);
+    const status = statusAt(index, elapsedMs, pattern);
     return status ? makeEntry(index, status) : null;
   }).filter((entry) => entry !== null);
 
@@ -54,13 +56,6 @@ export function makeSimulationState(
   };
 }
 
-export function simulationFocus(participantCount: number, elapsedMs: number) {
-  const participantIndex = Math.min(
-    Math.floor(elapsedMs / PARTICIPANT_CYCLE_MS),
-    participantCount - 1,
-  );
-  return {
-    participantIndex,
-    localMs: elapsedMs - participantIndex * PARTICIPANT_CYCLE_MS,
-  };
+export function participantLocalTime(index: number, elapsedMs: number, pattern: SubmissionPattern) {
+  return Math.max(0, elapsedMs - participantTiming(index, pattern).startAt);
 }

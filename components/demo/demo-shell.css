@@ -12,20 +12,28 @@
 .setup-brand-panel > span { margin-top: 40px; font: 700 16px/1 var(--mono); letter-spacing: .12em; }
 .setup-brand-panel h1 { margin: 24px 0 0; font: 400 96px/.82 var(--display); letter-spacing: -.065em; }
 .setup-brand-panel p { margin: auto 0 0; font-size: 22px; font-weight: 700; line-height: 1.45; }
-.setup-form-panel { display: flex; padding: 64px 72px; flex-direction: column; }
+.setup-form-panel { display: flex; padding: 44px 64px; flex-direction: column; }
 .setup-form-panel > header > span { color: var(--ember); font: 700 14px/1 var(--mono); letter-spacing: .12em; }
-.setup-form-panel > header h2 { margin: 16px 0 0; font-size: 48px; line-height: 1; letter-spacing: -.05em; }
-.setup-variants { display: grid; margin-top: 32px; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
-.setup-variants > button { display: grid; min-height: 184px; padding: 24px; border: 4px solid var(--ink); border-radius: 8px; align-items: start; grid-template-columns: 72px 1fr; gap: 16px; background: var(--paper); color: var(--ink); text-align: left; cursor: pointer; }
+.setup-form-panel > header h2 { margin: 12px 0 0; font-size: 44px; line-height: 1; letter-spacing: -.05em; }
+.setup-variants { display: grid; margin-top: 20px; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.setup-variants > button { display: grid; min-height: 148px; padding: 20px; border: 4px solid var(--ink); border-radius: 8px; align-items: start; grid-template-columns: 56px 1fr; gap: 12px; background: var(--paper); color: var(--ink); text-align: left; cursor: pointer; }
 .setup-variants > button[aria-pressed='true'] { background: var(--ink); color: var(--paper); }
-.setup-variants > button > b { font: 400 56px/.9 var(--display); }
-.setup-variants > button > span { display: flex; min-width: 0; flex-direction: column; gap: 12px; }
-.setup-variants strong { font-size: 26px; line-height: 1.05; word-break: keep-all; }
-.setup-variants small { font-size: 17px; font-weight: 700; line-height: 1.4; word-break: keep-all; }
-.setup-count { display: grid; min-height: 164px; margin-top: 32px; padding: 20px 0; border-top: 4px solid var(--ink); border-bottom: 4px solid var(--ink); align-items: center; grid-template-columns: 1fr 144px; gap: 16px; }
+.setup-variants > button > b { font: 400 48px/.9 var(--display); }
+.setup-variants > button > span { display: flex; min-width: 0; flex-direction: column; gap: 8px; }
+.setup-variants strong { font-size: 22px; line-height: 1.05; word-break: keep-all; }
+.setup-variants small { font-size: 15px; font-weight: 700; line-height: 1.35; word-break: keep-all; }
+.setup-pattern { display: grid; margin-top: 20px; padding: 14px 0; border-top: 2px solid var(--ink); border-bottom: 2px solid var(--ink); align-items: center; grid-template-columns: 240px 1fr; gap: 20px; }
+.setup-pattern header span { color: var(--ember); font: 700 13px/1 var(--mono); letter-spacing: .1em; }
+.setup-pattern header p { margin: 8px 0 0; font-size: 16px; font-weight: 700; line-height: 1.25; }
+.setup-pattern > div { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+.setup-pattern button { display: flex; min-height: 72px; padding: 10px 16px; border: 2px solid var(--ink); border-radius: 8px; background: var(--paper); color: var(--ink); flex-direction: column; justify-content: center; gap: 5px; cursor: pointer; }
+.setup-pattern button[aria-pressed='true'] { background: var(--ink); color: var(--paper); }
+.setup-pattern strong { font-size: 18px; }
+.setup-pattern small { font: 700 13px/1 var(--mono); }
+.setup-count { display: grid; min-height: 136px; margin-top: 18px; padding: 12px 0; border-bottom: 4px solid var(--ink); align-items: center; grid-template-columns: 1fr 144px; gap: 10px 16px; }
 .setup-count > div:first-child { display: flex; align-items: baseline; gap: 12px; }
 .setup-count > div:first-child > span { margin-right: 16px; font-size: 24px; }
-.setup-count > div:first-child > strong { font: 400 64px/.8 var(--display); font-variant-numeric: tabular-nums; }
+.setup-count > div:first-child > strong { font: 400 56px/.8 var(--display); font-variant-numeric: tabular-nums; }
 .setup-count > div:first-child > small { font: 700 18px/1 var(--mono); }
 .count-stepper { display: grid; grid-template-columns: repeat(2, 64px); gap: 8px; }
 .count-stepper button, .count-presets button { min-height: 56px; border: 2px solid var(--ink); border-radius: 8px; background: var(--paper); color: var(--ink); cursor: pointer; }
@@ -33,5 +41,5 @@
 .count-presets { display: grid; grid-column: 1 / -1; grid-template-columns: repeat(3, 1fr); gap: 8px; }
 .count-presets button { font: 700 16px/1 var(--mono); }
 .count-presets button[aria-pressed='true'] { background: var(--ink); color: var(--paper); }
-.setup-start { min-height: 72px; margin-top: auto; border: 4px solid var(--ink); border-radius: 8px; background: var(--ink); color: var(--paper); font: 400 24px/1 var(--display); cursor: pointer; }
-.setup-variants button:focus-visible, .setup-count button:focus-visible, .setup-start:focus-visible { outline: 4px solid var(--gold); outline-offset: 4px; }
+.setup-start { min-height: 64px; margin-top: auto; border: 4px solid var(--ink); border-radius: 8px; background: var(--ink); color: var(--paper); font: 400 24px/1 var(--display); cursor: pointer; }
+.setup-variants button:focus-visible, .setup-pattern button:focus-visible, .setup-count button:focus-visible, .setup-start:focus-visible { outline: 4px solid var(--gold); outline-offset: 4px; }

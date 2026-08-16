@@ -8,7 +8,7 @@
 .join-brand-mark { display: block; width: 34px; height: 34px; color: var(--paper); }
 .join-brand strong { display: flex; flex-direction: column; }
 .join-brand strong b { display: block; font-size: 17px; line-height: .88; letter-spacing: -.025em; }
-.join-progress { display: grid; margin: 14px 0 0; padding: 0; grid-template-columns: repeat(5, 1fr); gap: 6px; list-style: none; }
+.join-progress { display: grid; margin: 14px 0 0; padding: 0; grid-template-columns: repeat(4, 1fr); gap: 6px; list-style: none; }
 .join-progress li { min-width: 0; opacity: .5; }
 .join-progress li.is-current, .join-progress li.is-done { opacity: 1; }
 .join-progress i { display: block; height: 4px; margin-bottom: 7px; background: var(--ember); }

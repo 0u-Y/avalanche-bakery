@@ -1,19 +1,18 @@
 'use client';
 import { useCallback, useEffect, useRef, useState } from 'react';
-
 import type { Entry, EntryStatus } from '@/lib/types';
 import { CARD_DROP_MS, CARD_MOVE_MS, CARD_SETTLE_MS, SHOWCASE_COMPLETE_MS } from './motion';
-
 export type CardMotionPhase = 'enter' | 'to-oven' | 'to-shelf';
 type BoundaryMove = { entry: Entry; phase: Exclude<CardMotionPhase, 'enter'> };
 const MIN_OVEN_MS = 2_000;
+const MAX_ACTIVE_MOVES = 2;
+const MOVE_STAGGER_MS = 360;
 
 function zone(status: EntryStatus) {
   if (status === 'MINTING') return 'oven';
   if (status === 'MINTED') return 'shelf';
   return 'workbench';
 }
-
 function boundaryMove(previous: Entry, next: Entry): BoundaryMove | null {
   const from = zone(previous.status);
   const to = zone(next.status);
@@ -22,29 +21,27 @@ function boundaryMove(previous: Entry, next: Entry): BoundaryMove | null {
   if (to === 'shelf') return { entry: next, phase: 'to-shelf' };
   return null;
 }
-
 function entryCounts(entries: Entry[]) {
-  return { submitted: entries.length, minted: entries.filter((entry) => entry.status === 'MINTED').length };
-}
-function workbenchCount(entries: Entry[]) {
-  return entries.filter((entry) => !entry.hidden && zone(entry.status) === 'workbench').length;
+  return {
+    submitted: entries.length,
+    minted: entries.filter((entry) => entry.status === 'MINTED').length,
+  };
 }
 export function useDisplaySequence(source: Entry[], reducedMotion: boolean) {
   const [entries, setEntries] = useState(source);
   const [phases, setPhases] = useState<Map<string, CardMotionPhase>>(new Map());
   const [arrivalIds, setArrivalIds] = useState<Set<string>>(new Set());
   const [counts, setCounts] = useState(() => entryCounts(source));
-  const [workbenchDensityCount, setWorkbenchDensityCount] = useState(() => workbenchCount(source));
   const [boundaryBusy, setBoundaryBusy] = useState(false);
   const sourceMap = useRef(new Map(source.map((entry) => [entry.id, entry])));
   const latestSource = useRef(source);
   const queue = useRef<BoundaryMove[]>([]);
-  const activeMove = useRef<BoundaryMove | null>(null);
-  const movementTimer = useRef<number | null>(null);
+  const activeMoves = useRef(new Map<string, BoundaryMove>());
   const ovenEnteredAt = useRef(new Map<string, number>());
+  const initialSync = useRef(true);
+  const schedulerTimer = useRef<number | null>(null);
   const timers = useRef<Set<number>>(new Set());
   const startNextRef = useRef<() => void>(() => {});
-
   const later = useCallback((callback: () => void, delay: number) => {
     const timer = window.setTimeout(() => {
       timers.current.delete(timer);
@@ -53,7 +50,6 @@ export function useDisplaySequence(source: Entry[], reducedMotion: boolean) {
     timers.current.add(timer);
     return timer;
   }, []);
-
   const markArrival = useCallback((id: string) => {
     const landed = latestSource.current.find((entry) => entry.id === id && entry.status === 'MINTED');
     if (!landed) return;
@@ -68,22 +64,33 @@ export function useDisplaySequence(source: Entry[], reducedMotion: boolean) {
       return next;
     }), SHOWCASE_COMPLETE_MS);
   }, [later]);
-
   const startNext = useCallback(() => {
-    if (reducedMotion || movementTimer.current !== null || queue.current.length === 0) return;
-    const pendingMove = queue.current[0];
-    const enteredAt = pendingMove.phase === 'to-shelf' ? ovenEnteredAt.current.get(pendingMove.entry.id) : undefined;
-    const ovenWait = enteredAt ? Math.max(0, MIN_OVEN_MS - (Date.now() - enteredAt)) : 0;
-    if (ovenWait > 0) {
-      movementTimer.current = later(() => {
-        movementTimer.current = null;
-        startNextRef.current();
-      }, ovenWait);
+    if (reducedMotion || schedulerTimer.current !== null) return;
+    if (activeMoves.current.size >= MAX_ACTIVE_MOVES || queue.current.length === 0) return;
+    const now = Date.now();
+    const index = queue.current.findIndex((move) => {
+      if (activeMoves.current.has(move.entry.id)) return false;
+      if (move.phase === 'to-oven') return true;
+      const enteredAt = ovenEnteredAt.current.get(move.entry.id);
+      return enteredAt !== undefined && now - enteredAt >= MIN_OVEN_MS;
+    });
+    if (index < 0) {
+      const waits = queue.current.flatMap((move) => {
+        const enteredAt = ovenEnteredAt.current.get(move.entry.id);
+        return move.phase === 'to-shelf' && enteredAt !== undefined
+          ? [Math.max(0, MIN_OVEN_MS - (now - enteredAt))]
+          : [];
+      });
+      if (waits.length > 0) {
+        schedulerTimer.current = later(() => {
+          schedulerTimer.current = null;
+          startNextRef.current();
+        }, Math.min(...waits));
+      }
       return;
     }
-    const move = queue.current.shift();
-    if (!move) return;
-    activeMove.current = move;
+    const [move] = queue.current.splice(index, 1);
+    activeMoves.current.set(move.entry.id, move);
     if (move.phase === 'to-oven') {
       ovenEnteredAt.current.set(move.entry.id, Date.now());
       setEntries((current) => current.map((entry) => entry.id === move.entry.id ? move.entry : entry));
@@ -92,35 +99,35 @@ export function useDisplaySequence(source: Entry[], reducedMotion: boolean) {
     later(() => {
       if (move.phase === 'to-shelf') {
         setEntries((current) => current.map((entry) => entry.id === move.entry.id ? move.entry : entry));
+        markArrival(move.entry.id);
       }
       setPhases((current) => {
         const next = new Map(current);
         next.delete(move.entry.id);
         return next;
       });
-      if (move.phase === 'to-shelf') markArrival(move.entry.id);
     }, CARD_MOVE_MS);
-    movementTimer.current = later(() => {
-      if (move.phase === 'to-oven') {
-        setWorkbenchDensityCount((current) => Math.max(0, current - 1));
-      } else {
-        ovenEnteredAt.current.delete(move.entry.id);
-      }
-      movementTimer.current = null;
-      activeMove.current = null;
-      if (queue.current.length === 0) setBoundaryBusy(false);
+    later(() => {
+      activeMoves.current.delete(move.entry.id);
+      if (move.phase === 'to-shelf') ovenEnteredAt.current.delete(move.entry.id);
+      if (queue.current.length === 0 && activeMoves.current.size === 0) setBoundaryBusy(false);
       startNextRef.current();
     }, CARD_MOVE_MS + CARD_SETTLE_MS);
+    schedulerTimer.current = later(() => {
+      schedulerTimer.current = null;
+      startNextRef.current();
+    }, MOVE_STAGGER_MS);
   }, [later, markArrival, reducedMotion]);
   useEffect(() => { startNextRef.current = startNext; }, [startNext]);
-
   useEffect(() => {
     latestSource.current = source;
-    source.forEach((entry) => {
-      if (entry.status === 'MINTING' && !ovenEnteredAt.current.has(entry.id)) {
-        ovenEnteredAt.current.set(entry.id, Date.now());
-      }
-    });
+    if (initialSync.current) {
+      const observedAt = Date.now();
+      source.filter((entry) => entry.status === 'MINTING').forEach((entry) => {
+        ovenEnteredAt.current.set(entry.id, observedAt);
+      });
+      initialSync.current = false;
+    }
     const previous = sourceMap.current;
     const moves = source.flatMap((entry) => {
       const oldEntry = previous.get(entry.id);
@@ -129,32 +136,26 @@ export function useDisplaySequence(source: Entry[], reducedMotion: boolean) {
     });
     const newEntries = source.filter((entry) => !previous.has(entry.id));
     sourceMap.current = new Map(source.map((entry) => [entry.id, entry]));
-
     later(() => {
       if (reducedMotion) {
+        timers.current.forEach((timer) => window.clearTimeout(timer));
+        timers.current.clear();
+        schedulerTimer.current = null;
         queue.current = [];
-        if (movementTimer.current !== null) window.clearTimeout(movementTimer.current);
-        timers.current.delete(movementTimer.current ?? -1);
-        movementTimer.current = null; activeMove.current = null;
+        activeMoves.current.clear();
+        ovenEnteredAt.current.clear();
         setBoundaryBusy(false);
         setEntries(source);
         setPhases(new Map());
         setCounts(entryCounts(source));
-        setWorkbenchDensityCount(workbenchCount(source));
         moves.filter((move) => move.phase === 'to-shelf').forEach((move) => markArrival(move.entry.id));
         return;
       }
-
       const pendingIds = new Set([
         ...queue.current.map((move) => move.entry.id),
-        ...(activeMove.current ? [activeMove.current.entry.id] : []),
+        ...activeMoves.current.keys(),
         ...moves.map((move) => move.entry.id),
       ]);
-      const leavingWorkbench = moves.filter((move) => move.phase === 'to-oven').length;
-      const densityDelta = workbenchCount(source) - workbenchCount([...previous.values()]) + leavingWorkbench;
-      if (densityDelta !== 0) {
-        setWorkbenchDensityCount((current) => Math.max(0, current + densityDelta));
-      }
       setEntries((current) => {
         const currentById = new Map(current.map((entry) => [entry.id, entry]));
         return source.map((entry) => pendingIds.has(entry.id) && currentById.has(entry.id)
@@ -167,16 +168,12 @@ export function useDisplaySequence(source: Entry[], reducedMotion: boolean) {
           newEntries.forEach((entry) => next.set(entry.id, 'enter'));
           return next;
         });
-        later(() => {
-          setCounts((current) => ({ ...current, submitted: latestSource.current.length }));
-        }, CARD_DROP_MS);
-        later(() => {
-          setPhases((current) => {
-            const next = new Map(current);
-            newEntries.forEach((entry) => next.delete(entry.id));
-            return next;
-          });
-        }, CARD_DROP_MS + CARD_SETTLE_MS);
+        later(() => setCounts((current) => ({ ...current, submitted: latestSource.current.length })), CARD_DROP_MS);
+        later(() => setPhases((current) => {
+          const next = new Map(current);
+          newEntries.forEach((entry) => next.delete(entry.id));
+          return next;
+        }), CARD_DROP_MS + CARD_SETTLE_MS);
       }
       if (moves.length > 0) {
         queue.current.push(...moves);
@@ -190,11 +187,9 @@ export function useDisplaySequence(source: Entry[], reducedMotion: boolean) {
       startNext();
     }, 0);
   }, [later, markArrival, reducedMotion, source, startNext]);
-
   useEffect(() => () => {
     timers.current.forEach((timer) => window.clearTimeout(timer));
     timers.current.clear();
   }, []);
-
-  return { entries, phases, arrivalIds, counts, workbenchDensityCount, boundaryBusy };
+  return { entries, phases, arrivalIds, counts, boundaryBusy };
 }

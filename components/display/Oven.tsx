@@ -59,7 +59,7 @@ export function Oven({
         <div className="oven-window">
           <div className="oven-light" />
           <div className="oven-readout">
-            <strong>{active ? '굽는 중' : '예열 완료'}</strong>
+            <strong>{active ? entries.length > 0 ? `${entries.length}개 굽는 중` : '굽는 중' : '예열 완료'}</strong>
             <span>180°</span>
           </div>
           <svg className="oven-heat-lines" viewBox="0 0 120 112" aria-hidden="true">

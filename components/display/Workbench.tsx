@@ -26,7 +26,7 @@ export function Workbench({
     <motion.section className={`workbench zone ${qrVisible ? 'has-qr' : ''}`} layout transition={transition}>
       <div className="workbench-surface">
         <header className="workbench-heading">
-          <h2>쿠키 접수</h2>
+          <h2>오븐 대기</h2>
           <strong>{entries.length}</strong>
         </header>
         <div className="workbench-content">
@@ -45,8 +45,8 @@ export function Workbench({
           </AnimatePresence>
           <div className="workbench-grid">
             <AnimatePresence initial={false}>
-              {entries.map((entry) => (
-                <div className="queue-card-position" key={entry.id}>
+              {entries.map((entry, index) => (
+                <div className={`queue-card-position ${index < entries.length - 3 ? 'is-buried' : ''}`} key={entry.id}>
                   <CookieCard
                     entry={entry}
                     motionPhase={phases.get(entry.id)}

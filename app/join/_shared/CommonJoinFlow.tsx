@@ -3,7 +3,7 @@
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import { useEffect, useState, type ChangeEvent } from 'react';
 
-import { ConsentStep, NicknameStep, SubmitStep } from './DetailSteps';
+import { NicknameStep, SubmitStep } from './DetailSteps';
 import { JoinShell } from './JoinShell';
 import { EmailStep, CodeStep } from './LoginSteps';
 import { PhotoStep } from './PhotoStep';
@@ -19,8 +19,6 @@ export function CommonJoinFlow({ onSubmit }: {
   const [code, setCode] = useState('');
   const [preview, setPreview] = useState<string | null>(null);
   const [nickname, setNickname] = useState('');
-  const [tv, setTv] = useState(false);
-  const [nft, setNft] = useState(false);
   const reduceMotion = useReducedMotion();
 
   useEffect(() => () => {
@@ -51,9 +49,8 @@ export function CommonJoinFlow({ onSubmit }: {
           {stage === 'email' ? <EmailStep email={email} onEmail={setEmail} onCode={() => setStage('code')} onGoogle={() => setStage('photo')} /> : null}
           {stage === 'code' ? <CodeStep code={code} email={email} onCode={setCode} onNext={() => setStage('photo')} onBack={() => setStage('email')} /> : null}
           {stage === 'photo' ? <PhotoStep preview={preview} onPhoto={choosePhoto} onSample={() => setPreview('/mock/cookie-1.svg')} onNext={() => setStage('nickname')} /> : null}
-          {stage === 'nickname' ? <NicknameStep nickname={nickname} onNickname={setNickname} onNext={() => setStage('consent')} onBack={() => setStage('photo')} /> : null}
-          {stage === 'consent' ? <ConsentStep tv={tv} nft={nft} onTv={() => setTv((value) => !value)} onNft={() => setNft((value) => !value)} onNext={() => setStage('submit')} onBack={() => setStage('nickname')} /> : null}
-          {stage === 'submit' ? <SubmitStep nickname={nickname} preview={preview} onSubmit={submit} onBack={() => setStage('consent')} /> : null}
+          {stage === 'nickname' ? <NicknameStep nickname={nickname} onNickname={setNickname} onNext={() => setStage('submit')} onBack={() => setStage('photo')} /> : null}
+          {stage === 'submit' ? <SubmitStep nickname={nickname} preview={preview} onSubmit={submit} onBack={() => setStage('nickname')} /> : null}
         </motion.section>
       </AnimatePresence>
     </JoinShell>

@@ -2,10 +2,12 @@
 
 import { useEffect } from 'react';
 
+import { participantTiming } from '@/lib/mockScenario';
+
 import { mockControls } from './useShowState';
 
 const LOOP_DURATION = 30_000;
-const PARTICIPANT_STAGGER = 1_100;
+const PARTICIPANT_COUNT = 15;
 
 export function useDemoLoop(enabled: boolean) {
   useEffect(() => {
@@ -22,14 +24,14 @@ export function useDemoLoop(enabled: boolean) {
 
     const runCycle = () => {
       mockControls.reset();
-      for (let index = 0; index < 15; index += 1) {
+      for (let index = 0; index < PARTICIPANT_COUNT; index += 1) {
         const entryId = `entry-${index + 1}`;
-        const submittedAt = index * PARTICIPANT_STAGGER;
-        later(() => mockControls.addParticipants(1), submittedAt);
-        later(() => mockControls.advanceOne(entryId), submittedAt + 700);
-        later(() => mockControls.advanceOne(entryId), submittedAt + 1_400);
-        later(() => mockControls.advanceOne(entryId), submittedAt + 2_100);
-        later(() => mockControls.advanceOne(entryId), submittedAt + 4_200);
+        const timing = participantTiming(index, 'BURST');
+        later(() => mockControls.addParticipants(1), timing.submittedAt);
+        later(() => mockControls.advanceOne(entryId), timing.renderedAt);
+        later(() => mockControls.advanceOne(entryId), timing.pinnedAt);
+        later(() => mockControls.advanceOne(entryId), timing.mintingAt);
+        later(() => mockControls.advanceOne(entryId), timing.mintedAt);
       }
       later(runCycle, LOOP_DURATION);
     };

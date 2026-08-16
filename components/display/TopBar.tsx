@@ -14,8 +14,11 @@ export function TopBar({ counts }: { counts: { submitted: number; minted: number
         </svg>
         <strong>AVALANCHE BAKERY</strong>
       </div>
-      <div className="counts" aria-label={`오늘의 진열 ${counts.minted}개`}>
-        <small>오늘의 진열</small>
+      <div className="counts" aria-label={`도착 ${counts.submitted}개, 진열 ${counts.minted}개`}>
+        <small>도착</small>
+        <AnimatedCount value={counts.submitted} animate={false} />
+        <i className="count-divider" aria-hidden="true">·</i>
+        <small>진열</small>
         <AnimatedCount value={counts.minted} />
         <span className="count-total">/ 15</span>
       </div>
@@ -23,8 +26,11 @@ export function TopBar({ counts }: { counts: { submitted: number; minted: number
   );
 }
 
-function AnimatedCount({ value }: { value: number }) {
+function AnimatedCount({ value, animate = true }: { value: number; animate?: boolean }) {
   const reduceMotion = useReducedMotion();
+  if (!animate) {
+    return <span className="count-value"><b>{String(value).padStart(2, '0')}</b></span>;
+  }
   return (
     <span className="count-value">
       <AnimatePresence initial={false}>

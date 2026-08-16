@@ -1,4 +1,4 @@
-import type { DemoVariant } from './demoState';
+import type { DemoVariant, SubmissionPattern } from './demoState';
 
 const VARIANTS = [
   {
@@ -16,16 +16,20 @@ const VARIANTS = [
 export function DemoSetup({
   variant,
   participantCount,
+  pattern,
   scale,
   onVariant,
   onParticipantCount,
+  onPattern,
   onStart,
 }: {
   variant: DemoVariant;
   participantCount: number;
+  pattern: SubmissionPattern;
   scale: number;
   onVariant: (variant: DemoVariant) => void;
   onParticipantCount: (count: number) => void;
+  onPattern: (pattern: SubmissionPattern) => void;
   onStart: () => void;
 }) {
   const setCount = (count: number) => onParticipantCount(Math.min(15, Math.max(1, count)));
@@ -57,6 +61,18 @@ export function DemoSetup({
               </button>
             ))}
           </div>
+
+          <section className="setup-pattern">
+            <header><span>제출 흐름</span><p>행사장에서 사진이 들어오는 간격을 골라요.</p></header>
+            <div role="group" aria-label="제출 흐름">
+              <button type="button" aria-pressed={pattern === 'BURST'} onClick={() => onPattern('BURST')}>
+                <strong>몰아서</strong><small>3명씩 거의 동시에</small>
+              </button>
+              <button type="button" aria-pressed={pattern === 'SEQUENTIAL'} onClick={() => onPattern('SEQUENTIAL')}>
+                <strong>차례로</strong><small>한 명씩 완료 후 다음</small>
+              </button>
+            </div>
+          </section>
 
           <div className="setup-count">
             <div><span>참가 인원</span><strong>{String(participantCount).padStart(2, '0')}</strong><small>/ 15명</small></div>

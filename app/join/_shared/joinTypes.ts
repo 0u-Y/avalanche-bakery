@@ -3,7 +3,6 @@ export type CommonJoinStage =
   | 'code'
   | 'photo'
   | 'nickname'
-  | 'consent'
   | 'submit';
 
 export type JoinSubmission = {
@@ -18,8 +17,7 @@ export const STEP_NUMBER: Record<CommonJoinStage, number> = {
   code: 1,
   photo: 2,
   nickname: 3,
-  consent: 4,
-  submit: 5,
+  submit: 4,
 };
 
-export const STEP_LABELS = ['로그인', '사진', '이름', '동의', '제출'] as const;
+export const STEP_LABELS = ['로그인', '사진', '이름', '제출'] as const;

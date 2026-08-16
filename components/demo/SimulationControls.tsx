@@ -6,22 +6,26 @@ import type { DemoVariant, DemoView } from './demoState';
 export function SimulationControls({
   variant,
   participantCount,
-  currentParticipant,
+  selectedParticipant,
+  submittedCount,
   view,
   playing,
   complete,
   onView,
+  onParticipant,
   onTogglePlaying,
   onReset,
   onSetup,
 }: {
   variant: DemoVariant;
   participantCount: number;
-  currentParticipant: number;
+  selectedParticipant: number;
+  submittedCount: number;
   view: DemoView;
   playing: boolean;
   complete: boolean;
   onView: (view: DemoView) => void;
+  onParticipant: (offset: number) => void;
   onTogglePlaying: () => void;
   onReset: () => void;
   onSetup: () => void;
@@ -37,7 +41,9 @@ export function SimulationControls({
     <aside className="simulation-controls" data-view={view} aria-label="시뮬레이션 조작">
       <div className="simulation-status">
         <b>{variant.toUpperCase()}</b>
-        <span>{complete ? '완료' : `${String(currentParticipant).padStart(2, '0')} / ${String(participantCount).padStart(2, '0')}`}</span>
+        <span>{complete ? '완료' : view === 'phone'
+          ? `내 쿠키 ${String(selectedParticipant + 1).padStart(2, '0')}`
+          : `도착 ${String(submittedCount).padStart(2, '0')} / ${String(participantCount).padStart(2, '0')}`}</span>
       </div>
       <div className="simulation-view-switch" role="group" aria-label="관찰 화면">
         <button type="button" aria-pressed={view === 'phone'} onClick={() => chooseView('phone')}>휴대폰</button>
@@ -52,6 +58,8 @@ export function SimulationControls({
         세션
       </button>
       <div id="simulation-session-actions" className="simulation-session-actions" data-open={expanded}>
+        <button type="button" onClick={() => onParticipant(-1)} disabled={selectedParticipant === 0}>이전 사람</button>
+        <button type="button" onClick={() => onParticipant(1)} disabled={selectedParticipant === participantCount - 1}>다음 사람</button>
         <button type="button" onClick={onTogglePlaying} disabled={complete}>{playing ? '정지' : '재생'}</button>
         <button type="button" onClick={onReset}>처음</button>
         <button type="button" onClick={onSetup}>설정</button>

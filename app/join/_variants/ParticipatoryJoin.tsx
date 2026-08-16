@@ -28,7 +28,7 @@ export function ParticipatoryJoin() {
   if (complete) return <CompletionScreen submission={submission} />;
 
   return (
-    <JoinShell currentStep={5}>
+    <JoinShell currentStep={4}>
       <ParticipatoryPost submission={submission} started={started} onStart={startOven} />
     </JoinShell>
   );

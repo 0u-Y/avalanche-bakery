@@ -22,7 +22,7 @@ export function AutomaticJoin() {
   if (complete) return <CompletionScreen submission={submission} />;
 
   return (
-    <JoinShell currentStep={5}>
+    <JoinShell currentStep={4}>
       <AutomaticPost submission={submission} />
     </JoinShell>
   );

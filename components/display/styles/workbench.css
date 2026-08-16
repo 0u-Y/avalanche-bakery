@@ -63,8 +63,18 @@
 }
 
 .queue-card-position + .queue-card-position {
-  margin-left: calc((var(--queue-card-width) - 12px) * -1);
+  margin-left: calc((var(--queue-card-width) - 28px) * -1);
 }
+
+.queue-card-position.is-buried {
+  position: absolute;
+  left: 50%;
+  margin-left: 0;
+  transform: translateX(-50%);
+}
+
+.queue-card-position.is-buried + .queue-card-position { margin-left: 0; }
+.workbench-grid .queue-card-position:not(:last-child) .card-caption { visibility: hidden; }
 
 .qr-position { position: relative; z-index: 3; width: 152px; height: 206px; }
 

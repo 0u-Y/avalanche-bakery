@@ -57,19 +57,21 @@ export function BakeryScene({
           layout
           transition={layoutTransition}
         >
-          <Workbench
-            entries={workbenchEntries}
-            densityCount={sequence.workbenchDensityCount}
-            phases={sequence.phases}
-            qrVisible={state.show.qrVisible && state.show.layout === 'LIVE'}
-            transition={layoutTransition}
-          />
-          <Oven
-            entries={ovenEntries}
-            phases={sequence.phases}
-            flowActive={sequence.boundaryBusy}
-            transition={layoutTransition}
-          />
+          <motion.div className="production-wall" layout transition={layoutTransition}>
+            <Oven
+              entries={ovenEntries}
+              phases={sequence.phases}
+              flowActive={sequence.boundaryBusy}
+              transition={layoutTransition}
+            />
+            <Workbench
+              entries={workbenchEntries}
+              densityCount={sequence.workbenchDensityCount}
+              phases={sequence.phases}
+              qrVisible={state.show.qrVisible && state.show.layout === 'LIVE'}
+              transition={layoutTransition}
+            />
+          </motion.div>
           <Showcase
             entries={shelfEntries}
             phases={sequence.phases}

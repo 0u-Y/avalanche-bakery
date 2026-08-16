@@ -1,11 +1,7 @@
 .join-photo-frame { position: relative; width: min(68cqw, 280px); aspect-ratio: 1; margin: 20px auto 8px; overflow: hidden; border: 4px solid var(--ink); border-radius: 8px; background: var(--paper); }
 .join-photo-frame > img { object-fit: cover; object-position: center; }
 .join-photo-placeholder { position: absolute; inset: 0; display: grid; place-items: center; background: var(--paper); }
-.join-photo-placeholder span { position: relative; width: 54%; aspect-ratio: 1; border: 5px solid var(--ink); border-radius: 50%; background: var(--paper); }
-.join-photo-placeholder i { position: absolute; width: 12px; aspect-ratio: 1; border-radius: 50%; background: var(--ember); }
-.join-photo-placeholder i:nth-child(1) { top: 25%; left: 28%; }
-.join-photo-placeholder i:nth-child(2) { top: 48%; right: 22%; }
-.join-photo-placeholder i:nth-child(3) { right: 42%; bottom: 18%; }
+.join-photo-placeholder { background: rgb(23 17 15 / .035); }
 .join-crop-mark { position: absolute; right: 8px; bottom: 8px; padding: 7px 9px; background: var(--ink); color: var(--paper); font: 700 10px/1 var(--mono); }
 .is-photo-actions { gap: 6px; }
 .join-camera-button { position: relative; overflow: hidden; }

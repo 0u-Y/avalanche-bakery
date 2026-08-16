@@ -12,8 +12,8 @@ export function EmailStep({ email, onEmail, onCode, onGoogle }: EmailProps) {
     <>
       <StepHeading
         eyebrow="시작"
-        title="증서를 받을 계정을 만들어요"
-        copy="행사 뒤에도 오늘의 쿠키 증서를 다시 볼 수 있어요."
+        title="증서를 받을 방법을 골라요"
+        copy="이메일이나 Google 중 하나만 고르면 돼요."
       />
       <form className="join-form" onSubmit={(event) => { event.preventDefault(); onCode(); }}>
         <label className="join-field">
@@ -30,7 +30,7 @@ export function EmailStep({ email, onEmail, onCode, onGoogle }: EmailProps) {
         <button className="join-button is-primary" type="submit">코드 받기</button>
         <div className="join-or"><span>또는</span></div>
         <button className="join-button is-google" type="button" onClick={onGoogle}>
-          <i aria-hidden="true">G</i>Google로 계속하기
+          Google로 계속하기
         </button>
       </form>
     </>
@@ -46,7 +46,7 @@ export function CodeStep({ code, email, onCode, onNext, onBack }: {
 }) {
   return (
     <>
-      <StepHeading eyebrow="메일 확인" title="메일의 숫자 6자리를 넣어 주세요" copy={`${email}로 보냈어요. 목업에서는 아무 숫자나 입력해도 됩니다.`} />
+      <StepHeading eyebrow="메일 확인" title="메일의 숫자 6자리를 넣어 주세요" copy={`${email}로 보냈어요. 메일을 확인해 주세요.`} />
       <form className="join-form" onSubmit={(event) => { event.preventDefault(); onNext(); }}>
         <label className="join-field code-field">
           <span>확인 코드</span>

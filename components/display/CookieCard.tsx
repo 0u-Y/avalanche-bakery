@@ -118,7 +118,6 @@ function CookiePlaceholder({ variation }: { variation: number }) {
 function CertificatePlaceholder({ variation }: { variation: number }) {
   return (
     <div className="certificate-placeholder" aria-hidden="true">
-      <span className="certificate-ava">A</span>
       <span className={`certificate-cookie cookie-variant-${variation}`}><i /><i /><i /></span>
       <span className="certificate-lines" />
     </div>

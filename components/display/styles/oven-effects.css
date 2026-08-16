@@ -51,30 +51,30 @@
 .oven-heat-lines {
   position: relative;
   z-index: 1;
-  display: flex;
-  height: 88px;
+  display: block;
+  width: 120px;
+  height: 112px;
   grid-column: 1;
   grid-row: 2;
-  align-items: flex-end;
   align-self: center;
   justify-self: center;
-  gap: 24px;
+  overflow: visible;
   pointer-events: none;
 }
 
-.oven-heat-lines span {
-  display: block;
-  width: var(--line-thick);
-  height: 56px;
-  background: var(--paper);
+.oven-heat-lines path {
+  fill: none;
+  stroke: var(--paper);
+  stroke-linecap: square;
+  stroke-width: var(--line-thick);
   opacity: .38;
   animation: oven-heat-line var(--time-heat-line-empty) var(--ease-heat) infinite;
 }
 
-.oven-heat-lines span:nth-child(2) { height: 80px; animation-delay: 160ms; }
-.oven-heat-lines span:nth-child(3) { height: 48px; animation-delay: 320ms; }
-.oven.is-baking .oven-heat-lines span { animation-name: oven-baking-line; animation-duration: var(--time-heat-line-active); }
-.oven.is-completing .oven-heat-lines span { animation: oven-heat-line-return var(--time-heat-line-return) var(--ease-settle) forwards; }
+.oven-heat-lines path:nth-child(2) { animation-delay: 160ms; }
+.oven-heat-lines path:nth-child(3) { animation-delay: 320ms; }
+.oven.is-baking .oven-heat-lines path { animation-name: oven-baking-line; animation-duration: var(--time-heat-line-active); }
+.oven.is-completing .oven-heat-lines path { animation: oven-heat-line-return var(--time-heat-line-return) var(--ease-settle) forwards; }
 
 @keyframes oven-heat-line {
   0%, 100% { opacity: .38; transform: translateY(6px); }
@@ -94,5 +94,5 @@
 @media (prefers-reduced-motion: reduce) {
   .oven-light, .oven.is-completing .oven-light { animation: none !important; opacity: .22; transform: scale(1); }
   .oven.is-baking .oven-light { animation: none !important; opacity: .40; transform: scale(1.03); }
-  .oven-heat-lines span, .oven.is-baking .oven-heat-lines span, .oven.is-completing .oven-heat-lines span { animation: none !important; transition: none !important; opacity: .38; transform: translateY(0); }
+  .oven-heat-lines path, .oven.is-baking .oven-heat-lines path, .oven.is-completing .oven-heat-lines path { animation: none !important; transition: none !important; opacity: .38; transform: translateY(0); }
 }

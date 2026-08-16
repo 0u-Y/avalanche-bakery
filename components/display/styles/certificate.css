@@ -6,29 +6,10 @@
   background: var(--paper);
 }
 
-.certificate-placeholder::before {
-  position: absolute;
-  top: 0;
-  right: 0;
-  left: 0;
-  height: 22%;
-  background: var(--ink);
-  content: '';
-}
-
-.certificate-ava {
-  position: absolute;
-  z-index: 1;
-  top: 8px;
-  left: 8px;
-  color: var(--paper);
-  font: 900 var(--text-1)/1 var(--display);
-}
-
 .certificate-cookie {
   position: relative;
   z-index: 1;
-  width: min(58%, 84px);
+  width: min(66%, 104px);
   aspect-ratio: 1;
   border: var(--line-thick) solid var(--ink);
   border-radius: 50%;

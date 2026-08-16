@@ -16,8 +16,7 @@ export function CompletionScreen({ submission, embedded = false }: {
 
         <article className="join-certificate">
           <header className="join-certificate-brand">
-            <b>A</b>
-            <span>AVALANCHE<br />BAKERY</span>
+            <span>AVALANCHE BAKERY</span>
           </header>
           <div className="join-certificate-photo">
             <div className="complete-cookie-placeholder" aria-hidden="true">

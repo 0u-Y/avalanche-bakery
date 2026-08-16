@@ -6,7 +6,7 @@
   color: var(--ink);
 }
 
-.join-phone-canvas:has(.join-complete) .join-brand-mark { border-color: var(--ink); }
+.join-phone-canvas:has(.join-complete) .join-brand-mark { color: var(--ava); }
 .join-phone-canvas:has(.join-complete) .join-progress { display: none; }
 .join-phone-canvas:has(.join-complete) .join-content { height: calc(100dvh - 88px); }
 .join-page.is-embedded .join-phone-canvas:has(.join-complete) .join-content { height: 756px; }
@@ -53,26 +53,15 @@
 .join-certificate-brand {
   display: flex;
   align-items: center;
-  gap: 10px;
   padding: 12px 16px 6px;
   border-bottom: 2px solid var(--ink);
-}
-
-.join-certificate-brand b {
-  display: grid;
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  place-items: center;
-  background: var(--ink);
-  color: var(--paper);
-  font-size: 15px;
 }
 
 .join-certificate-brand span {
   font-size: 14px;
   font-weight: 900;
-  line-height: .88;
+  line-height: 1;
+  letter-spacing: -.025em;
 }
 
 .join-certificate-photo {
@@ -135,7 +124,7 @@
 
 .join-certificate-id strong {
   margin-top: 4px;
-  font-size: clamp(52px, 16cqw, 70px);
+  font-size: clamp(64px, 19cqw, 84px);
   font-weight: 900;
   line-height: .9;
   letter-spacing: -.055em;

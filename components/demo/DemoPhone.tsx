@@ -45,7 +45,6 @@ export function DemoPhone({ variant, seconds }: { variant: DemoVariant; seconds:
         {stage === 'consent' ? <ConsentStep tv={tv} nft={nft} onTv={() => {}} onNft={() => {}} onNext={() => {}} onBack={() => {}} /> : null}
         {stage === 'submit' ? <SubmitStep nickname={DEMO_SUBMISSION.nickname} preview={preview} onSubmit={() => {}} onBack={() => {}} /> : null}
       </section>
-      <DemoTap target={stage} />
     </JoinShell>
   );
 }
@@ -60,11 +59,6 @@ function PostSubmitPhone({ variant, seconds }: { variant: DemoVariant; seconds: 
       {variant === 'a' ? <AutomaticPost submission={DEMO_SUBMISSION} /> : null}
       {variant === 'b' ? <GuidedPost phase={guidedPhase} /> : null}
       {variant === 'c' ? <ParticipatoryPost submission={DEMO_SUBMISSION} started={cStarted} onStart={() => {}} /> : null}
-      {variant === 'c' && !cStarted ? <DemoTap target="oven" /> : null}
     </JoinShell>
   );
-}
-
-function DemoTap({ target }: { target: CommonStage | 'oven' }) {
-  return <span className={`demo-tap at-${target}`} aria-hidden="true"><i /></span>;
 }

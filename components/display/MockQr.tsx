@@ -33,9 +33,7 @@ export function MockQr() {
         <g fill="var(--ink)">{cells}</g>
       </svg>
       <div className="qr-copy">
-        <span className="micro-label">사진 올리기</span>
-        <strong>빵집에<br />입장하세요</strong>
-        <span className="short-url">ava.bakery/join</span>
+        <strong>사진 올리기</strong>
       </div>
     </div>
   );

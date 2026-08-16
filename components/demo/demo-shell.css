@@ -17,5 +17,9 @@
 .demo-touch-target { position: absolute; right: 0; bottom: 0; width: 56px; height: 56px; }
 .demo-hidden-controls { position: absolute; right: 24px; bottom: 24px; display: flex; height: 56px; padding: 8px; border: 2px solid rgb(247 241 232 / .24); border-radius: 8px; align-items: center; gap: 8px; background: rgb(23 17 15 / .94); opacity: 0; pointer-events: none; transform: translateY(8px); transition: opacity 160ms var(--ease-settle), transform 160ms var(--ease-settle); }
 .demo-control-zone.is-visible .demo-hidden-controls, .demo-hidden-controls:focus-within { opacity: 1; pointer-events: auto; transform: translateY(0); }
-.demo-hidden-controls button { width: 40px; height: 40px; padding: 0; border: 0; background: transparent; color: var(--paper); font: inherit; }
+.demo-hidden-controls button { width: 40px; height: 40px; padding: 0; border: 0; border-radius: 0; background: transparent; color: var(--paper); font: 700 14px/1 var(--mono); letter-spacing: .04em; text-transform: none; }
 .demo-hidden-controls button.is-wide { width: 72px; }
+.demo-hidden-controls button[aria-pressed='true'] { background: var(--paper); color: var(--ink); }
+.demo-hidden-controls button:not([aria-pressed='true']):hover { background: rgb(247 241 232 / .12); }
+.demo-hidden-controls button:focus-visible { outline: 2px solid var(--paper); outline-offset: 2px; }
+.demo-hidden-controls button.is-wide:active { background: rgb(247 241 232 / .18); }

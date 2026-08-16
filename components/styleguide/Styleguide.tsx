@@ -1,19 +1,3 @@
-import { Archivo_Black, Gothic_A1 } from 'next/font/google';
-
-const archivoBlack = Archivo_Black({
-  weight: '400',
-  subsets: ['latin'],
-  variable: '--font-sign-latin',
-  display: 'swap',
-});
-
-const gothicA1 = Gothic_A1({
-  weight: ['700', '900'],
-  subsets: ['latin'],
-  variable: '--font-sign-korean',
-  display: 'swap',
-});
-
 type PreviewState = 'empty' | 'baking' | 'arrived';
 
 type StateSpec = {
@@ -71,11 +55,9 @@ const CARD_DATA = [
   { nickname: '민트별', tokenId: 1045, pattern: 'star' },
 ] as const;
 
-const fontVariables = `${archivoBlack.variable} ${gothicA1.variable}`;
-
 export function Styleguide() {
   return (
-    <main className={`sg-page ${fontVariables}`}>
+    <main className="sg-page">
       <header className="sg-intro">
         <div className="sg-intro__meta">
           <span>DISPLAY SYSTEM · DIRECTION 01</span>

@@ -59,11 +59,17 @@ export function BakeryScene({
         >
           <Workbench
             entries={workbenchEntries}
+            densityCount={sequence.workbenchDensityCount}
             phases={sequence.phases}
             qrVisible={state.show.qrVisible && state.show.layout === 'LIVE'}
             transition={layoutTransition}
           />
-          <Oven entries={ovenEntries} phases={sequence.phases} transition={layoutTransition} />
+          <Oven
+            entries={ovenEntries}
+            phases={sequence.phases}
+            flowActive={sequence.boundaryBusy}
+            transition={layoutTransition}
+          />
           <Showcase
             entries={shelfEntries}
             phases={sequence.phases}

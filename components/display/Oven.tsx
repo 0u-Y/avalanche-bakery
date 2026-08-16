@@ -15,13 +15,15 @@ type LayoutTransition = { layout: { duration: number; ease: [number, number, num
 export function Oven({
   entries,
   phases,
+  flowActive,
   transition,
 }: {
   entries: Entry[];
   phases: Map<string, CardMotionPhase>;
+  flowActive: boolean;
   transition: LayoutTransition;
 }) {
-  const active = entries.length > 0;
+  const active = entries.length > 0 || flowActive;
   const previousActive = useRef(active);
   const completionTimer = useRef<number | null>(null);
   const phaseTimer = useRef<number | null>(null);

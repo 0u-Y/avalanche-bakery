@@ -51,11 +51,11 @@
   --time-heat-line-empty: 2400ms;
   --time-heat-line-active: 1600ms;
   --time-heat-line-return: 920ms;
-  --display: 'Arial Black', 'Noto Sans KR', 'Apple SD Gothic Neo', sans-serif;
+  --display: var(--font-sign-latin), var(--font-sign-korean), sans-serif;
   --mono: 'SFMono-Regular', Consolas, 'Liberation Mono', monospace;
 }
 
-* { box-sizing: border-box; }
+* { box-sizing: border-box; font-synthesis: none; }
 
 html,
 body {

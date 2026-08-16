@@ -53,6 +53,7 @@
   z-index: 1;
   display: flex;
   height: 88px;
+  grid-column: 1;
   grid-row: 2;
   align-items: flex-end;
   align-self: center;
@@ -93,5 +94,5 @@
 @media (prefers-reduced-motion: reduce) {
   .oven-light, .oven.is-completing .oven-light { animation: none !important; opacity: .22; transform: scale(1); }
   .oven.is-baking .oven-light { animation: none !important; opacity: .40; transform: scale(1.03); }
-  .oven-heat-lines span, .oven.is-baking .oven-heat-lines span, .oven.is-completing .oven-heat-lines span { animation: none !important; opacity: .38; transform: translateY(0); }
+  .oven-heat-lines span, .oven.is-baking .oven-heat-lines span, .oven.is-completing .oven-heat-lines span { animation: none !important; transition: none !important; opacity: .38; transform: translateY(0); }
 }

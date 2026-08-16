@@ -16,8 +16,10 @@
   overflow: hidden;
 }
 
-.workbench-grid:has(> :nth-child(7)) { grid-auto-rows: 128px; gap: 8px; }
-.workbench-grid:has(> :nth-child(10)) { grid-auto-rows: 104px; }
+.workbench-grid.density-single { grid-template-columns: 248px; grid-auto-rows: 296px; justify-content: center; }
+.workbench-grid.density-double { grid-template-columns: repeat(2, 216px); grid-auto-rows: 264px; justify-content: center; }
+.workbench-grid.density-tight { grid-auto-rows: 128px; gap: 8px; }
+.workbench-grid.density-dense { grid-auto-rows: 104px; gap: 8px; }
 
 .workbench-empty {
   display: flex;

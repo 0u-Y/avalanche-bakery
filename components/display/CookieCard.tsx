@@ -31,9 +31,13 @@ function imageNumber(entry: Entry) {
 export function CookieCard({
   entry,
   motionPhase,
+  layoutDuration,
+  layoutEase,
 }: {
   entry: Entry;
   motionPhase?: CardMotionPhase;
+  layoutDuration?: number;
+  layoutEase?: [number, number, number, number];
 }) {
   const reduceMotion = useReducedMotion();
   const minted = entry.status === 'MINTED';
@@ -63,7 +67,12 @@ export function CookieCard({
       layoutId={entry.id}
       initial={false}
       className={`cookie-card-layout ${motionPhase ? `motion-${motionPhase}` : ''}`}
-      transition={{ layout: { duration: reduceMotion ? 0 : CARD_MOVE_DURATION, ease: EASE_MOVE } }}
+      transition={{
+        layout: {
+          duration: reduceMotion ? 0 : (layoutDuration ?? CARD_MOVE_DURATION),
+          ease: layoutEase ?? EASE_MOVE,
+        },
+      }}
     >
       <motion.article
         initial={innerInitial}

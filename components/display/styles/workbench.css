@@ -21,40 +21,6 @@
 .workbench-grid.density-tight { grid-auto-rows: 128px; gap: 8px; }
 .workbench-grid.density-dense { grid-auto-rows: 104px; gap: 8px; }
 
-.workbench-empty {
-  display: flex;
-  height: 336px;
-  grid-column: 1 / -1;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  text-align: center;
-}
-
-.workbench-empty strong { margin-top: 24px; font: 900 var(--text-2)/1 var(--display); }
-
-.empty-mixing-bowl {
-  position: relative;
-  width: 144px;
-  height: 72px;
-  border: var(--line-thick) solid var(--ink);
-  border-top: 0;
-  border-radius: 0 0 var(--radius-arch) var(--radius-arch);
-  background: var(--paper);
-}
-
-.empty-mixing-bowl::before {
-  position: absolute;
-  right: 16px;
-  bottom: 56px;
-  width: 88px;
-  height: var(--line-thick);
-  background: var(--ink);
-  content: '';
-  transform: rotate(-48deg);
-  transform-origin: right;
-}
-
 .qr-position { position: absolute; right: 32px; bottom: 32px; left: 32px; height: 192px; }
 
 .qr-block {

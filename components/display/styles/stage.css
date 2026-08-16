@@ -111,6 +111,8 @@
   letter-spacing: -0.055em;
 }
 
+.zone-heading.is-note-free h2 { margin-top: calc(var(--text-1) + 10px); }
+
 .zone-count {
   min-width: 72px;
   padding-top: 20px;

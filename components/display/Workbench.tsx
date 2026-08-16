@@ -34,7 +34,7 @@ export function Workbench({
 
   return (
     <motion.section className="workbench zone" layout transition={transition}>
-      <ZoneHeading note="사진이 도착하는 곳" label="쿠키 접수" count={entries.length} />
+      <ZoneHeading label="쿠키 접수" count={entries.length} />
       <div className={`workbench-grid density-${density}`} data-density={densityCount}>
         <AnimatePresence initial={false}>
           {entries.map((entry) => (
@@ -47,12 +47,6 @@ export function Workbench({
             />
           ))}
         </AnimatePresence>
-        {densityCount === 0 ? (
-          <div className="workbench-empty">
-            <span className="empty-mixing-bowl" aria-hidden="true" />
-            <strong>첫 쿠키 사진을 기다려요</strong>
-          </div>
-        ) : null}
       </div>
       <AnimatePresence initial={false}>
         {qrVisible ? (

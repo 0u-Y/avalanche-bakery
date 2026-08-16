@@ -2,6 +2,8 @@
 
 쿠키 클래스 현장에서 참가자의 사진이 증서가 되어 행사장 TV 진열장에 놓이는 과정을 보여주는 프론트엔드 프로토타입입니다. 백엔드, 외부 API, 환경변수 없이 목업 데이터만으로 동작합니다.
 
+배포: [avalanche-bakery.vercel.app](https://avalanche-bakery.vercel.app)
+
 ## 경로
 
 | 경로 | 용도 |

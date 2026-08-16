@@ -29,7 +29,7 @@ npm run dev
 
 ## 서버 없이 공유하기
 
-[avalanche-bakery-review.html](./avalanche-bakery-review.html)은 CSS, JavaScript, Archivo Black, Gothic A1을 모두 포함한 단일 파일입니다. 파일을 그대로 보내고 더블클릭하면 인터넷 연결 없이 열립니다.
+[avalanche-bakery-review.html](./avalanche-bakery-review.html)은 CSS, JavaScript, Archivo Black, Gothic A1을 모두 포함한 단일 파일입니다. 파일을 그대로 보내고 더블클릭하면 인터넷 연결 없이 열립니다. 메신저가 HTML 첨부를 막으면 [avalanche-bakery-review.zip](./avalanche-bakery-review.zip)을 보내면 됩니다.
 
 - 상단 선택 메뉴 또는 `←` / `→`: A·B·C와 TV 상태 장면 전환
 - `숨기기` 또는 `H`: 리뷰 조작기 숨김/표시

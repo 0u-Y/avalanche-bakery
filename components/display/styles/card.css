@@ -148,13 +148,10 @@
   white-space: nowrap;
 }
 
-.workbench-grid:has(> :nth-child(7)) .card-caption,
 .oven-grid:has(> :nth-child(7)) .card-caption { padding: 8px; }
 
-.workbench-grid:has(> :nth-child(7)) .card-caption > strong,
 .oven-grid:has(> :nth-child(7)) .card-caption > strong { font-size: var(--text-1); }
 
-.workbench-grid:has(> :nth-child(7)) .status-ticket,
 .oven-grid:has(> :nth-child(7)) .status-ticket { display: none; }
 
 .certificate-card {

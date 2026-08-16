@@ -66,7 +66,6 @@ export function BakeryScene({
             />
             <Workbench
               entries={workbenchEntries}
-              densityCount={sequence.workbenchDensityCount}
               phases={sequence.phases}
               qrVisible={state.show.qrVisible && state.show.layout === 'LIVE'}
               transition={layoutTransition}

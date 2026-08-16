@@ -33,8 +33,11 @@ export function Showcase({
   useEffect(() => {
     const reachedFull = previousCount.current < 15 && landedCount === 15;
     previousCount.current = landedCount;
-    if (!reachedFull) return;
-    const startDelay = reduceMotion ? 0 : SLOT_LIGHT_MS;
+    if (!reachedFull || reduceMotion) {
+      const clear = window.setTimeout(() => setFullPulse(false), 0);
+      return () => window.clearTimeout(clear);
+    }
+    const startDelay = SLOT_LIGHT_MS;
     const start = window.setTimeout(() => setFullPulse(true), startDelay);
     const end = window.setTimeout(() => setFullPulse(false), startDelay + SHOWCASE_COMPLETE_MS);
     return () => { window.clearTimeout(start); window.clearTimeout(end); };
@@ -60,11 +63,12 @@ export function Showcase({
                 transition={transition}
               >
                 <span className="slot-light" aria-hidden="true" />
-                <span className="shelf-number">{String(index + 1).padStart(2, '0')}</span>
                 {entry ? (
                   <CookieCard entry={entry} motionPhase={phase} />
                 ) : (
-                  <span className="empty-slot" aria-hidden="true" />
+                  <span className="empty-slot" aria-hidden="true">
+                    <span className="shelf-number">{String(index + 1).padStart(2, '0')}</span>
+                  </span>
                 )}
               </motion.div>
             );

@@ -1,8 +1,11 @@
 .workbench {
+  --queue-card-width: 220px;
   width: 100%;
   padding: 0 32px 32px;
   background: transparent;
 }
+
+.workbench.has-qr { --queue-card-width: 180px; }
 
 .workbench-surface {
   width: 100%;
@@ -44,21 +47,26 @@
 
 .workbench-grid {
   position: relative;
+  z-index: 2;
+  display: flex;
   min-width: 0;
   height: 206px;
-  overflow: hidden;
+  align-items: flex-start;
+  justify-content: center;
 }
 
 .queue-card-position {
-  position: absolute;
-  top: 0;
-  width: 220px;
+  position: relative;
+  width: var(--queue-card-width);
   height: 206px;
+  flex: 0 0 var(--queue-card-width);
 }
 
-.workbench.has-qr .queue-card-position { width: 180px; }
+.queue-card-position + .queue-card-position {
+  margin-left: calc((var(--queue-card-width) - 12px) * -1);
+}
 
-.qr-position { width: 152px; height: 206px; }
+.qr-position { position: relative; z-index: 3; width: 152px; height: 206px; }
 
 .qr-block {
   display: flex;

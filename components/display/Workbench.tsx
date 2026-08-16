@@ -13,21 +13,15 @@ type LayoutTransition = { layout: { duration: number; ease: [number, number, num
 
 export function Workbench({
   entries,
-  densityCount,
   phases,
   qrVisible,
   transition,
 }: {
   entries: Entry[];
-  densityCount: number;
   phases: Map<string, CardMotionPhase>;
   qrVisible: boolean;
   transition: LayoutTransition;
 }) {
-  const cardWidth = qrVisible ? 180 : 220;
-  const maxSpread = qrVisible ? 44 : 156;
-  const step = densityCount > 1 ? Math.min(12, maxSpread / (densityCount - 1)) : 0;
-
   return (
     <motion.section className={`workbench zone ${qrVisible ? 'has-qr' : ''}`} layout transition={transition}>
       <div className="workbench-surface">
@@ -49,28 +43,18 @@ export function Workbench({
               </motion.div>
             ) : null}
           </AnimatePresence>
-          <div className="workbench-grid" data-density={densityCount}>
+          <div className="workbench-grid">
             <AnimatePresence initial={false}>
-              {entries.map((entry, index) => {
-                const stackX = (index - (densityCount - 1) / 2) * step;
-                return (
-                  <div
-                    className="queue-card-position"
-                    key={entry.id}
-                    style={{
-                      left: `calc(50% - ${cardWidth / 2}px + ${stackX}px)`,
-                      zIndex: index + 1,
-                    }}
-                  >
-                    <CookieCard
-                      entry={entry}
-                      motionPhase={phases.get(entry.id)}
-                      layoutDuration={COUNTER_DURATION}
-                      layoutEase={EASE_SETTLE}
-                    />
-                  </div>
-                );
-              })}
+              {entries.map((entry) => (
+                <div className="queue-card-position" key={entry.id}>
+                  <CookieCard
+                    entry={entry}
+                    motionPhase={phases.get(entry.id)}
+                    layoutDuration={COUNTER_DURATION}
+                    layoutEase={EASE_SETTLE}
+                  />
+                </div>
+              ))}
             </AnimatePresence>
           </div>
         </div>

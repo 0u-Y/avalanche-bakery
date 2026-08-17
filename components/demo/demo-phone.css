@@ -6,10 +6,9 @@
 .simulation-volume { position: absolute; top: 126px; left: -3px; width: 3px; height: 96px; border-radius: 2px; background: var(--ink); }
 .simulation-power { position: absolute; top: 142px; right: -3px; width: 3px; height: 72px; border-radius: 2px; background: var(--ink); }
 
-.simulation-controls { position: fixed; z-index: 100; top: 16px; left: 50%; display: flex; height: 64px; padding: 4px; border: 2px solid rgb(247 241 232 / .24); border-radius: 8px; align-items: center; gap: 4px; background: rgb(23 17 15 / .96); color: var(--paper); transform: translateX(-50%); }
-.simulation-controls[data-view='phone'] { top: auto; bottom: 16px; }
+.simulation-controls { position: fixed; z-index: 100; bottom: 16px; left: 50%; display: flex; height: 64px; padding: 4px; border: 2px solid rgb(247 241 232 / .24); border-radius: 8px; align-items: center; gap: 4px; background: rgb(23 17 15 / .96); color: var(--paper); transform: translateX(-50%); }
 .simulation-exit { display: flex; height: 56px; padding: 0 8px 0 4px; border-right: 2px solid rgb(247 241 232 / .24); align-items: center; }
-.simulation-controls[data-view='phone'][data-tools-open='true'] .simulation-exit { display: none; }
+.simulation-controls[data-tools-open='true'] .simulation-exit { display: none; }
 .simulation-status { display: flex; height: 56px; padding: 0 16px; border-right: 2px solid rgb(247 241 232 / .24); align-items: center; gap: 12px; }
 .simulation-status b { min-width: 104px; font: 400 18px/1 var(--display); }
 .simulation-status span { min-width: 112px; font: 700 14px/1 var(--mono); font-variant-numeric: tabular-nums; }
@@ -22,8 +21,7 @@
 .simulation-controls button:disabled { opacity: .36; cursor: default; }
 .simulation-tools { position: relative; display: flex; height: 56px; padding-left: 8px; border-left: 2px solid rgb(247 241 232 / .24); align-items: center; }
 .simulation-tools-trigger { min-width: 96px !important; }
-.simulation-tools-menu { position: absolute; top: 64px; right: -4px; display: flex; padding: 8px; border: 2px solid rgb(247 241 232 / .24); border-radius: 8px; gap: 8px; background: rgb(23 17 15 / .96); opacity: 0; pointer-events: none; transform: translateY(-8px); transition: opacity 160ms ease-out, transform 160ms ease-out; }
-.simulation-controls[data-view='phone'] .simulation-tools-menu { top: auto; bottom: 64px; transform: translateY(8px); }
+.simulation-tools-menu { position: absolute; bottom: 64px; right: -4px; display: flex; padding: 8px; border: 2px solid rgb(247 241 232 / .24); border-radius: 8px; gap: 8px; background: rgb(23 17 15 / .96); opacity: 0; pointer-events: none; transform: translateY(8px); transition: opacity 160ms ease-out, transform 160ms ease-out; }
 .simulation-tools-menu[data-open='true'] { opacity: 1; pointer-events: auto; transform: translateY(0); }
 .simulation-action-group { display: flex; padding: 0 4px; flex-direction: column; gap: 4px; }
 .simulation-action-group + .simulation-action-group { padding-left: 12px; border-left: 2px solid rgb(247 241 232 / .24); }
@@ -31,12 +29,12 @@
 .simulation-action-group > div { display: flex; gap: 4px; }
 .simulation-action-group button { min-width: 96px; white-space: nowrap; }
 .simulation-action-group:first-child button { min-width: 112px; }
-.simulation-controls[data-view='phone'][data-tools-open='true'] .simulation-status,
-.simulation-controls[data-view='phone'][data-tools-open='true'] .simulation-view-switch { display: none; }
-.simulation-controls[data-view='phone'][data-tools-open='true'] .simulation-tools { padding-left: 0; border-left: 0; }
-.simulation-controls[data-view='phone'][data-tools-open='true'] .simulation-tools-menu { position: static; order: -1; height: 56px; padding: 0 8px 0 0; border: 0; background: transparent; transform: none; }
-.simulation-controls[data-view='phone'][data-tools-open='true'] .simulation-action-group { justify-content: center; padding-top: 0; padding-bottom: 0; }
-.simulation-controls[data-view='phone'][data-tools-open='true'] .simulation-action-group > span { display: none; }
+.simulation-controls[data-tools-open='true'] .simulation-status,
+.simulation-controls[data-tools-open='true'] .simulation-view-switch { display: none; }
+.simulation-controls[data-tools-open='true'] .simulation-tools { padding-left: 0; border-left: 0; }
+.simulation-controls[data-tools-open='true'] .simulation-tools-menu { position: static; order: -1; height: 56px; padding: 0 8px 0 0; border: 0; background: transparent; transform: none; }
+.simulation-controls[data-tools-open='true'] .simulation-action-group { justify-content: center; padding-top: 0; padding-bottom: 0; }
+.simulation-controls[data-tools-open='true'] .simulation-action-group > span { display: none; }
 
 @media (prefers-reduced-motion: reduce) {
   .simulation-tools-menu { transition: none; }

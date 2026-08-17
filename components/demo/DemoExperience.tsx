@@ -25,14 +25,21 @@ type SessionConfig = {
   pattern: SubmissionPattern;
 };
 
-function useViewportScale(width: number, height: number) {
+// 조작 바는 두 관찰 화면에서 같은 자리(아래 가운데)에 있어야 한다.
+// TV는 그 바가 앉을 띠를 아래에 비워 두고 그만큼 작게 그린다.
+const CONTROL_BAND = 96;
+
+function useViewportScale(width: number, height: number, reserve = 0) {
   const [scale, setScale] = useState(1);
   useEffect(() => {
-    const resize = () => setScale(Math.min(window.innerWidth / width, window.innerHeight / height));
+    const resize = () => setScale(Math.min(
+      window.innerWidth / width,
+      Math.max(0, window.innerHeight - reserve) / height,
+    ));
     resize();
     window.addEventListener('resize', resize);
     return () => window.removeEventListener('resize', resize);
-  }, [height, width]);
+  }, [height, reserve, width]);
   return scale;
 }
 
@@ -88,7 +95,8 @@ export function DemoExperience({ initialVariant = 'a' }: { initialVariant?: Demo
     if (running) setDraft(readConfig(new URLSearchParams(query), initialVariant));
   }
   const duration = sessionDuration(participantCount, pattern);
-  const scale = useViewportScale(running && view === 'tv' ? 1920 : 1600, running && view === 'tv' ? 1080 : 900);
+  const showingTv = running && view === 'tv';
+  const scale = useViewportScale(showingTv ? 1920 : 1600, showingTv ? 1080 : 900, showingTv ? CONTROL_BAND : 0);
   const state = makeSimulationState(participantCount, elapsed, pattern);
   const phoneLocalMs = participantLocalTime(selectedParticipant, elapsed, pattern);
   const complete = elapsed >= duration;
@@ -184,7 +192,10 @@ export function DemoExperience({ initialVariant = 'a' }: { initialVariant?: Demo
             </motion.section>
           ) : (
             <motion.section className="simulation-stage" key="tv" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={transition}>
-              <div className="simulation-tv-canvas" style={{ transform: `translate(-50%, -50%) scale(${scale})` }}>
+              <div
+                className="simulation-tv-canvas"
+                style={{ top: `calc(50% - ${CONTROL_BAND / 2}px)`, transform: `translate(-50%, -50%) scale(${scale})` }}
+              >
                 <BakeryScene state={state} />
               </div>
             </motion.section>

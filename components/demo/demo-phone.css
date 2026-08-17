@@ -17,11 +17,18 @@
 .simulation-controls button:hover:not(:disabled):not([aria-pressed='true']) { background: rgb(247 241 232 / .12); }
 .simulation-controls button:focus-visible { outline: 2px solid var(--gold); outline-offset: -4px; }
 .simulation-controls button:disabled { opacity: .36; cursor: default; }
-.simulation-session-actions { position: absolute; top: 68px; right: 0; display: flex; height: 64px; padding: 4px; border: 2px solid rgb(247 241 232 / .24); border-radius: 8px; gap: 4px; background: rgb(23 17 15 / .96); opacity: 0; pointer-events: none; transform: translateY(-8px); transition: opacity 160ms ease-out, transform 160ms ease-out; }
-.simulation-controls[data-view='phone'] .simulation-session-actions { top: auto; bottom: 68px; transform: translateY(8px); }
-.simulation-session-actions[data-open='true'] { opacity: 1; pointer-events: auto; transform: translateY(0); }
-.simulation-session-actions button:first-child, .simulation-session-actions button:nth-child(2) { min-width: 88px; }
+.simulation-tools { position: relative; display: flex; height: 56px; padding-left: 8px; border-left: 2px solid rgb(247 241 232 / .24); align-items: center; }
+.simulation-tools-trigger { min-width: 96px !important; }
+.simulation-tools-menu { position: absolute; top: 64px; right: -4px; display: flex; padding: 8px; border: 2px solid rgb(247 241 232 / .24); border-radius: 8px; gap: 8px; background: rgb(23 17 15 / .96); opacity: 0; pointer-events: none; transform: translateY(-8px); transition: opacity 160ms ease-out, transform 160ms ease-out; }
+.simulation-controls[data-view='phone'] .simulation-tools-menu { top: auto; bottom: 64px; transform: translateY(8px); }
+.simulation-tools-menu[data-open='true'] { opacity: 1; pointer-events: auto; transform: translateY(0); }
+.simulation-action-group { display: flex; padding: 0 4px; flex-direction: column; gap: 4px; }
+.simulation-action-group + .simulation-action-group { padding-left: 12px; border-left: 2px solid rgb(247 241 232 / .24); }
+.simulation-action-group > span { height: 20px; padding-left: 8px; color: rgb(247 241 232 / .64); font: 700 12px/20px var(--mono); letter-spacing: .04em; white-space: nowrap; }
+.simulation-action-group > div { display: flex; gap: 4px; }
+.simulation-action-group button { min-width: 96px; white-space: nowrap; }
+.simulation-action-group:first-child button { min-width: 112px; }
 
 @media (prefers-reduced-motion: reduce) {
-  .simulation-session-actions { transition: none; }
+  .simulation-tools-menu { transition: none; }
 }

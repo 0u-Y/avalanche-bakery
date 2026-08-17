@@ -49,20 +49,39 @@ export function SimulationControls({
         <button type="button" aria-pressed={view === 'phone'} onClick={() => chooseView('phone')}>휴대폰</button>
         <button type="button" aria-pressed={view === 'tv'} onClick={() => chooseView('tv')}>TV</button>
       </div>
-      <button
-        type="button"
-        aria-expanded={expanded}
-        aria-controls="simulation-session-actions"
-        onClick={() => setExpanded((current) => !current)}
-      >
-        세션
-      </button>
-      <div id="simulation-session-actions" className="simulation-session-actions" data-open={expanded}>
-        <button type="button" onClick={() => onParticipant(-1)} disabled={selectedParticipant === 0}>이전 사람</button>
-        <button type="button" onClick={() => onParticipant(1)} disabled={selectedParticipant === participantCount - 1}>다음 사람</button>
-        <button type="button" onClick={onTogglePlaying} disabled={complete}>{playing ? '정지' : '재생'}</button>
-        <button type="button" onClick={onReset}>처음</button>
-        <button type="button" onClick={onSetup}>설정</button>
+      <div className="simulation-tools">
+        <button
+          type="button"
+          className="simulation-tools-trigger"
+          aria-expanded={expanded}
+          aria-controls="simulation-tools-menu"
+          onClick={() => setExpanded((current) => !current)}
+        >
+          데모 조작
+        </button>
+        <div
+          id="simulation-tools-menu"
+          className="simulation-tools-menu"
+          data-open={expanded}
+          aria-hidden={!expanded}
+          inert={!expanded}
+        >
+          <div className="simulation-action-group">
+            <span>참가자 보기</span>
+            <div>
+              <button type="button" onClick={() => onParticipant(-1)} disabled={selectedParticipant === 0}>이전 참가자</button>
+              <button type="button" onClick={() => onParticipant(1)} disabled={selectedParticipant === participantCount - 1}>다음 참가자</button>
+            </div>
+          </div>
+          <div className="simulation-action-group">
+            <span>재생</span>
+            <div>
+              <button type="button" onClick={onTogglePlaying} disabled={complete}>{playing ? '일시정지' : '계속 재생'}</button>
+              <button type="button" onClick={onReset}>처음부터</button>
+              <button type="button" onClick={onSetup}>조건 바꾸기</button>
+            </div>
+          </div>
+        </div>
       </div>
     </aside>
   );

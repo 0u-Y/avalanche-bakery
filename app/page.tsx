@@ -1,10 +1,10 @@
 import Link from 'next/link';
 
 const DIRECT_ROUTES = [
-  { href: '/join/a', key: 'A', label: '자동' },
-  { href: '/join/b', key: 'B', label: '단계' },
-  { href: '/join/c', key: 'C', label: '직접' },
-  { href: '/display', key: 'TV', label: '행사장' },
+  { href: '/join/a', key: 'A', label: '자동', copy: '앞 화면 중심' },
+  { href: '/join/b', key: 'B', label: '단계', copy: '과정 확인' },
+  { href: '/join/c', key: 'C', label: '직접', copy: '함께 시작' },
+  { href: '/display', key: 'TV', label: '행사장', copy: '전체 진열' },
 ] as const;
 
 export default function Home() {
@@ -19,15 +19,23 @@ export default function Home() {
         <section className="home-title-panel">
           <span>UI PROTOTYPE</span>
           <h1>어떤 화면을<br />볼까요?</h1>
-          <p>하나를 골라 바로 시작하세요.</p>
+          <div className="home-shelf-preview" aria-hidden="true">
+            {Array.from({ length: 15 }, (_, index) => <i data-filled={index < 4} key={index} />)}
+          </div>
+          <p><b>15</b><span>COOKIES<br />ONE SESSION</span></p>
         </section>
 
         <section className="home-launch-panel">
           <Link className="home-demo-link" href="/demo">
-            <span>SESSION</span>
-            <h2>A/B 데모</h2>
-            <p>폰부터 TV까지 한 번에</p>
-            <strong>시작 <i aria-hidden="true">→</i></strong>
+            <header><span>SESSION</span><strong>시작 <i aria-hidden="true">→</i></strong></header>
+            <div className="home-demo-copy"><h2>A/B 데모</h2><p>폰부터 TV까지 한 번에</p></div>
+            <div className="home-session-flow" aria-hidden="true">
+              <div className="home-flow-stage is-phone"><span>PHONE</span><i><b /></i></div>
+              <em>→</em>
+              <div className="home-flow-stage is-oven"><span>OVEN</span><i><b /></i></div>
+              <em>→</em>
+              <div className="home-flow-stage is-tv"><span>TV</span><i>{Array.from({ length: 10 }, (_, index) => <b key={index} />)}</i></div>
+            </div>
           </Link>
 
           <section className="home-direct-links">
@@ -36,7 +44,7 @@ export default function Home() {
               {DIRECT_ROUTES.map((route) => (
                 <Link href={route.href} key={route.href}>
                   <b>{route.key}</b>
-                  <span>{route.label}</span>
+                  <span><strong>{route.label}</strong><small>{route.copy}</small></span>
                   <i aria-hidden="true">→</i>
                 </Link>
               ))}

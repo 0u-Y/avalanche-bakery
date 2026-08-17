@@ -38,7 +38,7 @@ export function DemoPhone({
   const completeAt = mintedAt + completionBuffer(pattern) + (variant === 'b' ? 600 : 0);
 
   if (localMs >= completeAt) {
-    return <CompletionScreen submission={submission} embedded />;
+    return <CompletionScreen submission={submission} embedded showProcess={variant === 'b'} />;
   }
 
   return (
@@ -54,7 +54,9 @@ export function DemoPhone({
         </section>
       ) : null}
       {localMs >= 600 && variant === 'a' ? <AutomaticPost submission={submission} /> : null}
-      {localMs >= 600 && variant === 'b' ? <GuidedPost phase={guidedPhase(localMs, timing)} /> : null}
+      {localMs >= 600 && variant === 'b' ? (
+        <GuidedPost phase={guidedPhase(localMs, timing)} submission={submission} />
+      ) : null}
     </JoinShell>
   );
 }

@@ -5,6 +5,9 @@ out/
 tsconfig.tsbuildinfo
 .DS_Store
 
+# 디자인 하네스(impeccable) 설치본. `npx impeccable install`로 각자 받는다.
+.claude/skills/
+
 # impeccable-ignore-start
 # Ephemeral review captures and per-developer runtime state.
 .impeccable/config.local.json

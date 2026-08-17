@@ -1,3 +1,5 @@
+import { ExitLink } from '@/components/nav/ExitLink';
+
 type PreviewState = 'empty' | 'baking' | 'arrived';
 
 type StateSpec = {
@@ -58,6 +60,9 @@ const CARD_DATA = [
 export function Styleguide() {
   return (
     <main className="sg-page">
+      <div className="display-exit">
+        <ExitLink label="처음 화면" href="/" tone="quiet" />
+      </div>
       <header className="sg-intro">
         <div className="sg-intro__meta">
           <span>DISPLAY SYSTEM · DIRECTION 01</span>

@@ -8,6 +8,8 @@
 
 .simulation-controls { position: fixed; z-index: 100; top: 16px; left: 50%; display: flex; height: 64px; padding: 4px; border: 2px solid rgb(247 241 232 / .24); border-radius: 8px; align-items: center; gap: 4px; background: rgb(23 17 15 / .96); color: var(--paper); transform: translateX(-50%); }
 .simulation-controls[data-view='phone'] { top: auto; bottom: 16px; }
+.simulation-exit { display: flex; height: 56px; padding: 0 8px 0 4px; border-right: 2px solid rgb(247 241 232 / .24); align-items: center; }
+.simulation-controls[data-view='phone'][data-tools-open='true'] .simulation-exit { display: none; }
 .simulation-status { display: flex; height: 56px; padding: 0 16px; border-right: 2px solid rgb(247 241 232 / .24); align-items: center; gap: 12px; }
 .simulation-status b { min-width: 104px; font: 400 18px/1 var(--display); }
 .simulation-status span { min-width: 112px; font: 700 14px/1 var(--mono); font-variant-numeric: tabular-nums; }

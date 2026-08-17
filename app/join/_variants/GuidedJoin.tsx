@@ -25,11 +25,11 @@ export function GuidedJoin() {
   }, [submission]);
 
   if (!submission) return <CommonJoinFlow onSubmit={setSubmission} />;
-  if (complete) return <CompletionScreen submission={submission} />;
+  if (complete) return <CompletionScreen submission={submission} showProcess />;
 
   return (
-    <JoinShell currentStep={4}>
-      <GuidedPost phase={phase} />
+    <JoinShell currentStep={4} back={{ label: '처음 화면', href: '/' }}>
+      <GuidedPost phase={phase} submission={submission} />
     </JoinShell>
   );
 }

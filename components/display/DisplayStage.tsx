@@ -3,6 +3,7 @@
 import { AnimatePresence, motion, MotionConfig, useReducedMotion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 
+import { ExitLink } from '@/components/nav/ExitLink';
 import { mockControls, useShowState } from '@/hooks/useShowState';
 import { useDemoLoop } from '@/hooks/useDemoLoop';
 
@@ -62,6 +63,9 @@ export function DisplayStage({ devMode = false }: { devMode?: boolean }) {
             )}
           </AnimatePresence>
           {devMode ? <DevPanel state={state} controls={mockControls} /> : null}
+        </div>
+        <div className="display-exit">
+          <ExitLink label="처음 화면" href="/" tone="quiet" />
         </div>
       </MotionConfig>
     </main>

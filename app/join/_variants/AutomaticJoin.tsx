@@ -22,7 +22,7 @@ export function AutomaticJoin() {
   if (complete) return <CompletionScreen submission={submission} />;
 
   return (
-    <JoinShell currentStep={4}>
+    <JoinShell currentStep={4} back={{ label: '처음 화면', href: '/' }}>
       <AutomaticPost submission={submission} />
     </JoinShell>
   );

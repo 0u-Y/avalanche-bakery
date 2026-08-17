@@ -1,15 +1,13 @@
 'use client';
 
 import { motion, useReducedMotion } from 'framer-motion';
+import { useState } from 'react';
 
+import { CertificateCard, CertificateStub } from '../_shared/CertificateCard';
 import type { JoinSubmission } from '../_shared/joinTypes';
-
-export const GUIDED_STEPS = [
-  ['사진 저장됨', '방금 찍은 사진을 안전하게 받았어요.'],
-  ['증서 만드는 중', '사진과 이름을 오늘의 참가 증서에 담아요.'],
-  ['굽는 중', '공개된 기록으로 남겨 누구나 확인할 수 있게 해요.'],
-  ['진열 완료', '앞 화면 7번 칸에 당신의 증서가 놓였어요.'],
-] as const;
+import { PhoneSheet } from '../_shared/PhoneSheet';
+import { ProcessTimeline } from '../_shared/ProcessTimeline';
+import { PROCESS_DONE } from '../_shared/processSteps';
 
 export function AutomaticPost({ submission }: { submission: JoinSubmission }) {
   return (
@@ -24,19 +22,38 @@ export function AutomaticPost({ submission }: { submission: JoinSubmission }) {
   );
 }
 
-export function GuidedPost({ phase }: { phase: number }) {
+export function GuidedPost({ phase, submission }: {
+  phase: number;
+  submission: JoinSubmission;
+}) {
+  const [certificateOpen, setCertificateOpen] = useState(false);
+  const pending = phase < PROCESS_DONE - 1;
+
   return (
-    <section className="join-step post-submit post-b">
-      <header><h1>쿠키가 증서가 되는 길</h1></header>
-      <ol className="guided-steps">
-        {GUIDED_STEPS.map(([title, copy], index) => (
-          <li className={index === phase ? 'is-current' : index < phase ? 'is-past' : ''} key={title}>
-            <i>{index + 1}</i><span><b>{title}</b><small>{copy}</small></span>
-          </li>
-        ))}
-      </ol>
-      <p className="guided-note">버튼을 누를 필요 없어요. 과정이 끝나면 알려드릴게요.</p>
-    </section>
+    <>
+      <section className="join-step post-submit post-b">
+        <header><h1>쿠키가 증서가 되는 길</h1></header>
+        <ProcessTimeline phase={phase} />
+        <CertificateStub
+          submission={submission}
+          pending={pending}
+          onOpen={() => setCertificateOpen(true)}
+        />
+      </section>
+
+      <PhoneSheet
+        open={certificateOpen}
+        title={pending ? '지금 만들고 있는 증서' : '발행된 증서'}
+        onClose={() => setCertificateOpen(false)}
+      >
+        <CertificateCard submission={submission} pending={pending} />
+        <p className="sheet-footnote">
+          {pending
+            ? '번호는 굽기가 끝나면 정해져요.'
+            : `앞 화면 ${String(submission.shelfNumber).padStart(2, '0')}번 칸에도 같은 증서가 놓여요.`}
+        </p>
+      </PhoneSheet>
+    </>
   );
 }
 

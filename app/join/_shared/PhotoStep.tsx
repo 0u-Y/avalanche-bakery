@@ -3,11 +3,12 @@ import type { ChangeEvent } from 'react';
 
 import { StepHeading } from './JoinShell';
 
-export function PhotoStep({ preview, onPhoto, onSample, onNext }: {
+export function PhotoStep({ preview, onPhoto, onSample, onNext, onBack }: {
   preview: string | null;
   onPhoto: (event: ChangeEvent<HTMLInputElement>) => void;
   onSample: () => void;
   onNext: () => void;
+  onBack: () => void;
 }) {
   return (
     <>
@@ -24,6 +25,7 @@ export function PhotoStep({ preview, onPhoto, onSample, onNext }: {
         </label>
         {!preview ? <button className="join-button is-text" type="button" onClick={onSample}>샘플 사진으로 보기</button> : null}
         {preview ? <button className="join-button is-primary" type="button" onClick={onNext}>이 사진으로 계속</button> : null}
+        <button className="join-button is-text" type="button" onClick={onBack}>이전</button>
       </div>
     </>
   );

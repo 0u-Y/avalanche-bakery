@@ -36,7 +36,7 @@ export function CommonJoinFlow({ onSubmit }: {
   const submit = () => onSubmit({ nickname: nickname.trim(), photoPreview: preview, shelfNumber: 7, tokenId: 1048 });
 
   return (
-    <JoinShell currentStep={STEP_NUMBER[stage]}>
+    <JoinShell currentStep={STEP_NUMBER[stage]} back={{ label: '처음 화면', href: '/' }}>
       <AnimatePresence mode="wait" initial={false}>
         <motion.section
           className="join-step"
@@ -48,7 +48,7 @@ export function CommonJoinFlow({ onSubmit }: {
         >
           {stage === 'email' ? <EmailStep email={email} onEmail={setEmail} onCode={() => setStage('code')} onGoogle={() => setStage('photo')} /> : null}
           {stage === 'code' ? <CodeStep code={code} email={email} onCode={setCode} onNext={() => setStage('photo')} onBack={() => setStage('email')} /> : null}
-          {stage === 'photo' ? <PhotoStep preview={preview} onPhoto={choosePhoto} onSample={() => setPreview('/mock/cookie-1.svg')} onNext={() => setStage('nickname')} /> : null}
+          {stage === 'photo' ? <PhotoStep preview={preview} onPhoto={choosePhoto} onSample={() => setPreview('/mock/cookie-1.svg')} onNext={() => setStage('nickname')} onBack={() => setStage('email')} /> : null}
           {stage === 'nickname' ? <NicknameStep nickname={nickname} onNickname={setNickname} onNext={() => setStage('submit')} onBack={() => setStage('photo')} /> : null}
           {stage === 'submit' ? <SubmitStep nickname={nickname} preview={preview} onSubmit={submit} onBack={() => setStage('nickname')} /> : null}
         </motion.section>

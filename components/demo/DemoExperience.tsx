@@ -1,7 +1,8 @@
 'use client';
 
 import { AnimatePresence, motion, MotionConfig, useReducedMotion } from 'framer-motion';
-import { useCallback, useEffect, useState } from 'react';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { BakeryScene } from '@/components/display/BakeryScene';
 
@@ -17,6 +18,12 @@ import {
   type DemoView,
   type SubmissionPattern,
 } from './demoState';
+
+type SessionConfig = {
+  variant: DemoVariant;
+  participantCount: number;
+  pattern: SubmissionPattern;
+};
 
 function useViewportScale(width: number, height: number) {
   const [scale, setScale] = useState(1);
@@ -35,41 +42,77 @@ function isEditable(target: EventTarget | null) {
   );
 }
 
+function readConfig(params: URLSearchParams, fallbackVariant: DemoVariant): SessionConfig {
+  const count = Number.parseInt(params.get('n') ?? '', 10);
+  return {
+    variant: params.get('v') === 'b' ? 'b' : params.get('v') === 'a' ? 'a' : fallbackVariant,
+    participantCount: Number.isFinite(count) ? Math.min(15, Math.max(1, count)) : DEFAULT_PARTICIPANTS,
+    pattern: params.get('p') === 'sequential' ? 'SEQUENTIAL' : 'BURST',
+  };
+}
+
+function sessionQuery({ variant, participantCount, pattern }: SessionConfig) {
+  return `?run=1&v=${variant}&n=${participantCount}&p=${pattern.toLowerCase()}`;
+}
+
 export function DemoExperience({ initialVariant = 'a' }: { initialVariant?: DemoVariant }) {
   const reduceMotion = useReducedMotion();
-  const [variant, setVariant] = useState<DemoVariant>(initialVariant);
-  const [participantCount, setParticipantCount] = useState(DEFAULT_PARTICIPANTS);
-  const [pattern, setPattern] = useState<SubmissionPattern>('BURST');
-  const [started, setStarted] = useState(false);
+  const router = useRouter();
+  const pathname = usePathname();
+  const params = useSearchParams();
+
+  // 재생 중인 세션은 주소에 남는다. 브라우저 뒤로 가기가 설정 화면으로 돌아오고,
+  // 같은 주소를 다시 열면 같은 조건이 재생된다.
+  const running = params.get('run') === '1';
+  const query = params.toString();
+  const pushedRef = useRef(false);
+
+  const [draft, setDraft] = useState<SessionConfig>(() => readConfig(new URLSearchParams(query), initialVariant));
+  const session = running ? readConfig(new URLSearchParams(query), initialVariant) : draft;
+  const { variant, participantCount, pattern } = session;
+
   const [view, setView] = useState<DemoView>('phone');
   const [selectedParticipant, setSelectedParticipant] = useState(0);
-  const [playing, setPlaying] = useState(false);
+  const [playing, setPlaying] = useState(running);
   const [elapsed, setElapsed] = useState(0);
+
+  // 주소가 바뀌면 그 조건으로 세션을 처음부터 다시 재생한다.
+  const runKey = `${running ? 'run' : 'setup'}|${query}`;
+  const [lastRunKey, setLastRunKey] = useState(runKey);
+  if (runKey !== lastRunKey) {
+    setLastRunKey(runKey);
+    setView('phone');
+    setSelectedParticipant(0);
+    setElapsed(0);
+    setPlaying(running);
+    if (running) setDraft(readConfig(new URLSearchParams(query), initialVariant));
+  }
   const duration = sessionDuration(participantCount, pattern);
-  const scale = useViewportScale(started && view === 'tv' ? 1920 : 1600, started && view === 'tv' ? 1080 : 900);
+  const scale = useViewportScale(running && view === 'tv' ? 1920 : 1600, running && view === 'tv' ? 1080 : 900);
   const state = makeSimulationState(participantCount, elapsed, pattern);
   const phoneLocalMs = participantLocalTime(selectedParticipant, elapsed, pattern);
   const complete = elapsed >= duration;
 
   const start = useCallback(() => {
-    setElapsed(0);
-    setView('phone');
-    setSelectedParticipant(0);
-    setPlaying(true);
-    setStarted(true);
-  }, []);
+    pushedRef.current = true;
+    router.push(`${pathname}${sessionQuery(draft)}`);
+  }, [draft, pathname, router]);
   const reset = useCallback(() => {
     setElapsed(0);
     setPlaying(true);
   }, []);
   const openSetup = useCallback(() => {
     setPlaying(false);
-    setElapsed(0);
-    setStarted(false);
-  }, []);
+    if (pushedRef.current) {
+      pushedRef.current = false;
+      router.back();
+      return;
+    }
+    router.push(pathname);
+  }, [pathname, router]);
 
   useEffect(() => {
-    if (!started || !playing) return;
+    if (!running || !playing) return;
     const interval = window.setInterval(() => {
       setElapsed((current) => {
         const next = Math.min(current + 100, duration);
@@ -78,9 +121,9 @@ export function DemoExperience({ initialVariant = 'a' }: { initialVariant?: Demo
       });
     }, 100);
     return () => window.clearInterval(interval);
-  }, [duration, playing, started]);
+  }, [duration, playing, running]);
   useEffect(() => {
-    if (!started) return;
+    if (!running) return;
     const keydown = (event: KeyboardEvent) => {
       if (isEditable(event.target)) return;
       const key = event.key.toLowerCase();
@@ -95,18 +138,18 @@ export function DemoExperience({ initialVariant = 'a' }: { initialVariant?: Demo
     };
     window.addEventListener('keydown', keydown);
     return () => window.removeEventListener('keydown', keydown);
-  }, [complete, openSetup, reset, started]);
+  }, [complete, openSetup, reset, running]);
 
-  if (!started) {
+  if (!running) {
     return (
       <DemoSetup
         variant={variant}
         participantCount={participantCount}
         pattern={pattern}
         scale={scale}
-        onVariant={setVariant}
-        onParticipantCount={setParticipantCount}
-        onPattern={setPattern}
+        onVariant={(next) => setDraft((current) => ({ ...current, variant: next }))}
+        onParticipantCount={(next) => setDraft((current) => ({ ...current, participantCount: next }))}
+        onPattern={(next) => setDraft((current) => ({ ...current, pattern: next }))}
         onStart={start}
       />
     );

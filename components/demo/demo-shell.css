@@ -8,6 +8,7 @@
 
 .setup-canvas { display: grid; grid-template-columns: 560px 1040px; background: var(--paper); }
 .setup-brand-panel { display: flex; padding: 56px; background: var(--ava); color: var(--paper); flex-direction: column; }
+.setup-exit { margin-bottom: 28px; }
 .setup-brand-mark { width: 64px; height: 64px; }
 .setup-brand-panel h1 { max-width: 440px; margin: 44px 0 0; font: 400 64px/.94 var(--display); letter-spacing: -.04em; word-break: keep-all; }
 .setup-brand-panel > p { max-width: 420px; margin: 28px 0 0; font-size: 21px; font-weight: 700; line-height: 1.45; word-break: keep-all; }

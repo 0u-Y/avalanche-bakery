@@ -12,9 +12,11 @@
 @import './join/_shared/join-shell.css';
 @import './join/_shared/join-steps.css';
 @import './join/_shared/completion.css';
+@import './join/_shared/phone-sheet.css';
 @import './join/_variants/join-variants.css';
 @import '../components/demo/demo-shell.css';
 @import '../components/demo/demo-phone.css';
+@import '../components/nav/nav.css';
 @import './index.css';
 
 :root {

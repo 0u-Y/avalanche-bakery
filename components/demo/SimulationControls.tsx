@@ -1,6 +1,9 @@
 'use client';
 
 import { useState } from 'react';
+
+import { ExitLink } from '@/components/nav/ExitLink';
+
 import type { DemoVariant, DemoView } from './demoState';
 
 export function SimulationControls({
@@ -40,6 +43,9 @@ export function SimulationControls({
 
   return (
     <aside className="simulation-controls" data-view={view} data-tools-open={expanded} aria-label="시뮬레이션 조작">
+      <div className="simulation-exit">
+        <ExitLink label="설정 화면" onClick={onSetup} tone="paper" />
+      </div>
       <div className="simulation-status" role="status" aria-live="polite">
         <b>{variantLabel}</b>
         <span>{complete ? '완료' : view === 'phone'
@@ -79,7 +85,6 @@ export function SimulationControls({
             <div>
               <button type="button" onClick={onTogglePlaying} disabled={complete}>{playing ? '일시정지' : '계속 재생'}</button>
               <button type="button" onClick={onReset}>처음부터</button>
-              <button type="button" onClick={onSetup}>조건 바꾸기</button>
             </div>
           </div>
         </div>

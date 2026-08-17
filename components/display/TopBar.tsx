@@ -1,10 +1,4 @@
-'use client';
-
-import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
-
-import { COUNTER_DURATION, EASE_SETTLE } from './motion';
-
-export function TopBar({ counts }: { counts: { submitted: number; minted: number } }) {
+export function TopBar() {
   return (
     <header className="top-bar">
       <div className="brand-lockup">
@@ -14,36 +8,6 @@ export function TopBar({ counts }: { counts: { submitted: number; minted: number
         </svg>
         <strong>AVALANCHE BAKERY</strong>
       </div>
-      <div className="counts" aria-label={`도착 ${counts.submitted}개, 진열 ${counts.minted}개`}>
-        <small>도착</small>
-        <AnimatedCount value={counts.submitted} animate={false} />
-        <i className="count-divider" aria-hidden="true">·</i>
-        <small>진열</small>
-        <AnimatedCount value={counts.minted} />
-        <span className="count-total">/ 15</span>
-      </div>
     </header>
-  );
-}
-
-function AnimatedCount({ value, animate = true }: { value: number; animate?: boolean }) {
-  const reduceMotion = useReducedMotion();
-  if (!animate) {
-    return <span className="count-value"><b>{String(value).padStart(2, '0')}</b></span>;
-  }
-  return (
-    <span className="count-value">
-      <AnimatePresence initial={false}>
-        <motion.b
-          key={value}
-          initial={reduceMotion ? false : { y: 14, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          exit={reduceMotion ? { y: 0, opacity: 0 } : { y: -14, opacity: 0 }}
-          transition={{ duration: reduceMotion ? 0 : COUNTER_DURATION, ease: EASE_SETTLE }}
-        >
-          {String(value).padStart(2, '0')}
-        </motion.b>
-      </AnimatePresence>
-    </span>
   );
 }

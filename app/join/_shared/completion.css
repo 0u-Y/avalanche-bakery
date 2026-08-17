@@ -7,6 +7,11 @@
 }
 
 .join-phone-canvas:has(.join-complete) .join-brand-mark { color: var(--ava); }
+.join-phone-canvas:has(.join-complete) .join-header .exit-link {
+  border-color: color-mix(in srgb, var(--ink) 24%, transparent);
+  color: var(--ink);
+}
+.join-phone-canvas:has(.join-complete) .join-header .exit-link:hover { background: color-mix(in srgb, var(--ink) 10%, transparent); }
 .join-phone-canvas:has(.join-complete) .join-progress { display: none; }
 .join-phone-canvas:has(.join-complete) .join-content { height: calc(100dvh - 88px); }
 .join-page.is-embedded .join-phone-canvas:has(.join-complete) .join-content { height: 756px; }
@@ -34,7 +39,7 @@
   overflow: hidden;
   border: 4px solid var(--ink);
   border-radius: 8px;
-  grid-template-rows: 56px minmax(0, 1fr) 124px;
+  grid-template-rows: 56px minmax(0, 1fr) auto;
   background: var(--paper);
   text-align: left;
 }
@@ -167,7 +172,7 @@
   .join-phone-canvas:has(.join-complete) .join-content { height: calc(100dvh - 76px); }
   .join-complete { padding-top: 12px; }
   .complete-heading h1 { font-size: 28px; }
-  .join-certificate { width: min(68cqw, 278px); margin-top: 10px; grid-template-rows: 46px minmax(0, 1fr) 96px; }
+  .join-certificate { width: min(68cqw, 278px); margin-top: 10px; grid-template-rows: 46px minmax(0, 1fr) auto; }
   .join-certificate-photo { margin: 10px 16px 8px; }
   .join-certificate-id { padding: 10px 14px; }
   .join-certificate-id strong { font-size: 44px; }

@@ -41,10 +41,6 @@
 
 .workbench.has-qr .workbench-content { grid-template-columns: 152px minmax(0, 1fr); }
 
-.workbench.has-qr .workbench-content:has(.workbench-grid:empty) { grid-template-columns: minmax(0, 1fr); }
-.workbench-content:has(.workbench-grid:empty) .qr-position { justify-self: center; }
-.workbench-grid:empty { display: none; }
-
 .workbench-grid {
   position: relative;
   z-index: 2;

@@ -51,7 +51,7 @@ export function BakeryScene({
 
   return (
     <section className="bakery-scene">
-      <TopBar counts={sequence.counts} />
+      <TopBar />
       <LayoutGroup id="bakery-entry-flow">
         <motion.div
           className="bakery-floor"

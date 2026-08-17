@@ -42,14 +42,12 @@ export function JoinShell({
   );
 }
 
-export function StepHeading({ eyebrow, title, copy }: {
-  eyebrow: string;
+export function StepHeading({ title, copy }: {
   title: string;
   copy: string;
 }) {
   return (
     <header className="join-step-heading">
-      <span>{eyebrow}</span>
       <h1>{title}</h1>
       <p>{copy}</p>
     </header>

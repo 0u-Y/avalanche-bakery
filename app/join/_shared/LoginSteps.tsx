@@ -11,7 +11,6 @@ export function EmailStep({ email, onEmail, onCode, onGoogle }: EmailProps) {
   return (
     <>
       <StepHeading
-        eyebrow="시작"
         title="증서를 받을 방법을 골라요"
         copy="이메일이나 Google 중 하나만 고르면 돼요."
       />
@@ -46,7 +45,7 @@ export function CodeStep({ code, email, onCode, onNext, onBack }: {
 }) {
   return (
     <>
-      <StepHeading eyebrow="메일 확인" title="메일의 숫자 6자리를 넣어 주세요" copy={`${email}로 보냈어요. 메일을 확인해 주세요.`} />
+      <StepHeading title="메일의 숫자 6자리를 넣어 주세요" copy={`${email}로 보냈어요. 메일을 확인해 주세요.`} />
       <form className="join-form" onSubmit={(event) => { event.preventDefault(); onNext(); }}>
         <label className="join-field code-field">
           <span>확인 코드</span>

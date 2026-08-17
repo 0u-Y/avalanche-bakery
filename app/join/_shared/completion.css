@@ -22,7 +22,7 @@
   font-size: 34px;
   font-weight: 900;
   line-height: 1;
-  letter-spacing: -.045em;
+  letter-spacing: -.035em;
 }
 
 .join-certificate {
@@ -127,7 +127,7 @@
   font-size: clamp(64px, 19cqw, 84px);
   font-weight: 900;
   line-height: .9;
-  letter-spacing: -.055em;
+  letter-spacing: -.035em;
 }
 
 .complete-shelf-note {

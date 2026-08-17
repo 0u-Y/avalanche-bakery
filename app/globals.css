@@ -57,6 +57,11 @@
 
 * { box-sizing: border-box; font-synthesis: none; }
 
+::selection { background: var(--ava); color: var(--paper); }
+
+input,
+textarea { caret-color: var(--ava); }
+
 html,
 body {
   width: 100%;

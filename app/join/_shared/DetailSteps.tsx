@@ -10,7 +10,7 @@ export function NicknameStep({ nickname, onNickname, onNext, onBack }: {
 }) {
   return (
     <>
-      <StepHeading eyebrow="이름" title="앞 화면에 뜰 이름을 정해요" copy="내 쿠키가 오븐과 진열장으로 갈 때 이 이름이 함께 보여요." />
+      <StepHeading title="앞 화면에 뜰 이름을 정해요" copy="내 쿠키가 오븐과 진열장으로 갈 때 이 이름이 함께 보여요." />
       <form className="join-form" onSubmit={(event) => { event.preventDefault(); onNext(); }}>
         <label className="join-field nickname-field">
           <span>닉네임</span>
@@ -32,7 +32,7 @@ export function SubmitStep({ nickname, preview, onSubmit, onBack }: {
 }) {
   return (
     <>
-      <StepHeading eyebrow="보내기 전 확인" title="이제 앞 화면으로 보내요" copy="사진과 공개 안내를 확인하면 준비가 끝나요." />
+      <StepHeading title="이제 앞 화면으로 보내요" copy="사진과 공개 안내를 확인하면 준비가 끝나요." />
       <div className="join-submit-card">
         <div>{preview ? <Image src={preview} alt="제출할 쿠키" fill unoptimized sizes="112px" /> : null}</div>
         <span><small>TV에 표시될 이름</small><b>{nickname}</b></span>

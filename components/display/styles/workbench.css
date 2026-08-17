@@ -28,7 +28,7 @@
 .workbench-heading strong {
   margin: 0;
   font: 900 var(--text-2)/1 var(--display);
-  letter-spacing: -.045em;
+  letter-spacing: -.04em;
 }
 
 .workbench-content {

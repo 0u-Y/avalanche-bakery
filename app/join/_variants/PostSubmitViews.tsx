@@ -14,7 +14,6 @@ export const GUIDED_STEPS = [
 export function AutomaticPost({ submission }: { submission: JoinSubmission }) {
   return (
     <section className="join-step post-submit post-a">
-      <span className="post-kicker">자동으로 진행 중</span>
       <h1>당신의 쿠키를<br />굽고 있어요</h1>
       <div className="look-up-message">
         <small>지금은 폰에서 할 일이 없어요</small>
@@ -28,7 +27,7 @@ export function AutomaticPost({ submission }: { submission: JoinSubmission }) {
 export function GuidedPost({ phase }: { phase: number }) {
   return (
     <section className="join-step post-submit post-b">
-      <header><span className="post-kicker">자동으로 진행 중</span><h1>쿠키가 증서가 되는 길</h1></header>
+      <header><h1>쿠키가 증서가 되는 길</h1></header>
       <ol className="guided-steps">
         {GUIDED_STEPS.map(([title, copy], index) => (
           <li className={index === phase ? 'is-current' : index < phase ? 'is-past' : ''} key={title}>
@@ -51,7 +50,6 @@ export function ParticipatoryPost({ submission, started, onStart }: {
     <section className={`join-step post-submit post-c ${started ? 'is-started' : ''}`}>
       {!started ? (
         <>
-          <span className="post-kicker">모두 함께 시작해요</span>
           <h1>쿠키를 오븐에 넣을 준비가 됐어요</h1>
           <div className="operator-callout"><i /><b>운영자 안내를 기다려 주세요</b><small>“다 같이 눌러 주세요”라는 말을 들으면 시작해요.</small></div>
           <motion.button className="oven-action" type="button" onClick={onStart} whileTap={reduceMotion ? undefined : { scale: 0.94, y: 4 }} transition={{ duration: 0.16 }}>
@@ -60,9 +58,8 @@ export function ParticipatoryPost({ submission, started, onStart }: {
         </>
       ) : (
         <div className="c-started-message">
-          <span>오븐이 시작됐어요</span>
           <strong>고개를 들어<br />앞 화면을 보세요</strong>
-          <p>{submission.nickname} 쿠키가 지금 오븐으로 이동해요.</p>
+          <p>오븐이 시작됐어요. {submission.nickname} 쿠키가 지금 앞 화면으로 이동해요.</p>
         </div>
       )}
     </section>

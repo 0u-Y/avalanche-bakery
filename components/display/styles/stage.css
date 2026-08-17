@@ -104,7 +104,7 @@
 .zone-heading h2 {
   margin: 10px 0 0;
   font: 900 var(--text-3)/1 var(--display);
-  letter-spacing: -0.055em;
+  letter-spacing: -0.04em;
 }
 
 .zone-heading.is-note-free h2 { margin-top: calc(var(--text-1) + 10px); }

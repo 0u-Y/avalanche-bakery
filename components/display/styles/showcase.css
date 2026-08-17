@@ -13,7 +13,7 @@
 .showcase-heading h2 {
   margin: 0;
   font: 900 48px/1 var(--display);
-  letter-spacing: -.055em;
+  letter-spacing: -.04em;
 }
 
 .shelf-frame {
@@ -110,7 +110,7 @@
   bottom: 2px;
   left: 18px;
   padding: 4px 0;
-  color: rgb(23 17 15 / .42);
+  color: rgb(23 17 15 / .52);
   font: 700 var(--text-1)/1 var(--mono);
 }
 

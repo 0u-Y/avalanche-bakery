@@ -31,6 +31,7 @@ export function SimulationControls({
   onSetup: () => void;
 }) {
   const [expanded, setExpanded] = useState(false);
+  const variantLabel = variant === 'a' ? '앞 화면 중심' : '단계 확인';
 
   const chooseView = (nextView: DemoView) => {
     onView(nextView);
@@ -38,16 +39,16 @@ export function SimulationControls({
   };
 
   return (
-    <aside className="simulation-controls" data-view={view} aria-label="시뮬레이션 조작">
-      <div className="simulation-status">
-        <b>{variant.toUpperCase()}</b>
+    <aside className="simulation-controls" data-view={view} data-tools-open={expanded} aria-label="시뮬레이션 조작">
+      <div className="simulation-status" role="status" aria-live="polite">
+        <b>{variantLabel}</b>
         <span>{complete ? '완료' : view === 'phone'
           ? `내 쿠키 ${String(selectedParticipant + 1).padStart(2, '0')}`
           : `도착 ${String(submittedCount).padStart(2, '0')} / ${String(participantCount).padStart(2, '0')}`}</span>
       </div>
       <div className="simulation-view-switch" role="group" aria-label="관찰 화면">
-        <button type="button" aria-pressed={view === 'phone'} onClick={() => chooseView('phone')}>휴대폰</button>
-        <button type="button" aria-pressed={view === 'tv'} onClick={() => chooseView('tv')}>TV</button>
+        <button type="button" aria-pressed={view === 'phone'} onClick={() => chooseView('phone')}>참가자 폰</button>
+        <button type="button" aria-pressed={view === 'tv'} onClick={() => chooseView('tv')}>행사장 TV</button>
       </div>
       <div className="simulation-tools">
         <button

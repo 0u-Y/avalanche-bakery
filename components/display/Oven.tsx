@@ -1,6 +1,6 @@
 'use client';
 
-import { AnimatePresence, motion } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { useEffect, useRef, useState } from 'react';
 
 import type { Entry } from '@/lib/types';
@@ -14,16 +14,21 @@ type LayoutTransition = { layout: { duration: number; ease: [number, number, num
 export function Oven({
   entries,
   phases,
+  slots,
   flowActive,
   transition,
 }: {
   entries: Entry[];
   phases: Map<string, CardMotionPhase>;
+  slots: Map<string, number>;
   flowActive: boolean;
   transition: LayoutTransition;
 }) {
   const active = entries.length > 0 || flowActive;
   const bakingCount = entries.filter((entry) => phases.get(entry.id) !== 'to-shelf').length;
+  const traySlots = Array.from({ length: 4 }, (_, slot) => (
+    entries.find((entry) => slots.get(entry.id) === slot)
+  ));
   const previousActive = useRef(active);
   const completionTimer = useRef<number | null>(null);
   const phaseTimer = useRef<number | null>(null);
@@ -69,10 +74,10 @@ export function Oven({
             <path d="M98 102C80 82 116 64 98 44S116 10 98 2" />
           </svg>
           <div className="oven-grid">
-            <AnimatePresence initial={false}>
-              {entries.map((entry) => (
-                <div className="oven-card-position" key={entry.id}>
-                  {phases.get(entry.id) === 'to-shelf' ? (
+            {traySlots.map((entry, slot) => (
+              <div className="oven-card-position" data-empty={!entry} key={slot}>
+                {entry ? (
+                  phases.get(entry.id) === 'to-shelf' ? (
                     <span className="oven-card-placeholder" aria-hidden="true" />
                   ) : (
                     <CookieCard
@@ -81,10 +86,10 @@ export function Oven({
                       layoutDuration={phases.has(entry.id) ? undefined : COUNTER_DURATION}
                       layoutEase={EASE_SETTLE}
                     />
-                  )}
-                </div>
-              ))}
-            </AnimatePresence>
+                  )
+                ) : null}
+              </div>
+            ))}
           </div>
           <div className="oven-rack" aria-hidden="true"><i /><i /><i /><i /></div>
         </div>

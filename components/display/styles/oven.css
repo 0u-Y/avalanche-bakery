@@ -74,6 +74,7 @@
 }
 
 .oven-card-position { width: 168px; height: 172px; }
+.oven-card-position[data-empty='true'] { border: var(--line-thin) solid rgb(247 241 232 / .18); }
 
 .oven-rack {
   position: absolute;

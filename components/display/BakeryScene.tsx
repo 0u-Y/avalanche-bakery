@@ -62,6 +62,7 @@ export function BakeryScene({
             <Oven
               entries={ovenEntries}
               phases={sequence.phases}
+              slots={sequence.ovenSlots}
               flowActive={sequence.boundaryBusy}
               transition={layoutTransition}
             />

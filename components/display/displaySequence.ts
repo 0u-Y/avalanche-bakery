@@ -2,6 +2,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import type { Entry, EntryStatus } from '@/lib/types';
 import { CARD_DROP_MS, CARD_MOVE_MS, CARD_SETTLE_MS, SHOWCASE_COMPLETE_MS } from './motion';
+import { useOvenSlots } from './ovenSlots';
 export type CardMotionPhase = 'enter' | 'to-oven' | 'to-shelf';
 type BoundaryMove = { entry: Entry; phase: Exclude<CardMotionPhase, 'enter'> };
 const MIN_OVEN_MS = 2_000;
@@ -32,6 +33,7 @@ export function useDisplaySequence(source: Entry[], reducedMotion: boolean) {
   const [arrivalIds, setArrivalIds] = useState<Set<string>>(new Set());
   const [counts, setCounts] = useState(() => entryCounts(source));
   const [boundaryBusy, setBoundaryBusy] = useState(false);
+  const { ovenSlots, assignOvenSlot, releaseOvenSlot, resetOvenSlots } = useOvenSlots(source);
   const sourceMap = useRef(new Map(source.map((entry) => [entry.id, entry])));
   const latestSource = useRef(source);
   const queue = useRef<BoundaryMove[]>([]);
@@ -91,6 +93,7 @@ export function useDisplaySequence(source: Entry[], reducedMotion: boolean) {
     const [move] = queue.current.splice(index, 1);
     activeMoves.current.set(move.entry.id, move);
     if (move.phase === 'to-oven') {
+      assignOvenSlot(move.entry.id);
       ovenEnteredAt.current.set(move.entry.id, Date.now());
       setEntries((current) => current.map((entry) => entry.id === move.entry.id ? move.entry : entry));
     }
@@ -98,6 +101,7 @@ export function useDisplaySequence(source: Entry[], reducedMotion: boolean) {
     later(() => {
       if (move.phase === 'to-shelf') {
         setEntries((current) => current.map((entry) => entry.id === move.entry.id ? move.entry : entry));
+        releaseOvenSlot(move.entry.id);
         markArrival(move.entry.id);
       }
       setPhases((current) => {
@@ -112,10 +116,13 @@ export function useDisplaySequence(source: Entry[], reducedMotion: boolean) {
       if (queue.current.length === 0 && activeMoves.current.size === 0) setBoundaryBusy(false);
       startNextRef.current();
     }, CARD_MOVE_MS + CARD_SETTLE_MS);
-  }, [later, markArrival, reducedMotion]);
+  }, [assignOvenSlot, later, markArrival, reducedMotion, releaseOvenSlot]);
   useEffect(() => { startNextRef.current = startNext; }, [startNext]);
   useEffect(() => {
     latestSource.current = source;
+    if (source.length === 0) {
+      resetOvenSlots([]);
+    }
     if (initialSync.current) {
       const observedAt = Date.now();
       source.filter((entry) => entry.status === 'MINTING').forEach((entry) => {
@@ -139,6 +146,7 @@ export function useDisplaySequence(source: Entry[], reducedMotion: boolean) {
         queue.current = [];
         activeMoves.current.clear();
         ovenEnteredAt.current.clear();
+        resetOvenSlots(source);
         setBoundaryBusy(false);
         setEntries(source);
         setPhases(new Map());
@@ -181,10 +189,10 @@ export function useDisplaySequence(source: Entry[], reducedMotion: boolean) {
       }));
       startNext();
     }, 0);
-  }, [later, markArrival, reducedMotion, source, startNext]);
+  }, [later, markArrival, reducedMotion, resetOvenSlots, source, startNext]);
   useEffect(() => () => {
     timers.current.forEach((timer) => window.clearTimeout(timer));
     timers.current.clear();
   }, []);
-  return { entries, phases, arrivalIds, counts, boundaryBusy };
+  return { entries, phases, arrivalIds, counts, boundaryBusy, ovenSlots };
 }

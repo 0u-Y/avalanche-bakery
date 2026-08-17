@@ -5,9 +5,7 @@ import { CARD_DROP_MS, CARD_MOVE_MS, CARD_SETTLE_MS, SHOWCASE_COMPLETE_MS } from
 import { useOvenSlots } from './ovenSlots';
 export type CardMotionPhase = 'enter' | 'to-oven' | 'to-shelf';
 type BoundaryMove = { entry: Entry; phase: Exclude<CardMotionPhase, 'enter'> };
-const MIN_OVEN_MS = 2_000;
-const MAX_ACTIVE_MOVES = 1;
-
+const MIN_OVEN_MS = 2_000; const MAX_ACTIVE_MOVES = 1;
 function zone(status: EntryStatus) {
   if (status === 'MINTING') return 'oven';
   if (status === 'MINTED') return 'shelf';
@@ -33,7 +31,7 @@ export function useDisplaySequence(source: Entry[], reducedMotion: boolean) {
   const [arrivalIds, setArrivalIds] = useState<Set<string>>(new Set());
   const [counts, setCounts] = useState(() => entryCounts(source));
   const [boundaryBusy, setBoundaryBusy] = useState(false);
-  const { ovenSlots, assignOvenSlot, releaseOvenSlot, resetOvenSlots } = useOvenSlots(source);
+  const { ovenSlots, assignOvenSlot, releaseOvenSlot, resetOvenSlots, hasOpenOvenSlot, hasOvenSlot } = useOvenSlots(source);
   const sourceMap = useRef(new Map(source.map((entry) => [entry.id, entry])));
   const latestSource = useRef(source);
   const queue = useRef<BoundaryMove[]>([]);
@@ -71,7 +69,7 @@ export function useDisplaySequence(source: Entry[], reducedMotion: boolean) {
     const now = Date.now();
     const index = queue.current.findIndex((move) => {
       if (activeMoves.current.has(move.entry.id)) return false;
-      if (move.phase === 'to-oven') return true;
+      if (move.phase === 'to-oven') return hasOpenOvenSlot();
       const enteredAt = ovenEnteredAt.current.get(move.entry.id);
       return enteredAt !== undefined && now - enteredAt >= MIN_OVEN_MS;
     });
@@ -116,26 +114,29 @@ export function useDisplaySequence(source: Entry[], reducedMotion: boolean) {
       if (queue.current.length === 0 && activeMoves.current.size === 0) setBoundaryBusy(false);
       startNextRef.current();
     }, CARD_MOVE_MS + CARD_SETTLE_MS);
-  }, [assignOvenSlot, later, markArrival, reducedMotion, releaseOvenSlot]);
+  }, [assignOvenSlot, hasOpenOvenSlot, later, markArrival, reducedMotion, releaseOvenSlot]);
   useEffect(() => { startNextRef.current = startNext; }, [startNext]);
   useEffect(() => {
     latestSource.current = source;
     if (source.length === 0) {
       resetOvenSlots([]);
     }
+    let initialMoves: BoundaryMove[] = [];
     if (initialSync.current) {
       const observedAt = Date.now();
-      source.filter((entry) => entry.status === 'MINTING').forEach((entry) => {
+      source.filter((entry) => entry.status === 'MINTING' && hasOvenSlot(entry.id)).forEach((entry) => {
         ovenEnteredAt.current.set(entry.id, observedAt);
       });
+      initialMoves = source.filter((entry) => entry.status === 'MINTING' && !hasOvenSlot(entry.id))
+        .map((entry) => ({ entry, phase: 'to-oven' }));
       initialSync.current = false;
     }
     const previous = sourceMap.current;
-    const moves = source.flatMap((entry) => {
+    const moves = [...initialMoves, ...source.flatMap((entry) => {
       const oldEntry = previous.get(entry.id);
       const move = oldEntry ? boundaryMove(oldEntry, entry) : null;
       return move && !entry.hidden ? [move] : [];
-    });
+    })];
     const newEntries = source.filter((entry) => !previous.has(entry.id));
     sourceMap.current = new Map(source.map((entry) => [entry.id, entry]));
     later(() => {
@@ -189,7 +190,7 @@ export function useDisplaySequence(source: Entry[], reducedMotion: boolean) {
       }));
       startNext();
     }, 0);
-  }, [later, markArrival, reducedMotion, resetOvenSlots, source, startNext]);
+  }, [hasOvenSlot, later, markArrival, reducedMotion, resetOvenSlots, source, startNext]);
   useEffect(() => () => {
     timers.current.forEach((timer) => window.clearTimeout(timer));
     timers.current.clear();

@@ -75,7 +75,7 @@ export function Oven({
           </svg>
           <div className="oven-grid">
             {traySlots.map((entry, slot) => (
-              <div className="oven-card-position" data-empty={!entry} key={slot}>
+              <div className="oven-card-position" key={slot}>
                 {entry ? (
                   phases.get(entry.id) === 'to-shelf' ? (
                     <span className="oven-card-placeholder" aria-hidden="true" />

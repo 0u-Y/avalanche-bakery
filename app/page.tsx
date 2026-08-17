@@ -19,22 +19,20 @@ export default function Home() {
         <section className="home-title-panel">
           <span>UI PROTOTYPE</span>
           <h1>어떤 화면을<br />볼까요?</h1>
-          <div className="home-shelf-preview" aria-hidden="true">
-            {Array.from({ length: 15 }, (_, index) => <i data-filled={index < 4} key={index} />)}
-          </div>
-          <p><b>15</b><span>COOKIES<br />ONE SESSION</span></p>
+          <p className="home-title-copy">같은 세션을 두 가지<br />참가 경험으로 비교합니다.</p>
+          <dl className="home-session-facts">
+            <div><dt>PARTICIPANTS</dt><dd>15명</dd></div>
+            <div><dt>SCREENS</dt><dd>PHONE / TV</dd></div>
+          </dl>
         </section>
 
         <section className="home-launch-panel">
           <Link className="home-demo-link" href="/demo">
             <header><span>SESSION</span><strong>시작 <i aria-hidden="true">→</i></strong></header>
             <div className="home-demo-copy"><h2>A/B 데모</h2><p>폰부터 TV까지 한 번에</p></div>
-            <div className="home-session-flow" aria-hidden="true">
-              <div className="home-flow-stage is-phone"><span>PHONE</span><i><b /></i></div>
-              <em>→</em>
-              <div className="home-flow-stage is-oven"><span>OVEN</span><i><b /></i></div>
-              <em>→</em>
-              <div className="home-flow-stage is-tv"><span>TV</span><i>{Array.from({ length: 10 }, (_, index) => <b key={index} />)}</i></div>
+            <div className="home-variant-summary">
+              <section><b>A</b><span><strong>앞 화면 중심</strong><small>제출 뒤 TV로 시선을 넘깁니다.</small></span></section>
+              <section><b>B</b><span><strong>단계 확인</strong><small>처리 과정을 폰에서도 확인합니다.</small></span></section>
             </div>
           </Link>
 

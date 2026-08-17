@@ -9,7 +9,14 @@ const OVEN_SLOT_COUNT = 4;
 function slotsFor(entries: Entry[]) {
   return new Map(entries
     .filter((entry) => entry.status === 'MINTING')
+    .slice(0, OVEN_SLOT_COUNT)
     .map((entry, index) => [entry.id, index] as const));
+}
+
+export function firstOpenOvenSlot(slots: Map<string, number>) {
+  const used = new Set(slots.values());
+  return Array.from({ length: OVEN_SLOT_COUNT }, (_, index) => index)
+    .find((index) => !used.has(index));
 }
 
 export function useOvenSlots(source: Entry[]) {
@@ -28,11 +35,9 @@ export function useOvenSlots(source: Entry[]) {
   const assignOvenSlot = useCallback((id: string) => {
     if (slotsRef.current.has(id)) return;
     const next = new Map(slotsRef.current);
-    const used = new Set(next.values());
-    const openSlot = Array.from({ length: OVEN_SLOT_COUNT }, (_, index) => index)
-      .find((index) => !used.has(index));
-    const overflowSlot = Math.max(OVEN_SLOT_COUNT - 1, ...used) + 1;
-    next.set(id, openSlot ?? overflowSlot);
+    const openSlot = firstOpenOvenSlot(next);
+    if (openSlot === undefined) return;
+    next.set(id, openSlot);
     replace(next);
   }, [replace]);
 
@@ -41,14 +46,20 @@ export function useOvenSlots(source: Entry[]) {
     if (releasedSlot === undefined) return;
     const next = new Map(slotsRef.current);
     next.delete(id);
-    if (releasedSlot < OVEN_SLOT_COUNT) {
-      const overflow = [...next.entries()]
-        .filter(([, slot]) => slot >= OVEN_SLOT_COUNT)
-        .sort((left, right) => left[1] - right[1])[0];
-      if (overflow) next.set(overflow[0], releasedSlot);
-    }
     replace(next);
   }, [replace]);
 
-  return { ovenSlots, assignOvenSlot, releaseOvenSlot, resetOvenSlots };
+  const hasOpenOvenSlot = useCallback(() => (
+    firstOpenOvenSlot(slotsRef.current) !== undefined
+  ), []);
+  const hasOvenSlot = useCallback((id: string) => slotsRef.current.has(id), []);
+
+  return {
+    ovenSlots,
+    assignOvenSlot,
+    releaseOvenSlot,
+    resetOvenSlots,
+    hasOpenOvenSlot,
+    hasOvenSlot,
+  };
 }

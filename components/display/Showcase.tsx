@@ -10,6 +10,7 @@ import type { CardMotionPhase } from './displaySequence';
 import { SHOWCASE_COMPLETE_MS, SLOT_LIGHT_MS } from './motion';
 
 type LayoutTransition = { layout: { duration: number; ease: [number, number, number, number] } };
+const C_CHAIN_EXPLORER_TX = 'https://build.avax.network/explorer/c-chain/tx';
 
 export function Showcase({
   entries,
@@ -64,7 +65,19 @@ export function Showcase({
               >
                 <span className="slot-light" aria-hidden="true" />
                 {entry ? (
-                  <CookieCard entry={entry} motionPhase={phase} />
+                  entry.txHash ? (
+                    <a
+                      className="shelf-card-link"
+                      href={`${C_CHAIN_EXPLORER_TX}/${encodeURIComponent(entry.txHash)}`}
+                      target="_blank"
+                      rel="noreferrer"
+                      aria-label={`${entry.nickname}의 발행 기록 보기`}
+                    >
+                      <CookieCard entry={entry} motionPhase={phase} recordLink />
+                    </a>
+                  ) : (
+                    <CookieCard entry={entry} motionPhase={phase} />
+                  )
                 ) : (
                   <span className="empty-slot" aria-hidden="true">
                     <span className="shelf-number">{String(index + 1).padStart(2, '0')}</span>

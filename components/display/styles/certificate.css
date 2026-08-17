@@ -88,6 +88,7 @@
 }
 
 .certificate-card .status-ticket { display: none; }
+.certificate-card .status-ticket.is-record-link { display: block; }
 .certificate-card .card-caption { padding: 8px; }
 .certificate-card .card-caption > strong { font-size: var(--text-2); }
 

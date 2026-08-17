@@ -61,20 +61,19 @@
   z-index: 2;
   display: grid;
   max-height: 378px;
-  padding: 20px 12px 24px;
+  padding: 8px 12px 12px;
   grid-column: 1;
   grid-row: 2;
-  grid-template-rows: 206px;
-  grid-auto-flow: column;
-  grid-auto-columns: 180px;
+  grid-template-columns: repeat(2, 168px);
+  grid-auto-rows: 172px;
   align-content: center;
   justify-content: start;
   justify-items: center;
-  gap: 16px;
+  gap: 12px;
   overflow: hidden;
 }
 
-.oven-card-position { width: 180px; height: 206px; }
+.oven-card-position { width: 168px; height: 172px; }
 
 .oven-rack {
   position: absolute;

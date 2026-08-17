@@ -33,11 +33,13 @@ export function CookieCard({
   motionPhase,
   layoutDuration,
   layoutEase,
+  recordLink = false,
 }: {
   entry: Entry;
   motionPhase?: CardMotionPhase;
   layoutDuration?: number;
   layoutEase?: [number, number, number, number];
+  recordLink?: boolean;
 }) {
   const reduceMotion = useReducedMotion();
   const minted = entry.status === 'MINTED';
@@ -94,7 +96,9 @@ export function CookieCard({
               onError={(event) => { event.currentTarget.style.display = 'none'; }}
             />
           ) : null}
-          <span className="status-ticket">{STATUS_LABEL[entry.status]}</span>
+          <span className={`status-ticket ${recordLink ? 'is-record-link' : ''}`}>
+            {recordLink ? '발행 기록' : STATUS_LABEL[entry.status]}
+          </span>
         </div>
         <div className="card-caption">
           {minted ? (

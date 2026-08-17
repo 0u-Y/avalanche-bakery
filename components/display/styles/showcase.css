@@ -42,6 +42,24 @@
   background: transparent;
 }
 
+.shelf-card-link {
+  position: relative;
+  z-index: 6;
+  display: block;
+  width: 100%;
+  height: 100%;
+  color: inherit;
+  text-decoration: none;
+}
+
+.shelf-card-link:focus-visible {
+  outline: var(--line-thick) solid var(--gold);
+  outline-offset: 4px;
+}
+
+.shelf-card-link:hover .certificate-card,
+.shelf-card-link:focus-visible .certificate-card { border-color: var(--gold); }
+
 .shelf-rail {
   position: absolute;
   right: 0;

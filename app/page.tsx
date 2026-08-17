@@ -1,24 +1,59 @@
 import Link from 'next/link';
 
-const ROUTES = [
-  ['/demo', '여기부터 보세요', 'A/B·참가 인원·제출 흐름을 고르고 폰·TV 세션 실행'],
-  ['/join/a', 'A · 자동', '제출 뒤 시선을 앞 화면으로 바로 넘기는 안'],
-  ['/join/b', 'B · 단계 공개', '진행 과정을 네 단계로 알려 주는 안'],
-  ['/join/c', 'C · 참여형', '운영자 안내에 맞춰 직접 오븐을 시작하는 안'],
-  ['/display', '행사장 TV', '15칸 진열장과 오븐을 보는 실제 디스플레이'],
+const PHONE_ROUTES = [
+  { href: '/join/a', key: 'A', title: '앞 화면에 집중', copy: '제출 뒤 TV로 시선을 넘겨요.' },
+  { href: '/join/b', key: 'B', title: '단계 확인', copy: '폰에서 처리 과정을 따라가요.' },
+  { href: '/join/c', key: 'C', title: '직접 시작', copy: '안내에 맞춰 오븐을 눌러요.' },
 ] as const;
 
 export default function Home() {
   return (
-    <main className="route-index">
-      <header><span>AVALANCHE BAKERY · PROTOTYPE</span><h1>어느 화면을 볼까요?</h1><p>팀 리뷰는 데모에서 시작하면 흐름을 한 번에 볼 수 있습니다.</p></header>
-      <nav>
-        {ROUTES.map(([href, label, copy], index) => (
-          <Link className={index === 0 ? 'is-primary' : ''} href={href} key={href}>
-            <span>{String(index + 1).padStart(2, '0')}</span><b>{label}</b><small>{copy}</small><i aria-hidden="true">→</i>
+    <main className="home-index">
+      <section className="home-brand">
+        <span className="home-kicker">AVALANCHE BAKERY</span>
+        <h1>쿠키를 굽고,<br />오늘을 진열해요.</h1>
+        <p>사진 한 장이 오븐을 지나<br />오래 남는 참가 증서가 됩니다.</p>
+        <div className="home-stamp" aria-hidden="true"><b>15</b><span>COOKIES<br />ONE SESSION</span></div>
+      </section>
+
+      <section className="home-menu">
+        <header className="home-menu-heading">
+          <span>SESSION PREVIEW</span>
+          <h2>어떤 화면을 열까요?</h2>
+        </header>
+
+        <Link className="home-demo-link" href="/demo">
+          <span className="home-link-label">A / B 세션 시뮬레이터</span>
+          <h3>폰에서 TV까지<br />한 흐름으로 보기</h3>
+          <p>참가 인원과 제출 간격을 정하고 실제 행사처럼 재생합니다.</p>
+          <ul aria-label="데모 기능">
+            <li>A·B 비교</li><li>1–15명</li><li>폰·TV 전환</li>
+          </ul>
+          <strong>데모 열기 <i aria-hidden="true">→</i></strong>
+        </Link>
+
+        <div className="home-direct-grid">
+          <section className="home-phone-links">
+            <header><span>PHONE</span><h3>참가자 화면</h3></header>
+            <nav aria-label="참가자 화면 선택">
+              {PHONE_ROUTES.map((route) => (
+                <Link href={route.href} key={route.href}>
+                  <b>{route.key}</b>
+                  <span><strong>{route.title}</strong><small>{route.copy}</small></span>
+                  <i aria-hidden="true">→</i>
+                </Link>
+              ))}
+            </nav>
+          </section>
+
+          <Link className="home-tv-link" href="/display">
+            <span>TV</span>
+            <h3>행사장<br />디스플레이</h3>
+            <p>오븐과 15칸 진열장을 전체 화면으로 봅니다.</p>
+            <strong>열기 <i aria-hidden="true">→</i></strong>
           </Link>
-        ))}
-      </nav>
+        </div>
+      </section>
     </main>
   );
 }

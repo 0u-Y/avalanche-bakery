@@ -62,6 +62,8 @@ export function Oven({
     <motion.section className={`oven zone ${active ? 'is-baking' : ''} ${completing ? 'is-completing' : ''}`} layout transition={transition}>
       <header className="oven-heading"><h2>증서 오븐</h2></header>
       <div className="oven-body">
+        <div className="oven-hinges" aria-hidden="true"><i /><i /></div>
+        <div className="oven-handle" aria-hidden="true" />
         <div className="oven-window">
           <div className="oven-light" />
           <div className="oven-readout">
@@ -91,7 +93,7 @@ export function Oven({
               </div>
             ))}
           </div>
-          <div className="oven-rack" aria-hidden="true"><i /><i /><i /><i /></div>
+          <div className="oven-rack" aria-hidden="true"><i /><i /></div>
         </div>
       </div>
     </motion.section>

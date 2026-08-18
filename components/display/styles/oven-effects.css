@@ -52,11 +52,12 @@
   position: relative;
   z-index: 1;
   display: block;
-  width: 120px;
-  height: 112px;
+  width: 160px;
+  height: 140px;
+  margin-bottom: 28px;
   grid-column: 1;
   grid-row: 2;
-  align-self: center;
+  align-self: end;
   justify-self: center;
   overflow: visible;
   pointer-events: none;

@@ -20,7 +20,7 @@
 .oven-body {
   position: relative;
   height: calc(100% - 62px);
-  padding: 14px;
+  padding: 14px 20px;
   border: var(--line-thick) solid var(--ink);
   border-radius: var(--radius-arch) var(--radius-arch) var(--radius-small) var(--radius-small);
   background: var(--paper);
@@ -66,7 +66,7 @@
   grid-row: 2;
   grid-template-columns: repeat(2, 168px);
   grid-auto-rows: 172px;
-  align-content: center;
+  align-content: start;
   justify-content: start;
   justify-items: center;
   gap: 12px;
@@ -75,16 +75,40 @@
 
 .oven-card-position { width: 168px; height: 172px; }
 
+/* 선반 두 단. 카드가 놓이는 두 줄 아래에 각각 한 줄씩 두어 오븐 안이 자리 네 개로 읽히게 한다. */
 .oven-rack {
-  position: absolute;
-  right: 16px;
-  bottom: 18px;
-  left: 16px;
   z-index: 1;
-  display: flex;
-  justify-content: space-between;
-  height: 8px;
-  border-top: var(--line-thick) solid rgb(247 241 232 / .68);
+  display: grid;
+  height: 378px;
+  margin: 0 -20px;
+  padding-top: 8px;
+  grid-column: 1;
+  grid-row: 2;
+  grid-template-rows: 172px 12px 172px 12px;
+  align-self: start;
 }
 
-.oven-rack i { width: var(--line-thick); height: 8px; background: var(--paper); opacity: .68; }
+.oven-rack i {
+  height: var(--line-thick);
+  align-self: center;
+  background: var(--paper);
+  opacity: .5;
+}
+
+.oven-rack i:first-child { grid-row: 2; }
+.oven-rack i:last-child { grid-row: 4; }
+
+/* 문 하드웨어. 왼쪽 경첩 두 개와 오른쪽 손잡이 하나로 아치를 문으로 읽게 한다. */
+.oven-hinges i,
+.oven-handle {
+  position: absolute;
+  z-index: 1;
+  width: 10px;
+  border-radius: 5px;
+  background: var(--ink);
+}
+
+.oven-hinges i { left: 7px; height: 34px; }
+.oven-hinges i:first-child { top: 300px; }
+.oven-hinges i:last-child { top: 430px; }
+.oven-handle { top: 300px; right: 7px; height: 164px; }

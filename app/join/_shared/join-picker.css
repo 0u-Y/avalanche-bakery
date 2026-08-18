@@ -44,24 +44,6 @@
   word-break: keep-all;
 }
 
-.join-picker-common {
-  display: flex;
-  margin: 0;
-  padding: 0;
-  grid-column: 1 / -1;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 8px;
-  list-style: none;
-}
-.join-picker-common li {
-  padding: 8px 14px;
-  border: var(--line-thin) solid var(--ink);
-  border-radius: 999px;
-  font: 700 13px/1 var(--mono);
-}
-.join-picker-common li.is-fork { border-color: var(--ava); background: var(--ava); color: var(--paper); }
-
 .join-picker-cards {
   display: grid;
   min-height: 0;
@@ -143,7 +125,6 @@
   .join-picker-top { height: 76px; padding: 0 20px; }
   .join-picker-intro { display: block; padding: 32px 20px; }
   .join-picker-intro > p { margin-top: 20px; }
-  .join-picker-common { margin-top: 24px; }
   .join-picker-cards { display: block; }
   .join-picker-card { padding: 32px 20px; }
   .join-picker-card + .join-picker-card { border-top: var(--line-thick) solid var(--ink); border-left: 0; }

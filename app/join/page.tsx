@@ -3,7 +3,6 @@ import Link from 'next/link';
 import { ExitLink } from '@/components/nav/ExitLink';
 
 import { PROCESS_STEPS } from './_shared/processSteps';
-import { STEP_LABELS } from './_shared/joinTypes';
 import { JOIN_VARIANTS } from './_shared/variants';
 
 /** 제출 뒤 A안 휴대폰. 문구 한 장에서 멈춘다. */
@@ -50,10 +49,6 @@ export default function JoinPickerPage() {
       <section className="join-picker-intro">
         <h1>참가자 화면을<br />골라요</h1>
         <p>두 안은 제출까지 똑같습니다. 차이는 제출을 마친 뒤 휴대폰에서 시작돼요.</p>
-        <ol className="join-picker-common" aria-label="두 안이 같은 구간">
-          {STEP_LABELS.map((label) => <li key={label}>{label}</li>)}
-          <li className="is-fork">여기부터 갈라짐</li>
-        </ol>
       </section>
 
       <div className="join-picker-cards">

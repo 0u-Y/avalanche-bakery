@@ -8,6 +8,8 @@ import { JoinShell } from '../_shared/JoinShell';
 import type { JoinSubmission } from '../_shared/joinTypes';
 import { AutomaticPost } from './PostSubmitViews';
 
+const BACK = { label: '다른 안 보기', href: '/join' } as const;
+
 export function AutomaticJoin() {
   const [submission, setSubmission] = useState<JoinSubmission | null>(null);
   const [complete, setComplete] = useState(false);
@@ -18,11 +20,11 @@ export function AutomaticJoin() {
     return () => window.clearTimeout(timer);
   }, [submission]);
 
-  if (!submission) return <CommonJoinFlow onSubmit={setSubmission} />;
-  if (complete) return <CompletionScreen submission={submission} />;
+  if (!submission) return <CommonJoinFlow onSubmit={setSubmission} variant="a" back={BACK} />;
+  if (complete) return <CompletionScreen submission={submission} variant="a" back={BACK} />;
 
   return (
-    <JoinShell currentStep={4} back={{ label: '처음 화면', href: '/' }}>
+    <JoinShell currentStep={4} variant="a" back={BACK}>
       <AutomaticPost submission={submission} />
     </JoinShell>
   );

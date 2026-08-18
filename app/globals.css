@@ -10,6 +10,7 @@
 @import '../components/display/styles/dev-panel.css';
 @import '../components/styleguide/styleguide.css';
 @import './join/_shared/join-shell.css';
+@import './join/_shared/join-picker.css';
 @import './join/_shared/join-steps.css';
 @import './join/_shared/completion.css';
 @import './join/_shared/phone-sheet.css';

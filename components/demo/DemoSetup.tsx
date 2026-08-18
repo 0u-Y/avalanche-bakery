@@ -1,19 +1,7 @@
+import { JOIN_VARIANTS } from '@/app/join/_shared/variants';
 import { ExitLink } from '@/components/nav/ExitLink';
 
 import type { DemoVariant, SubmissionPattern } from './demoState';
-
-const VARIANTS = [
-  {
-    id: 'a',
-    title: '앞 화면에 집중',
-    copy: '제출이 끝나면 휴대폰은 멈추고, 굽고 진열되는 과정은 TV에서 보여줘요.',
-  },
-  {
-    id: 'b',
-    title: '휴대폰에서 단계 확인',
-    copy: '휴대폰에 네 단계를 보여주고, TV도 같은 처리 흐름을 따라가요.',
-  },
-] as const;
 
 export function DemoSetup({
   variant,
@@ -61,7 +49,7 @@ export function DemoSetup({
             <p>두 안의 차이는 제출을 마친 뒤 휴대폰에서 시작됩니다.</p>
           </header>
           <div className="setup-variants">
-            {VARIANTS.map((item) => (
+            {JOIN_VARIANTS.map((item) => (
               <button
                 type="button"
                 aria-pressed={variant === item.id}

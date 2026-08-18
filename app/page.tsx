@@ -8,10 +8,10 @@ const ENTRY_ROUTES = [
     action: '조건을 고르고 시작',
   },
   {
-    href: '/join/a',
+    href: '/join',
     title: '참가자 화면 열기',
-    lead: '사진과 이름을 직접 보내고, 제출이 끝나면 앞 화면으로 시선을 넘기는 흐름입니다.',
-    action: '휴대폰 화면 열기',
+    lead: '사진과 이름을 직접 보냅니다. 제출 뒤 휴대폰이 달라지는 A안과 B안을 골라서 봅니다.',
+    action: 'A안 · B안 고르기',
   },
   {
     href: '/display',

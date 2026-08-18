@@ -4,14 +4,17 @@ import { useState } from 'react';
 
 import { CertificateCard } from './CertificateCard';
 import type { JoinSubmission } from './joinTypes';
-import { JoinShell } from './JoinShell';
+import { JoinShell, type JoinBack } from './JoinShell';
 import { PhoneSheet } from './PhoneSheet';
 import { ProcessTimeline } from './ProcessTimeline';
 import { PROCESS_DONE } from './processSteps';
+import type { JoinVariantId } from './variants';
 
-export function CompletionScreen({ submission, embedded = false, showProcess = false }: {
+export function CompletionScreen({ submission, embedded = false, showProcess = false, variant, back }: {
   submission: JoinSubmission;
   embedded?: boolean;
+  variant?: JoinVariantId;
+  back?: JoinBack;
   /** 제출 뒤 네 단계를 본 참가자에게만 그 과정을 다시 열어 준다. */
   showProcess?: boolean;
 }) {
@@ -21,7 +24,8 @@ export function CompletionScreen({ submission, embedded = false, showProcess = f
     <JoinShell
       currentStep={4}
       embedded={embedded}
-      back={embedded ? undefined : { label: '처음 화면', href: '/' }}
+      variant={variant}
+      back={embedded ? undefined : back ?? { label: '처음 화면', href: '/' }}
     >
       <section className="join-step join-complete">
         <header className="complete-heading">

@@ -4,15 +4,18 @@ import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import { useEffect, useState, type ChangeEvent } from 'react';
 
 import { NicknameStep, SubmitStep } from './DetailSteps';
-import { JoinShell } from './JoinShell';
+import { JoinShell, type JoinBack } from './JoinShell';
 import { EmailStep, CodeStep } from './LoginSteps';
 import { PhotoStep } from './PhotoStep';
 import { STEP_NUMBER, type CommonJoinStage, type JoinSubmission } from './joinTypes';
+import type { JoinVariantId } from './variants';
 
 const FLOW_EASE = [0.22, 1, 0.36, 1] as const;
 
-export function CommonJoinFlow({ onSubmit }: {
+export function CommonJoinFlow({ onSubmit, variant, back }: {
   onSubmit: (submission: JoinSubmission) => void;
+  variant?: JoinVariantId;
+  back?: JoinBack;
 }) {
   const [stage, setStage] = useState<CommonJoinStage>('email');
   const [email, setEmail] = useState('');
@@ -36,7 +39,11 @@ export function CommonJoinFlow({ onSubmit }: {
   const submit = () => onSubmit({ nickname: nickname.trim(), photoPreview: preview, shelfNumber: 7, tokenId: 1048 });
 
   return (
-    <JoinShell currentStep={STEP_NUMBER[stage]} back={{ label: '처음 화면', href: '/' }}>
+    <JoinShell
+      currentStep={STEP_NUMBER[stage]}
+      variant={variant}
+      back={back ?? { label: '처음 화면', href: '/' }}
+    >
       <AnimatePresence mode="wait" initial={false}>
         <motion.section
           className="join-step"

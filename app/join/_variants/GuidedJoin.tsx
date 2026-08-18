@@ -8,6 +8,8 @@ import { JoinShell } from '../_shared/JoinShell';
 import type { JoinSubmission } from '../_shared/joinTypes';
 import { GuidedPost } from './PostSubmitViews';
 
+const BACK = { label: '다른 안 보기', href: '/join' } as const;
+
 export function GuidedJoin() {
   const [submission, setSubmission] = useState<JoinSubmission | null>(null);
   const [phase, setPhase] = useState(0);
@@ -24,11 +26,11 @@ export function GuidedJoin() {
     return () => timers.forEach((timer) => window.clearTimeout(timer));
   }, [submission]);
 
-  if (!submission) return <CommonJoinFlow onSubmit={setSubmission} />;
-  if (complete) return <CompletionScreen submission={submission} showProcess />;
+  if (!submission) return <CommonJoinFlow onSubmit={setSubmission} variant="b" back={BACK} />;
+  if (complete) return <CompletionScreen submission={submission} showProcess variant="b" back={BACK} />;
 
   return (
-    <JoinShell currentStep={4} back={{ label: '처음 화면', href: '/' }}>
+    <JoinShell currentStep={4} variant="b" back={BACK}>
       <GuidedPost phase={phase} submission={submission} />
     </JoinShell>
   );

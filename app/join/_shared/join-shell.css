@@ -5,7 +5,8 @@
 .join-page.is-embedded .join-content { height: 720px; min-height: 0; }
 .join-header { height: 124px; padding: max(16px, env(safe-area-inset-top)) 24px 12px; overflow: visible; background: var(--ava); color: var(--paper); }
 .join-brand { display: grid; min-height: 44px; align-items: center; grid-template-columns: 34px auto 1fr; gap: 10px; }
-.join-brand .exit-link { justify-self: end; }
+.join-brand-end { display: flex; justify-content: flex-end; align-items: center; gap: 10px; }
+.join-variant-tag { padding: 5px 9px; border: 2px solid var(--paper); border-radius: 999px; font: 700 11px/1 var(--mono); font-style: normal; letter-spacing: .06em; white-space: nowrap; }
 .join-brand-mark { display: block; width: 34px; height: 34px; color: var(--paper); }
 .join-brand strong { display: flex; flex-direction: column; }
 .join-brand strong b { display: block; font-size: 17px; line-height: .88; letter-spacing: -.025em; }
